@@ -1,2 +1,37 @@
 <!--index.wxml-->
-<view>aaa11111111111111111111111</view>
+<!--创新平台 创业平台 双创机构 重点人才-->
+<view class="header_bar">
+  <view class="header_bar_item">
+    <text class="header_bar_item_title">创新平台</text>
+    <text>1221</text>
+  </view>
+  <view class="header_bar_item">
+    <text class="header_bar_item_title">创业平台</text>
+    <text>76</text>
+  </view>
+  <view class="header_bar_item">
+    <text class="header_bar_item_title">双创机构</text>
+    <text>1212</text>
+  </view>
+  <view class="header_bar_item">
+    <text class="header_bar_item_title">重点人才</text>
+    <text>971</text>
+  </view>
+</view>
+<!--才聚创新创业 赋能产业腾飞-->
+<van-image width="100%" height="600rpx" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+<!--我要创新 我要创业-->
+<van-grid clickable column-num="2">
+  <van-grid-item icon="home-o" link-type="navigateTo" url="/pages/dashboard/index" text="我要创新"/>
+  <van-grid-item icon="search" link-type="reLaunch" url="/pages/dashboard/index" text="我要创业"/>
+</van-grid>
+<!--底部导航-->
+<van-tabbar active="{{ footerActive }}" bind:change="onFooterChange">
+  <van-tabbar-item>
+    <image slot="icon" src="{{ icon.normal }}" mode="aspectFit" style="width: 30px; height: 18px;"/>
+    <image slot="icon-active" src="{{ icon.active }}" mode="aspectFit" style="width: 30px; height: 18px;"/>
+    首页
+  </van-tabbar-item>
+  <van-tabbar-item icon="search">地图</van-tabbar-item>
+  <van-tabbar-item icon="setting-o">我的</van-tabbar-item>
+</van-tabbar>

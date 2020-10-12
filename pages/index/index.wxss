@@ -1,1 +1,23 @@
 /**index.wxss**/
+.header_bar {
+  width: 100vw;
+  height: 120rpx;
+  border-top: 10rpx solid #f0f3f6;
+  border-bottom: 10rpx solid #f0f3f6;
+  display: flex;
+  justify-content: space-around;
+}
+.header_bar_item {
+  font-size: 28rpx;
+  display: flex;
+  flex-wrap: wrap; 
+  flex-direction: column;
+  align-content:center;
+}
+.header_bar_item_title {
+  line-height: 40rpx;
+  margin-top: 20rpx;
+}
+.header_bar_item text {
+  text-align: center;
+}
