@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/news/news",
+    "pages/home/home",
     "pages/index/index",
     "pages/map/map",
     "pages/login/login"
@@ -7,7 +9,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "青岛人才创新创业平台地图",
+    "navigationBarTitleText": "才赋云",
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json",
@@ -17,6 +19,8 @@
     "van-tabbar-item": "@vant/weapp/tabbar-item/index",
     "van-image": "@vant/weapp/image/index",
     "van-grid": "@vant/weapp/grid/index",
-    "van-grid-item": "@vant/weapp/grid-item/index"
+    "van-grid-item": "@vant/weapp/grid-item/index",
+    "van-tab": "@vant/weapp/tab/index",
+    "van-tabs": "@vant/weapp/tabs/index"
   }
 }

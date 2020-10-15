@@ -1,0 +1,9 @@
+<!--moving.wxml-->
+<template name="moving">
+    <view class="moving_list">
+      <view class="moving_list_item">111</view>
+      <view class="moving_list_item">222</view>
+      <view class="moving_list_item">333</view>
+      <view class="moving_list_item">444</view>
+    </view>
+</template>

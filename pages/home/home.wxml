@@ -1,0 +1,2 @@
+<!--animation.wxml-->
+<view style="margin: 50% 50%;">欢迎动画，动画结束后进入首页</view>

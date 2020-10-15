@@ -1,0 +1,20 @@
+<!--news.wxml-->
+<view class="news">
+  <van-tabs active="dongtai">
+      <!--平台动态-->
+      <van-tab title="平台动态" name="dongtai">
+        <import src="../../templates/moving/moving" />
+        <template is="moving"></template>
+      </van-tab>
+      <!--通知公告-->
+      <van-tab title="通知公告" name="gonggao">
+        通知公告
+      </van-tab>
+      <!--活动信息-->
+      <van-tab title="活动信息" name="huodong">
+        活动信息
+      </van-tab>
+      <!---->
+  </van-tabs>
+</view>
+

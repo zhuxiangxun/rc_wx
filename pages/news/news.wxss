@@ -1,0 +1,6 @@
+/**news.wxss**/
+@import "../../templates/moving/moving.wxss";
+
+.news {
+  border-top: 10rpx solid #f5f5f5;
+}

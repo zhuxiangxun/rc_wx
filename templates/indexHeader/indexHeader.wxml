@@ -1,0 +1,6 @@
+<!--indexHeader.wxml-->
+<template name="indexHeader">
+    <view class="header_bar">
+      
+    </view>
+</template>

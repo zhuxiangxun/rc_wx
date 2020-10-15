@@ -1,6 +1,6 @@
 // index.ts
 // 获取应用实例
-const app = getApp();
+//const app = getApp();
 
 Page({
   //页面数据
@@ -11,6 +11,15 @@ Page({
       active: 'https://img.yzcdn.cn/vant/user-active.png',
     },
   },
+  newsClick():void {
+    wx.navigateTo({
+      url:"../news/news"
+    })
+  },
+  //信息咨询跳转
+ 
+
+  //底部菜单时间
   onFooterChange(event:any):void {
     this.setData({ active: event.detail });
   },
@@ -28,5 +37,5 @@ Page({
   onHide(){},
 
   //页面关闭
-  onUnload(){}
+  onUnload(){},
 })
