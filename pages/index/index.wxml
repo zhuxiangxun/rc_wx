@@ -58,7 +58,7 @@
     <van-icon name="location" size="30px" />
     <view class="link_item_title">我要评价</view>
   </view>
-  <view class="link_item">
+  <view class="link_item" catchtap="transactionClick">
     <van-icon name="location" size="30px" />
     <view class="link_item_title">我要交易</view>
   </view>
@@ -66,7 +66,7 @@
     <van-icon name="location" size="30px" />
     <view class="link_item_title">我要补贴</view>
   </view>
-  <view class="link_item">
+  <view class="link_item" catchtap="deviceClick">
     <van-icon name="location" size="30px" />
     <view class="link_item_title">我要设备</view>
   </view>

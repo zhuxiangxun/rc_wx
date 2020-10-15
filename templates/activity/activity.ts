@@ -1,16 +1,16 @@
-// news.ts
+// moving.ts
 // 获取应用实例
 //const app = getApp();
 
 Page({
   //页面数据
-  data: {},
+  data: {
+    
+  },
 
   //页面初始化
   onLoad(){
-    wx.setNavigationBarTitle({     
-      title: "动态"
-    })
+   
   },
 
   //页面渲染完成

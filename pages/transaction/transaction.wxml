@@ -1,0 +1,87 @@
+<!--transaction.wxml-->
+<view class="device">
+  <!--搜索-->
+  <view class="device_search">
+    <van-search value="{{ value }}" placeholder="请输入搜索关键词" show-action bind:search="onSearch" bind:cancel="onCancel"/>
+  </view>
+  <!--高级赛选-->
+  <view class="device_advanced_search">
+     <van-dropdown-menu>
+      <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" />
+      <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" />
+      <van-dropdown-item value="{{ value3 }}" options="{{ option3 }}" />
+      <van-dropdown-item id="item" title="{{ itemTitle }}">
+        
+      </van-dropdown-item>
+    </van-dropdown-menu>
+  </view>
+  <!--列表-->
+  <view class="device_list">
+    <view class="device_list_item">
+      <view class="device_list_item_img">
+        <van-image width="100%" height="100%"></van-image>
+      </view>
+      <view class="device_list_item_title">
+        名称最多两行，超出两行用...代替名称最多两行，超出两行用...代替
+      </view>
+      <view class="device_list_item_price">
+        挂牌价格：<text class="device_list_item_price_num">121万</text>
+      </view>
+    </view>
+    <view class="device_list_item">
+      <view class="device_list_item_img">
+        <van-image width="100%" height="100%"></van-image>
+      </view>
+      <view class="device_list_item_title">
+        名称最多两行，超出两行用...代替名称最多两行，超出两行用...代替
+      </view>
+      <view class="device_list_item_price">
+        挂牌价格：<text class="device_list_item_price_num">121万</text>
+      </view>
+    </view>
+    <view class="device_list_item">
+      <view class="device_list_item_img">
+        <van-image width="100%" height="100%"></van-image>
+      </view>
+      <view class="device_list_item_title">
+        名称最多两行，超出两行用...代替名称最多两行，超出两行用...代替
+      </view>
+      <view class="device_list_item_price">
+        挂牌价格：<text class="device_list_item_price_num">121万</text>
+      </view>
+    </view>
+    <view class="device_list_item">
+      <view class="device_list_item_img">
+        <van-image width="100%" height="100%"></van-image>
+      </view>
+      <view class="device_list_item_title">
+        名称最多两行，超出两行用...代替名称最多两行，超出两行用...代替
+      </view>
+      <view class="device_list_item_price">
+        挂牌价格：<text class="device_list_item_price_num">121万</text>
+      </view>
+    </view>
+    <view class="device_list_item">
+      <view class="device_list_item_img">
+        <van-image width="100%" height="100%"></van-image>
+      </view>
+      <view class="device_list_item_title">
+        名称最多两行，超出两行用...代替名称最多两行，超出两行用...代替
+      </view>
+      <view class="device_list_item_price">
+        挂牌价格：<text class="device_list_item_price_num">121万</text>
+      </view>
+    </view>
+    <view class="device_list_item">
+      <view class="device_list_item_img">
+        <van-image width="100%" height="100%"></van-image>
+      </view>
+      <view class="device_list_item_title">
+        名称最多两行，超出两行用...代替名称最多两行，超出两行用...代替
+      </view>
+      <view class="device_list_item_price">
+        挂牌价格：<text class="device_list_item_price_num">121万</text>
+      </view>
+    </view>
+  </view>
+</view>

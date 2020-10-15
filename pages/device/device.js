@@ -1,0 +1,39 @@
+"use strict";
+Page({
+    data: {
+        option1: [
+            { text: '所在地区', value: 0 },
+            { text: '市南', value: 1 },
+            { text: '市北', value: 2 },
+        ],
+        option2: [
+            { text: '设备分类', value: 'a' },
+            { text: '分类1', value: 'b' },
+            { text: '分类2', value: 'c' },
+        ],
+        option3: [
+            { text: '产业/行业', value: 'a1' },
+            { text: '行业1', value: 'b2' },
+            { text: '行业2', value: 'c3' },
+        ],
+        value1: 0,
+        value2: 'a',
+        value3: 'a1',
+        itemTitle: '更多'
+    },
+    onSearch: function (event) {
+        console.log(event.detail);
+    },
+    onCancel: function () {
+    },
+    onLoad: function () {
+        wx.setNavigationBarTitle({
+            title: "我要仪器设备"
+        });
+    },
+    onReady: function () { },
+    onShow: function () { },
+    onHide: function () { },
+    onUnload: function () { }
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZGV2aWNlLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiZGV2aWNlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFJQSxJQUFJLENBQUM7SUFFSCxJQUFJLEVBQUU7UUFDSixPQUFPLEVBQUU7WUFDUCxFQUFFLElBQUksRUFBRSxNQUFNLEVBQUUsS0FBSyxFQUFFLENBQUMsRUFBRTtZQUMxQixFQUFFLElBQUksRUFBRSxJQUFJLEVBQUUsS0FBSyxFQUFFLENBQUMsRUFBRTtZQUN4QixFQUFFLElBQUksRUFBRSxJQUFJLEVBQUUsS0FBSyxFQUFFLENBQUMsRUFBRTtTQUN6QjtRQUNELE9BQU8sRUFBRTtZQUNQLEVBQUUsSUFBSSxFQUFFLE1BQU0sRUFBRSxLQUFLLEVBQUUsR0FBRyxFQUFFO1lBQzVCLEVBQUUsSUFBSSxFQUFFLEtBQUssRUFBRSxLQUFLLEVBQUUsR0FBRyxFQUFFO1lBQzNCLEVBQUUsSUFBSSxFQUFFLEtBQUssRUFBRSxLQUFLLEVBQUUsR0FBRyxFQUFFO1NBQzVCO1FBQ0QsT0FBTyxFQUFFO1lBQ1AsRUFBRSxJQUFJLEVBQUUsT0FBTyxFQUFFLEtBQUssRUFBRSxJQUFJLEVBQUU7WUFDOUIsRUFBRSxJQUFJLEVBQUUsS0FBSyxFQUFFLEtBQUssRUFBRSxJQUFJLEVBQUU7WUFDNUIsRUFBRSxJQUFJLEVBQUUsS0FBSyxFQUFFLEtBQUssRUFBRSxJQUFJLEVBQUU7U0FDN0I7UUFDRCxNQUFNLEVBQUUsQ0FBQztRQUNULE1BQU0sRUFBRSxHQUFHO1FBQ1gsTUFBTSxFQUFFLElBQUk7UUFDWixTQUFTLEVBQUUsSUFBSTtLQUNoQjtJQUdELFFBQVEsRUFBUixVQUFTLEtBQVM7UUFDaEIsT0FBTyxDQUFDLEdBQUcsQ0FBQyxLQUFLLENBQUMsTUFBTSxDQUFDLENBQUM7SUFDNUIsQ0FBQztJQUdELFFBQVEsRUFBUjtJQUVBLENBQUM7SUFHRCxNQUFNO1FBQ0osRUFBRSxDQUFDLHFCQUFxQixDQUFDO1lBQ3ZCLEtBQUssRUFBRSxRQUFRO1NBQ2hCLENBQUMsQ0FBQTtJQUNKLENBQUM7SUFHRCxPQUFPLGdCQUFHLENBQUM7SUFHWCxNQUFNLGdCQUFHLENBQUM7SUFHVixNQUFNLGdCQUFHLENBQUM7SUFHVixRQUFRLGdCQUFHLENBQUM7Q0FDYixDQUFDLENBQUEiLCJzb3VyY2VzQ29udGVudCI6WyIvLyBkZXZpY2UudHNcclxuLy8g6I635Y+W5bqU55So5a6e5L6LXHJcbi8vY29uc3QgYXBwID0gZ2V0QXBwKCk7XHJcblxyXG5QYWdlKHtcclxuICAvL+mhtemdouaVsOaNrlxyXG4gIGRhdGE6IHtcclxuICAgIG9wdGlvbjE6IFtcclxuICAgICAgeyB0ZXh0OiAn5omA5Zyo5Zyw5Yy6JywgdmFsdWU6IDAgfSxcclxuICAgICAgeyB0ZXh0OiAn5biC5Y2XJywgdmFsdWU6IDEgfSxcclxuICAgICAgeyB0ZXh0OiAn5biC5YyXJywgdmFsdWU6IDIgfSxcclxuICAgIF0sXHJcbiAgICBvcHRpb24yOiBbXHJcbiAgICAgIHsgdGV4dDogJ+iuvuWkh+WIhuexuycsIHZhbHVlOiAnYScgfSxcclxuICAgICAgeyB0ZXh0OiAn5YiG57G7MScsIHZhbHVlOiAnYicgfSxcclxuICAgICAgeyB0ZXh0OiAn5YiG57G7MicsIHZhbHVlOiAnYycgfSxcclxuICAgIF0sXHJcbiAgICBvcHRpb24zOiBbXHJcbiAgICAgIHsgdGV4dDogJ+S6p+S4mi/ooYzkuJonLCB2YWx1ZTogJ2ExJyB9LFxyXG4gICAgICB7IHRleHQ6ICfooYzkuJoxJywgdmFsdWU6ICdiMicgfSxcclxuICAgICAgeyB0ZXh0OiAn6KGM5LiaMicsIHZhbHVlOiAnYzMnIH0sXHJcbiAgICBdLFxyXG4gICAgdmFsdWUxOiAwLFxyXG4gICAgdmFsdWUyOiAnYScsXHJcbiAgICB2YWx1ZTM6ICdhMScsXHJcbiAgICBpdGVtVGl0bGU6ICfmm7TlpJonXHJcbiAgfSxcclxuXHJcbiAgLy/mma7pgJrmkJzntKJcclxuICBvblNlYXJjaChldmVudDphbnkpOnZvaWR7XHJcbiAgICBjb25zb2xlLmxvZyhldmVudC5kZXRhaWwpO1xyXG4gIH0sXHJcblxyXG4gIC8v5pmu6YCa5pCc57Si5Y+W5raIXHJcbiAgb25DYW5jZWwoKTp2b2lke1xyXG4gICAgXHJcbiAgfSxcclxuXHJcbiAgLy/pobXpnaLliJ3lp4vljJZcclxuICBvbkxvYWQoKXtcclxuICAgIHd4LnNldE5hdmlnYXRpb25CYXJUaXRsZSh7ICAgICBcclxuICAgICAgdGl0bGU6IFwi5oiR6KaB5Luq5Zmo6K6+5aSHXCJcclxuICAgIH0pXHJcbiAgfSxcclxuXHJcbiAgLy/pobXpnaLmuLLmn5PlrozmiJBcclxuICBvblJlYWR5KCl7fSxcclxuXHJcbiAgLy/pobXpnaLmmL7npLpcclxuICBvblNob3coKXt9LFxyXG5cclxuICAvL+mhtemdoumakOiXj1xyXG4gIG9uSGlkZSgpe30sXHJcblxyXG4gIC8v6aG16Z2i5YWz6ZetXHJcbiAgb25VbmxvYWQoKXt9XHJcbn0pXHJcbiJdfQ==

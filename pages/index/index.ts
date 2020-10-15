@@ -24,6 +24,19 @@ Page({
     this.setData({ active: event.detail });
   },
 
+  //我要交易
+  transactionClick():void{
+    wx.navigateTo({
+      url:'../transaction/transaction'
+    })
+  },
+  //我要仪器设备
+  deviceClick():void{
+    wx.navigateTo({
+      url:'../device/device'
+    })
+  },
+
   //页面初始化
   onLoad(){},
 

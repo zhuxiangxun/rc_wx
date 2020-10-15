@@ -1,6 +1,6 @@
 <!--news.wxml-->
 <view class="news">
-  <van-tabs active="dongtai">
+  <van-tabs active="dongtai" tab-active-class="custom-class">
       <!--平台动态-->
       <van-tab title="平台动态" name="dongtai">
         <import src="../../templates/moving/moving" />
@@ -8,11 +8,13 @@
       </van-tab>
       <!--通知公告-->
       <van-tab title="通知公告" name="gonggao">
-        通知公告
+        <import src="../../templates/notice/notice" />
+        <template is="notice"></template>
       </van-tab>
       <!--活动信息-->
       <van-tab title="活动信息" name="huodong">
-        活动信息
+        <import src="../../templates/activity/activity" />
+        <template is="activity"></template>
       </van-tab>
       <!---->
   </van-tabs>

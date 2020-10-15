@@ -1,6 +1,10 @@
 /**news.wxss**/
 @import "../../templates/moving/moving.wxss";
+@import "../../templates/notice/notice.wxss";
+@import "../../templates/activity/activity.wxss";
 
 .news {
+  width: 750rpx;
+  height: calc(100vh - 10rpx);
   border-top: 10rpx solid #f5f5f5;
 }
