@@ -42,14 +42,21 @@ Page({
 
   //路线导航
   navigation():void{
+    let key:string = 'AWYBZ-C3IWO-5TIWD-SEPVW-KQMOF-RXBAV';  //使用在腾讯位置服务申请的key
+    let endPoint:any = JSON.stringify({  //终点
+      'name': '石老人花园',
+      'latitude': 36.098101,
+      'longitude': 120.497539
+    });
+
     wx.navigateTo({
-      url:"../navigation/navigation"
-    })
+      url: 'plugin://routePlan/index?key=' + key + '&referer=才赋云' + '&endPoint=' + endPoint
+    });
   },
 
   //附件下载
   download():void{
-    console.log(1111)
+    
   },
 
   //页面初始化
