@@ -1,1 +1,55 @@
-/**index.wxss**/
+/**map.wxss**/
+.content {
+  width: 750rpx;
+  /* height: calc(100vh - 220rpx); */
+  height: 100vh;
+}
+.content_map {
+  width: 100%;
+  height: 100%;
+}
+.content_area {
+  width: 750rpx;
+  height: 120rpx;
+}
+.content_list {
+  width: 750rpx;
+  height: 120rpx;
+}
+.content_summary {
+  width: 710rpx;
+  height: 140rpx;
+  margin-top: 40rpx;
+  margin-left: 20rpx;
+}
+.content_summary_img {
+  width: 120rpx;
+  height: 120rpx;
+  float: left;
+}
+.content_summary_main {
+  width: 560rpx;
+  height: 120rpx;
+  float: right;
+}
+.content_summary_main_title {
+  width: 560rpx;
+  line-height: 60rpx;
+  font-size: 28rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp :1;
+  -webkit-box-orient: vertical;
+}
+.content_summary_main_adress {
+  width: 580rpx;
+  line-height: 60rpx;
+  font-size: 24rpx;
+  color: #888;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp :1;
+  -webkit-box-orient: vertical;
+}

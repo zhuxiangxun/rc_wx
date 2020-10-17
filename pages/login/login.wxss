@@ -1,1 +1,24 @@
-/**index.wxss**/
+/**login.wxss**/
+.login_bg {
+  width: 750rpx;
+  height: 340rpx;
+  background-color: blue;
+  overflow: hidden;
+}
+.login_avatar {
+  width: 180rpx;
+  height: 180rpx;
+  margin: 40rpx auto;
+}
+.login_avatar_title {
+  width: 750rpx;
+  line-height: 35rpx;
+  font-size: 28rpx;
+  color: #FFF;
+  text-align: center;
+  font-weight: bold;
+}
+.login_info {
+  width: 750rpx;
+  height: calc(100vh - 340rpx);
+}

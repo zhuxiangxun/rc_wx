@@ -1,0 +1,50 @@
+<!--mapDetail.wxml-->
+<!--地图-->
+<map 
+  class="content_map" 
+  longitude="{{ longitude }}" 
+  latitude="{{ latitude }}"
+  scale="{{ scale }}"
+  markers="{{ markers }}"
+  show-location>
+</map>
+<!--详情1-->
+<view class="content_main1">
+  <view class="content_main1_top">
+    <view class="content_main1_title">青岛海浪能专家工作站青岛海浪能专家工作站</view>
+    <view class="content_main1_btn" bindtap="smallTalk">线上恰谈</view>
+  </view>
+  <view class="content_main1_list">
+    <view class="content_main1_list_item">专家工作站</view>
+    <view class="content_main1_list_item">区（市）级</view>
+  </view>
+</view>
+<!--详情2-->
+<view class="content_main2">
+  <view class="content_main2_top">
+    <view class="content_main2_top_title">山东省青岛市黄岛区太白山路19号山东省青岛市黄岛区太白山路19号</view>
+    <view class="content_main2_top_position">
+      <cover-image src="{{ positionUrl }}" bindtap="navigation"></cover-image>
+    </view>
+  </view>
+  <view class="content_main2_list">朱翔训</view>
+  <view class="content_main2_list">13176850591</view>
+  <view class="content_main2_list">528598222@qq.com</view>
+  <view class="content_main2_list">官网地址：www.qdcsdn.com</view>
+</view>
+<!--详情2-->
+<view class="content_main3">
+  <van-tabs swipeable animated ellipsis="{{ false }}" active="{{ active }}">
+    <van-tab title="基本信息">基本信息</van-tab>
+    <van-tab title="平台简介">平台简介</van-tab>
+    <van-tab title="优势及特色">优势及特色</van-tab>
+    <van-tab title="创新研发情况">创新研发情况</van-tab>
+    <van-tab title="人才队伍情况">人才队伍情况</van-tab>
+    <van-tab title="吸纳就业情况">吸纳就业情况</van-tab>
+    <van-tab title="服务事项">服务事项</van-tab>
+    <van-tab title="平台资源">平台资源</van-tab>
+    <van-tab title="成功案例">成功案例</van-tab>
+  </van-tabs>
+</view>
+<!--下载-->
+<view class="content_download" bindtap="download">附件下载</view>

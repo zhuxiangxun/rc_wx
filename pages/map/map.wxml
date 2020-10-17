@@ -1,2 +1,42 @@
-<!--index.wxml-->
-<view>地图</view>
+<!--map.wxml-->
+<!--地图-->
+<view class="content">
+  <map 
+    class="content_map" 
+    longitude="{{ longitude }}" 
+    latitude="{{ latitude }}"
+    scale="{{ scale }}"
+    markers="{{ markers }}"
+    bindmarkertap="markFn"
+    show-location>
+  </map>
+</view>
+<!--市区-->
+<!-- <view class="content_area">
+  <van-dropdown-menu direction="up">
+    <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" />
+  </van-dropdown-menu>
+</view> -->
+<!--菜单列表-->
+<!-- <view class="content_list">
+  <van-tabbar active="{{ active }}" bind:change="onChange">
+    <van-tabbar-item icon="home-o">找平台</van-tabbar-item>
+    <van-tabbar-item icon="search">找政策</van-tabbar-item>
+    <van-tabbar-item icon="friends-o">找项目</van-tabbar-item>
+    <van-tabbar-item icon="setting-o">找资金</van-tabbar-item>
+    <van-tabbar-item icon="setting-o">找场地</van-tabbar-item>
+    <van-tabbar-item icon="setting-o">找服务</van-tabbar-item>
+  </van-tabbar>
+</view> -->
+<!--概要信息-->
+<van-action-sheet overlay="{{ false }}" round="{{ false }}" show="{{ show }}">
+  <view class="content_summary">
+    <view class="content_summary_img">
+      <van-image width="100%" height="100%"></van-image>
+    </view>
+    <view class="content_summary_main" bindtap="mapDetail">
+      <view class="content_summary_main_title">名称</view>
+      <view class="content_summary_main_adress">地址：青岛市黄岛区</view>
+    </view>
+  </view>
+</van-action-sheet>

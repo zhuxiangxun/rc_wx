@@ -19,9 +19,18 @@ Page({
   //信息咨询跳转
  
 
-  //底部菜单时间
+  //底部菜单
   onFooterChange(event:any):void {
     this.setData({ active: event.detail });
+    if(event.detail == 1){
+      wx.navigateTo({
+        url:'../map/map'
+      })
+    }else if(event.detail == 2){
+      wx.navigateTo({
+        url:'../login/login'
+      })
+    }
   },
 
   //我要交易
