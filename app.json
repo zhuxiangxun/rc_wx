@@ -1,21 +1,25 @@
 {
   "pages": [
-    "pages/mapDetail/mapDetail",
-    "pages/map/map",
-    "pages/home/home",
-    "pages/index/index",
+    "pages/loginForm/loginForm",
     "pages/login/login",
+    
+
+
+    "pages/map/map",
+    "pages/index/index",
+    
     "pages/news/news",
     "pages/device/device",
     "pages/transaction/transaction",
-    "pages/smallTalk/smallTalk"
-   
+    "pages/smallTalk/smallTalk",
+    "pages/mapDetail/mapDetail",
+    "pages/home/home"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#2089ed",
     "navigationBarTitleText": "才赋云",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "white"
   },
   "sitemapLocation": "sitemap.json",
   "permission": {
@@ -28,6 +32,32 @@
       "version": "1.0.8",
       "provider": "wx50b5593e81dd937a"
     }
+  },
+  "tabBar":{
+    "color":"#b7b7b7",
+    "borderStyle":"white",
+    "selectedColor":"#56a2eb",
+    "backgroundColor":"#FFF",
+    "list":[
+      {
+        "pagePath":"pages/index/index",
+        "iconPath":"images/index_01.png",
+        "selectedIconPath":"images/index_02.png",
+        "text":"首页"
+      },
+      {
+        "pagePath":"pages/map/map",
+        "iconPath":"images/map_01.png",
+        "selectedIconPath":"images/map_02.png",
+        "text":"地图"
+      },
+      {
+        "pagePath":"pages/login/login",
+        "iconPath":"images/login_01.png",
+        "selectedIconPath":"images/login_02.png",
+        "text":"我的"
+      }
+    ]
   },
   "usingComponents": {
     "van-icon": "@vant/weapp/icon/index",
@@ -45,6 +75,7 @@
     "van-popup": "@vant/weapp/popup/index",
     "van-cell": "@vant/weapp/cell/index",
     "van-cell-group": "@vant/weapp/cell-group/index",
-    "van-action-sheet": "@vant/weapp/action-sheet/index"
+    "van-action-sheet": "@vant/weapp/action-sheet/index",
+    "van-field": "@vant/weapp/field/index"
   }
 }

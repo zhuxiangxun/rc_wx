@@ -1,24 +1,59 @@
 /**login.wxss**/
+.login {
+  width: 750rpx;
+  height: 100vh;
+  background-color: #f4f5f7;
+  position: relative;
+}
 .login_bg {
   width: 750rpx;
-  height: 340rpx;
-  background-color: blue;
+  height: 600rpx;
+  background-image: linear-gradient(#2089ed, #1e85ec);
   overflow: hidden;
+  border-radius: 0rpx 0rpx 50rpx 50rpx;
 }
 .login_avatar {
   width: 180rpx;
   height: 180rpx;
-  margin: 40rpx auto;
+  border-radius: 180rpx;
+  margin-top: 100rpx;
+  margin-left: 285rpx;
+  border: 5rpx solid #dad9de;
 }
 .login_avatar_title {
   width: 750rpx;
-  line-height: 35rpx;
+  line-height: 70rpx;
   font-size: 28rpx;
   color: #FFF;
   text-align: center;
-  font-weight: bold;
 }
 .login_info {
-  width: 750rpx;
-  height: calc(100vh - 340rpx);
+  width: 670rpx;
+  height: 460rpx;
+  background-color: #FFF;
+  border-radius: 20rpx;
+  position: absolute;
+  left: 40rpx;
+  top: 400rpx;
+}
+.login_info_list {
+  width: 610rpx;
+  height: 200rpx;
+  margin-left: 30rpx;
+  margin-top: 60rpx;
+}
+.van-cell {
+  margin-top: 10rpx;
+  background-color: #f4f5f7!important;
+}
+.login_info_btn {
+  width: 610rpx;
+  line-height: 80rpx;
+  border-radius: 40rpx;
+  background-color: #ffd20a;
+  text-align: center;
+  margin-left: 30rpx;
+  margin-top: 40rpx;
+  color: #FFF;
+  font-size: 32rpx;
 }
