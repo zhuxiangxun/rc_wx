@@ -1,6 +1,7 @@
 // loginForm.ts
-const api = getApp();  // 获取应用实例
+const api = getApp().globalData;  // 获取应用实例
 let https  = require('../../utils/myRequest.js');  //获取ajax方法
+let Toast = require('../../miniprogram_npm/@vant/weapp/toast/toast.js').default;
 
 Page({
   //页面数据
@@ -88,9 +89,17 @@ Page({
     }
 
     if(this.data.verification){  //验证通过
-      let data:any = https.request('login' + '?account=' + this.data.formDate.username + '&password=' + this.data.formDate.password, null, 'POST');
-      console.log(data);
-      
+      https.request(api.login + '?account=' + this.data.formDate.username + '&password=' + this.data.formDate.password, null, 'POST')
+      .then((res:any):void=>{
+        if(res.token){
+          wx.setStorageSync('token', res.token);  //存储token
+          wx.switchTab({ 
+            url:'../login/login'  
+          });  
+        }
+      },(err:any)=>{
+        Toast(err);
+      });
     }
     
   },
@@ -110,3 +119,4 @@ Page({
   //页面关闭
   onUnload(){}
 })
+export {};

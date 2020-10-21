@@ -1,6 +1,7 @@
 // login.ts
-// 获取应用实例
-//const app = getApp();
+const api = getApp().globalData;  // 获取应用实例
+let https  = require('../../utils/myRequest.js');  //获取ajax方法
+let Toast = require('../../miniprogram_npm/@vant/weapp/toast/toast.js').default;
 
 Page({
   //页面数据
@@ -39,7 +40,11 @@ Page({
   //登录跳转或者退出登录
   loginFn():void{
     if(this.data.loginBtn == '退出登录'){
-      console.log('退出登录');
+      wx.clearStorage();  //清除缓存
+      Toast('已退出登录');
+      this.setData({
+        loginBtn: '登录'
+      })
     }else{
       wx.navigateTo({
         url: '../loginForm/loginForm'
@@ -52,10 +57,26 @@ Page({
     wx.setNavigationBarTitle({     
       title: "我的"
     });
+  },
+
+  //页面渲染完成
+  onReady(){},
+
+  //页面显示
+  onShow(){
     //判断是否登录
     try {
       let token:string = wx.getStorageSync('token');
-      if (token) {
+      if (!!token) {
+        https.successRequest(api.curUser, null, 'get')
+        .then((res:any):void=>{
+          if(res){
+            console.log(res);
+          }
+        },(err:any)=>{
+          Toast(err);
+        });
+        //---------
         this.setData({
           loginBtn: '退出登录'
         })
@@ -65,15 +86,9 @@ Page({
         })
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   },
-
-  //页面渲染完成
-  onReady(){},
-
-  //页面显示
-  onShow(){},
 
   //页面隐藏
   onHide(){},
@@ -81,3 +96,4 @@ Page({
   //页面关闭
   onUnload(){}
 })
+export {};

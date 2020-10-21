@@ -1,4 +1,6 @@
 <!--loginForm.wxml-->
+<van-toast id="van-toast" />
+<!--内容-->
 <view class="loginForm">
   <view class="loginForm_user">
     <van-cell-group border="{{ false }}">
@@ -27,5 +29,7 @@
       bind:input="parsswordInput"/>
     </van-cell-group>
   </view>
-  <view class="loginForm_btn" bindtap="loginFn">登录</view>
+  <view class="loginForm_btn">
+    <van-button type="primary" block bind:click="loginFn">登录</van-button>
+  </view>
 </view>

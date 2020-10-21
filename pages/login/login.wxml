@@ -1,4 +1,6 @@
 <!--login.wxml-->
+<van-toast id="van-toast" />
+<!--内容-->
 <view class="login">
 <!--头像-->
   <view class="login_bg">

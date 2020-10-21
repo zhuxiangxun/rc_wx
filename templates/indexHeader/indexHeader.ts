@@ -1,6 +1,4 @@
 // index.ts
-// 获取应用实例
-//const app = getApp();
 
 Page({
   //页面数据
@@ -10,7 +8,7 @@ Page({
 
   //页面初始化
   onLoad(){
-   
+    
   },
 
   //页面渲染完成

@@ -1,7 +1,6 @@
 // device.ts
 // 获取应用实例
 //const app = getApp();
-
 Page({
   //页面数据
   data: {

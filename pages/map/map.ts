@@ -69,7 +69,7 @@ Page({
 
   //点击标记点气泡窗口触发
   markFn():void {
-    console.log(1111);
+    //console.log(1111);
   },
 
   //页面初始化

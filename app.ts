@@ -2,13 +2,15 @@
 App<any>({
   //全局变量
   globalData: {
-    login: 'login',  //登录接口
+    login: 'web/login',        //登录接口
+    curUser: 'web/curUser',    //获取当前登录用户信息
+    count: 'website/count',    //统计12条信息
   },
   onLaunch() {
     // 展示本地存储能力
-    const logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    //const logs = wx.getStorageSync('logs') || []
+    //logs.unshift(Date.now())
+    //wx.setStorageSync('logs', logs)
 
     // 登录
     wx.login({
