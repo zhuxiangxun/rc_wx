@@ -1,5 +1,5 @@
 /**index.wxss**/
-@import "../../templates/indexHeader/indexHeader.wxss";
+@import "../../templates/template.wxss";
 page {
   background-color: #ebecf0;
 }

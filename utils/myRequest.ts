@@ -1,9 +1,7 @@
 /**
  * 封装公共 HTTPS 网络请求
  */
-//const BASE_URL:string = "http://rc.qdcsdn.cn/sit-rencai-api/";
-const BASE_URL:string = "http://lu.eyunhan.com/sit-rencai-api/";
-
+const BASE_URL:string = getApp().globalData.url;  // 获取应用实例
 
 //不带token的ajax
 function request(url:string, data?:any, method?:any):any{
@@ -68,6 +66,8 @@ function successRequest(url:string, method:any, data?:any):any{
   }
 }
 
+
+//导出方法
 module.exports = {
   request: request,
   successRequest: successRequest

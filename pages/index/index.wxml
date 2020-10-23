@@ -1,7 +1,9 @@
 <!--index.wxml-->
 <!--头部轮播-->
-<import src="../../templates/indexHeader/indexHeader.wxml" /> 
-<template is="indexHeader" data="{{ list: list }}"></template>
+<import src="../../templates/template.wxml" /> 
+<view bindtap="indexHeaderFn">
+  <template is="indexHeader" data="{{ list: list }}"></template>
+</view>
 <!--青岛人才创业平台地图-->
 <view class="map_content">
   <view class="map_content_title">青岛人才创业平台地图</view>
@@ -85,7 +87,7 @@
     </view>
     <view class="link_item_title">我要交易</view>
   </view>
-  <view class="link_item" bindtap="yqFb">
+  <view class="link_item" bindtap="yqFn">
     <view class="link_item_img">
       <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/icon_17.png" />
     </view>

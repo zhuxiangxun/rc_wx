@@ -1,14 +1,17 @@
 {
   "pages": [
+    
+    "pages/map/map",
+    "pages/mapArea/mapArea",
+    "pages/mapDetail/mapDetail",
+    
+    "pages/news/news",
     "pages/index/index",
     "pages/login/login",
     "pages/loginForm/loginForm",
-    "pages/map/map",
-    "pages/news/news",
     "pages/device/device",
     "pages/transaction/transaction",
     "pages/smallTalk/smallTalk",
-    "pages/mapDetail/mapDetail",
     "pages/home/home"
   ],
   "window": {
@@ -73,6 +76,7 @@
     "van-cell-group": "@vant/weapp/cell-group/index",
     "van-action-sheet": "@vant/weapp/action-sheet/index",
     "van-field": "@vant/weapp/field/index",
-    "van-toast": "@vant/weapp/toast/index"
+    "van-toast": "@vant/weapp/toast/index",
+    "van-dialog": "@vant/weapp/dialog/index"
   }
 }

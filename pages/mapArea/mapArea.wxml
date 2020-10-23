@@ -1,0 +1,4 @@
+<!--mapArea.wxml-->
+<view class="content_list">
+  <view class="content_list_item">青岛市</view>
+</view>

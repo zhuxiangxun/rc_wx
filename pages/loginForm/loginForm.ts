@@ -93,9 +93,7 @@ Page({
       .then((res:any):void=>{
         if(res.token){
           wx.setStorageSync('token', res.token);  //存储token
-          wx.switchTab({ 
-            url:'../login/login'  
-          });  
+          wx.navigateBack();  //后退
         }
       },(err:any)=>{
         Toast(err);

@@ -1,0 +1,21 @@
+/**mapArea.wxss**/
+page {
+  background-color: #ebecf0;
+}
+
+.content_list {
+  width: 710rpx;
+  height: auto;
+  margin-left: 20rpx;
+}
+.content_list_item {
+  width: 710rpx;
+  line-height: 100rpx;
+  background-color: #FFF;
+  margin-top: 20rpx;
+  border-radius: 10rpx;
+  text-indent: 20rpx;
+  font-size: 28rpx;
+  color: #0c499c;
+  font-weight: 600;
+}

@@ -2,9 +2,15 @@
 App<any>({
   //全局变量
   globalData: {
-    login: 'web/login',        //登录接口
-    curUser: 'web/curUser',    //获取当前登录用户信息
-    count: 'website/count',    //统计12条信息
+    imgUrl: 'http://files.eyunhan.com/eweb_upload/download/getPic?filePath=',               //图片服务器
+    url: 'http://lu.eyunhan.com/sit-rencai-api',      //服务器
+    login: '/web/login',        //登录接口
+    curUser: '/web/curUser',    //获取当前登录用户信息
+    count: '/website/count',    //统计12条信息
+    dic: '/dic/submenuDic',     //字典表
+    circle: '/website/circle',  //平台动态
+    all: '/web/cyPlat/all',     //全部数据（六找地图首页）
+    tenants: '/web/platformMap/tenants',     //获取区
   },
   onLaunch() {
     // 展示本地存储能力
@@ -32,7 +38,7 @@ App<any>({
               // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
               // 所以此处加入 callback 以防止这种情况
               if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
+                this.userInfoReadyCallback(res);
               }
             },
           })

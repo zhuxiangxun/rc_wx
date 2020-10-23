@@ -1,3 +1,7 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "moving": "../../components/moving/moving",
+    "notice": "../../components/notice/notice",
+    "activity": "../../components/activity/activity"
+  }
 }

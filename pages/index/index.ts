@@ -1,7 +1,14 @@
 // index.ts
 // 获取应用实例
 const api = getApp().globalData;  // 获取应用实例
-let https  = require('../../utils/myRequest.js');  //获取ajax方法
+let https  = require('../../utils/myRequest.js');     //获取ajax方法
+let globalFn  = require('../../utils/globalFn.js');   //获取公共封装方法
+let expressFn = globalFn.throttle(function(){         //信息速递（函数防抖）
+  wx.navigateTo({
+    url:"../news/news"
+  })
+},1000);
+let template:any = require('../../templates/template.js');   //获取indexHeader模板的方法
 
 Page({
   //页面数据
@@ -22,15 +29,25 @@ Page({
     }
   },
 
-
-  newsClick():void {  //信息速递（需要节流）
-    wx.navigateTo({
-      url:"../news/news"
-    })
+  //模板点击事件
+  indexHeaderFn(event:any):void{
+    template.indexHeaderFn(event);
   },
 
-  //页面初始化
-  onLoad(){
+  //下拉刷新
+  onPullDownRefresh():void{
+    wx.showNavigationBarLoading();   //在标题栏中显示加载
+    this.getData();                  //获取统计数据方法
+  },
+
+  //信息速递（函数防抖）
+  newsClick():void {
+    expressFn();  //跳转信息速递
+  },
+
+  //获取统计数据方法
+  getData(){
+    wx.showNavigationBarLoading() //在标题栏中显示加载
     https.request(api.count, null, 'GET')
     .then((res:any):void=>{
       this.setData({
@@ -49,6 +66,8 @@ Page({
           needCount: res.val.needCount?res.val.needCount:0            //创新创业需求对接
         }
       })
+      wx.hideNavigationBarLoading();  //完成停止加载
+      wx.stopPullDownRefresh();       //停止下拉刷新
     },(err:any)=>{
       console.log(err);
     });
@@ -167,12 +186,16 @@ Page({
   },
 
 
-
-  //页面渲染完成
-  onReady(){},
+  //页面初始化
+  onLoad(){
+    this.getData();  //获取统计数据方法
+  },
 
   //页面显示
   onShow(){},
+
+  //页面渲染完成
+  onReady(){},
 
   //页面隐藏
   onHide(){},

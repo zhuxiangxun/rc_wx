@@ -1,4 +1,4 @@
-/**indexHeader.wxss**/
+/**template.wxss**/
 .header_bar {
   width: 710rpx;
   height: 160rpx;
