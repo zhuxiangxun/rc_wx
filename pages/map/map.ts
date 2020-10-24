@@ -6,8 +6,13 @@ let Dialog = require('../../miniprogram_npm/@vant/weapp/dialog/dialog.js').defau
 Page({
   //页面数据
   data: {
-    isListShow: true,        //默认显示6找内容
-    isInfoShow: false,         //单条信息显示
+    isListShow: false,        //默认显示6找内容
+    isInfoShow: false,        //单条信息显示
+    isSearchShow: false,      //搜索结果数据
+    isSearchInfoShow: true,   //搜索列表数据
+    searchKey: '',            //key关键字搜索
+
+
     longitude: '',            //中心经度
     latitude: '',             //中心纬度
     scale: 12,                //缩放级别，取值范围为3-20
@@ -22,11 +27,25 @@ Page({
     tzModels: [],             //找投资需求
     rongziPros: [],           //找融资需求（项目库的融资7项）
     rongziNeeds: [],          //找融资需求（需求库的融资7项）
+    goName:'',                //要去的地址
+    goLongitude: '',          //中心经度(终点)
+    goLatitude: '',           //中心纬度(终点)
   },
 
-  onChange(event:any):void {
-    // event.detail 的值为当前选中项的索引
-    this.setData({ active: event.detail });
+  //高级搜索
+
+
+  //路线导航
+  navigation():void{
+    let endPoint:any = JSON.stringify({  //终点
+      'name': this.data.goName,
+      'longitude': parseFloat(this.data.goLongitude),
+      'latitude': parseFloat(this.data.goLatitude)
+    });
+
+    wx.navigateTo({
+      url: 'plugin://routePlan/index?key=' + api.mapApiKey + '&referer=才赋云' + '&endPoint=' + endPoint
+    });
   },
 
 
@@ -40,14 +59,20 @@ Page({
 
   //点击标记点气泡窗口触发
   markFn(e:any):void {
-    console.log(e.detail.markerId);
     //查询单条数据
     let arr:any = this.data.markers.filter((item:any):any=>{
       return item.id == e.detail.markerId;
     });
     if(arr.length >= 1){
+      let info:any = arr[0].info;
+      let name:string = info.ptName || info.cyName || info.proName || info.qyName || info.cyztName || info.qyName || info.needName || info.proName || info.needName;
+      let lng:any = info.lng;  //中心经度(终点)
+      let lat:any = info.lat;  //中心纬度(终点)
       //控制显示隐藏
       this.setData({
+        goName: name,        //要去的地址
+        goLongitude: lng,    //中心经度(终点)
+        goLatitude: lat,     //中心纬度(终点)
         markersObj: arr[0].info,
         isListShow: false,
         isInfoShow: true
@@ -111,7 +136,7 @@ Page({
               borderWidth: 1,
               display: 'BYCLICK'
             },
-            info: item    //详情
+            //info: item    //详情
           }
         });
         //创业平台
@@ -134,7 +159,7 @@ Page({
               borderWidth: 1,
               display: 'BYCLICK'
             },
-            info: item    //详情
+            //info: item    //详情
           }
         });
         //找项目
@@ -157,7 +182,7 @@ Page({
               borderWidth: 1,
               display: 'BYCLICK'
             },
-            info: item    //详情
+            //info: item    //详情
           }
         });
 
@@ -181,7 +206,7 @@ Page({
               borderWidth: 1,
               display: 'BYCLICK'
             },
-            info: item    //详情
+            //info: item    //详情
           }
         });
         //找场地
@@ -204,7 +229,7 @@ Page({
               borderWidth: 1,
               display: 'BYCLICK'
             },
-            info: item    //详情
+            //info: item    //详情
           }
         });
         //找金融机构
@@ -227,7 +252,7 @@ Page({
               borderWidth: 1,
               display: 'BYCLICK'
             },
-            info: item    //详情
+            //info: item    //详情
           }
         });
         //找投资需求
@@ -250,7 +275,7 @@ Page({
               borderWidth: 1,
               display: 'BYCLICK'
             },
-            info: item    //详情
+            //info: item    //详情
           }
         });
         //找融资需求（项目库的融资7项）
@@ -273,7 +298,7 @@ Page({
               borderWidth: 1,
               display: 'BYCLICK'
             },
-            info: item    //详情
+            //info: item    //详情
           }
         });
         //找融资需求（需求库的融资7项）
@@ -296,7 +321,7 @@ Page({
               borderWidth: 1,
               display: 'BYCLICK'
             },
-            info: item    //详情
+            //info: item    //详情
           }
         });
         //处理ID为数字
@@ -310,7 +335,7 @@ Page({
             width: 30,
             height: 30,
             callout: item.callout,
-            info: item.info    //详情
+            //info: item.info    //详情
           }
         });
         this.setData({

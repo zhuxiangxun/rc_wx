@@ -1,5 +1,6 @@
 <!--map.wxml-->
 <van-dialog id="van-dialog" />
+
 <!--地图-->
 <view class="content">
   <map 
@@ -12,7 +13,6 @@
     show-location>
   </map>
 </view>
-
 
 <!--菜单列表-->
 <view class="content_footer" wx:if="{{ isListShow }}">
@@ -59,6 +59,7 @@
       </view>
     </view>
 </view>
+
 <!--单条查询信息-->
 <view class="content_info" wx:if="{{ isInfoShow  }}">
   <view class="content_info_left" bindtap="mapDetail">
@@ -72,9 +73,208 @@
   </view>
   <view class="content_info_right">
     <view class="content_info_right_close" bindtap="closeFn"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/close.png" /></view>
-    <view class="content_info_right_address">
+    <view class="content_info_right_address" bindtap="navigation">
       <view class="content_info_right_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
       <view class="content_info_right_address_font">去这里</view>
     </view>
+  </view>
+</view>
+
+<!--底部搜索结果-->
+<view class="search_content" wx:if="{{ isSearchShow  }}">
+  <view class="search_content_left">
+    <view class="search_content_left_btn"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/top_icon.png" /></view>
+    <view class="search_content_left_address" bindtap="mapArea">
+      <view class="search_content_left_address_icon"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/address.png" /></view>
+      <view class="search_content_left_address_title">青岛市</view>
+    </view>
+    <view class="search_content_left_num">共查询到8552个结果</view>
+  </view>
+  <view class="search_content_right">
+    <view class="search_content_right_close"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/close.png" /></view>
+    <view class="search_content_right_btn"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/search_icon.png" /></view>
+  </view>
+</view>
+
+<!--底部搜索列表-->
+<view class="searchInfo_content" wx:if="{{ isSearchInfoShow  }}">
+  <!--关闭按钮-->
+  <view class="searchInfo_content_top"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/bottom_icon.png" /></view>
+  <!--名称搜索-->
+  <view class="searchInfo_content_input">
+    <van-search value="{{ searchKey }}" placeholder="请输入名称搜索关键词" />
+  </view>
+  <!--找平台-->
+  <view class="searchInfo_content_btn_list">
+    <view class="searchInfo_content_btn_list_item searchInfo_content_btn_list_item_hover">全部</view>
+    <view class="searchInfo_content_btn_list_item">创新平台</view>
+    <view class="searchInfo_content_btn_list_item">创业平台</view>
+  </view>
+  <!--高级搜索-->
+  <view class="searchInfo_content_menu">
+    <van-dropdown-menu>
+      <van-dropdown-item id="1" title="平台资质">
+        <view class="searchInfo_content_menu_main">
+          <view class="searchInfo_content_menu_main_item">实验室（研究中心）</view>
+          <view class="searchInfo_content_menu_main_item">实验室（研究中心）</view>
+          <view class="searchInfo_content_menu_main_item">实验室（研究中心）</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="2" title="平台类型">
+        平台类型
+      </van-dropdown-item>
+      <van-dropdown-item id="3" title="产业/行业">
+        产业/行业
+      </van-dropdown-item>
+      <van-dropdown-item id="4" title="更多">
+        更多
+      </van-dropdown-item>
+    </van-dropdown-menu>
+  </view>
+  <!--搜索列表-->
+  <view class="searchInfo_content_list">
+    <!---->
+    <view class="searchInfo_content_list_item">
+      <view class="searchInfo_content_list_item_img">
+        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
+      </view>
+      <view class="searchInfo_content_list_item_main">
+        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
+        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
+      </view>
+      <view class="searchInfo_content_list_item_address" bindtap="navigation">
+        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
+        <view class="searchInfo_content_list_item_address_font">去这里</view>
+      </view>
+    </view>
+    <!---->
+    <view class="searchInfo_content_list_item">
+      <view class="searchInfo_content_list_item_img">
+        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
+      </view>
+      <view class="searchInfo_content_list_item_main">
+        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
+        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
+      </view>
+      <view class="searchInfo_content_list_item_address" bindtap="navigation">
+        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
+        <view class="searchInfo_content_list_item_address_font">去这里</view>
+      </view>
+    </view>
+    <!---->
+    <view class="searchInfo_content_list_item">
+      <view class="searchInfo_content_list_item_img">
+        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
+      </view>
+      <view class="searchInfo_content_list_item_main">
+        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
+        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
+      </view>
+      <view class="searchInfo_content_list_item_address" bindtap="navigation">
+        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
+        <view class="searchInfo_content_list_item_address_font">去这里</view>
+      </view>
+    </view>
+    <!---->
+    <view class="searchInfo_content_list_item">
+      <view class="searchInfo_content_list_item_img">
+        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
+      </view>
+      <view class="searchInfo_content_list_item_main">
+        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
+        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
+      </view>
+      <view class="searchInfo_content_list_item_address" bindtap="navigation">
+        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
+        <view class="searchInfo_content_list_item_address_font">去这里</view>
+      </view>
+    </view>
+    <!---->
+    <view class="searchInfo_content_list_item">
+      <view class="searchInfo_content_list_item_img">
+        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
+      </view>
+      <view class="searchInfo_content_list_item_main">
+        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
+        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
+      </view>
+      <view class="searchInfo_content_list_item_address" bindtap="navigation">
+        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
+        <view class="searchInfo_content_list_item_address_font">去这里</view>
+      </view>
+    </view>
+    <!---->
+    <view class="searchInfo_content_list_item">
+      <view class="searchInfo_content_list_item_img">
+        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
+      </view>
+      <view class="searchInfo_content_list_item_main">
+        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
+        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
+      </view>
+      <view class="searchInfo_content_list_item_address" bindtap="navigation">
+        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
+        <view class="searchInfo_content_list_item_address_font">去这里</view>
+      </view>
+    </view>
+    <!---->
+    <view class="searchInfo_content_list_item">
+      <view class="searchInfo_content_list_item_img">
+        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
+      </view>
+      <view class="searchInfo_content_list_item_main">
+        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
+        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
+      </view>
+      <view class="searchInfo_content_list_item_address" bindtap="navigation">
+        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
+        <view class="searchInfo_content_list_item_address_font">去这里</view>
+      </view>
+    </view>
+    <!---->
+    <view class="searchInfo_content_list_item">
+      <view class="searchInfo_content_list_item_img">
+        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
+      </view>
+      <view class="searchInfo_content_list_item_main">
+        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
+        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
+      </view>
+      <view class="searchInfo_content_list_item_address" bindtap="navigation">
+        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
+        <view class="searchInfo_content_list_item_address_font">去这里</view>
+      </view>
+    </view>
+    <!---->
+    <view class="searchInfo_content_list_item">
+      <view class="searchInfo_content_list_item_img">
+        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
+      </view>
+      <view class="searchInfo_content_list_item_main">
+        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
+        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
+      </view>
+      <view class="searchInfo_content_list_item_address" bindtap="navigation">
+        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
+        <view class="searchInfo_content_list_item_address_font">去这里</view>
+      </view>
+    </view>
+    <!---->
+    <view class="searchInfo_content_list_item">
+      <view class="searchInfo_content_list_item_img">
+        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
+      </view>
+      <view class="searchInfo_content_list_item_main">
+        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
+        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
+      </view>
+      <view class="searchInfo_content_list_item_address" bindtap="navigation">
+        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
+        <view class="searchInfo_content_list_item_address_font">去这里</view>
+      </view>
+    </view>
+    <!---->
+    <view class="searchInfo_content_more">下拉加载更多</view>
+    <!---->
   </view>
 </view>

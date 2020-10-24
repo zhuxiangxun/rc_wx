@@ -77,7 +77,9 @@ Page({
   ptFn():void{
     let token:string = wx.getStorageSync('token');
     if(!!token){
-      
+      wx.switchTab({
+        url: '../map/map'
+      })
     }else{
       wx.navigateTo({
         url: '../loginForm/loginForm'

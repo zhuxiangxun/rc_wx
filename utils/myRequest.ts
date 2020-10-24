@@ -49,6 +49,12 @@ function successRequest(url:string, method:any, data?:any):any{
               resolve(res.data);
             }else{
               reject(res.data.msg);
+              if(res.data.msg == '登陆信息已失效，请重新登陆'){
+                wx.clearStorage();  //清除缓存
+                wx.navigateTo({
+                  url:'../loginForm/loginForm'
+                })
+              }
             }
           },fail(err:any){
             console.log(err);

@@ -53,7 +53,8 @@ Page({
   },
 
   //页面初始化
-  onLoad(){
+  onLoad(options){
+    console.log(options)
     wx.setNavigationBarTitle({     
       title: "我的"
     });

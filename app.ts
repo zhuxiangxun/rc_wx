@@ -2,7 +2,8 @@
 App<any>({
   //全局变量
   globalData: {
-    imgUrl: 'http://files.eyunhan.com/eweb_upload/download/getPic?filePath=',               //图片服务器
+    mapApiKey: 'AWYBZ-C3IWO-5TIWD-SEPVW-KQMOF-RXBAV',  //使用在腾讯位置服务申请的key
+    imgUrl: 'http://files.eyunhan.com/eweb_upload/download/getPic?filePath=',   //图片服务器
     url: 'http://lu.eyunhan.com/sit-rencai-api',      //服务器
     login: '/web/login',        //登录接口
     curUser: '/web/curUser',    //获取当前登录用户信息
@@ -12,18 +13,20 @@ App<any>({
     all: '/web/cyPlat/all',     //全部数据（六找地图首页）
     tenants: '/web/platformMap/tenants',     //获取区
   },
+
   onLaunch() {
     // 展示本地存储能力
     //const logs = wx.getStorageSync('logs') || []
     //logs.unshift(Date.now())
     //wx.setStorageSync('logs', logs)
 
+
     // 登录
     wx.login({
-      // success: res => {
-      //   console.log(res.code)
-      //   // 发送 res.code 到后台换取 openId, sessionKey, unionId
-      // },
+      //success: res => {
+        //console.log(res.code)
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+      //},
     })
     // 获取用户信息
     wx.getSetting({
