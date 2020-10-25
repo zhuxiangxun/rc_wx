@@ -1,6 +1,5 @@
 {
   "pages": [
-    
     "pages/map/map",
     "pages/mapArea/mapArea",
     "pages/mapDetail/mapDetail",
@@ -77,6 +76,7 @@
     "van-action-sheet": "@vant/weapp/action-sheet/index",
     "van-field": "@vant/weapp/field/index",
     "van-toast": "@vant/weapp/toast/index",
-    "van-dialog": "@vant/weapp/dialog/index"
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-tree-select": "@vant/weapp/tree-select/index"
   }
 }

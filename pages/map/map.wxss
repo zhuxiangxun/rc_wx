@@ -239,7 +239,7 @@ page {
 .searchInfo_content_btn_list {
   width: 710rpx;
   height: 50rpx;
-  margin: 10rpx 20rpx;
+  margin: 10rpx 20rpx 20rpx 20rpx;
 }
 .searchInfo_content_btn_list_item {
   width: 150rpx;
@@ -259,23 +259,104 @@ page {
 }
 .searchInfo_content_menu {
   width: 710rpx;
-  height: 100rpx;
-  margin: 0rpx 20rpx;
+  height: auto;
 }
-.searchInfo_content_menu_main {
-  width: 670rpx;
+
+/**找平台**/
+.searchInfo_content_menu_pt {
+  width: 710rpx;
   height: 400rpx;
-  margin-left: 40rpx;
+  margin-left: 20rpx;
+  overflow-y: scroll;
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: flex-start; 
 }
-.searchInfo_content_menu_main_item {
-  width: 200rpx;
-  line-height: 60rpx;
+.searchInfo_content_menu_pt:after{
+  content:'';
+  width: 320rpx;
+}
+.searchInfo_content_menu_pt_item {
+  width: 320rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  margin-top: 20rpx;
   font-size: 24rpx;
   color: #535353;
   text-align: center;
   background-color: #eeeeee;
+  border-radius: 8rpx;
+}
+.searchInfo_content_menu_industry {
+  width: 710rpx;
+  height: 400rpx;
+  margin-left: 20rpx;
+  overflow-y: scroll;
+}
+/**政策**/
+/**项目**/
+/**资金**/
+.searchInfo_content_menu_tz {
+  width: 710rpx;
+  height: 400rpx;
+  margin-left: 20rpx;
+  overflow-y: scroll;
+}
+.searchInfo_content_menu_tz_list {
+  width: 710rpx;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: flex-start; 
+}
+.searchInfo_content_menu_tz:after{
+  content:'';
+  width: 320rpx;
+}
+.searchInfo_content_menu_tz_item {
+  width: 320rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  margin-bottom: 20rpx;
+  font-size: 24rpx;
+  color: #535353;
+  text-align: center;
+  background-color: #eeeeee;
+  border-radius: 8rpx;
+}
+.searchInfo_content_menu_tz_title {
+  width: 710rpx;
+  line-height: 80rpx;
+  font-size: 32rpx;
+}
+/**场地**/
+/**服务**/
+/**重置、完成**/
+.searchInfo_content_menu_btn {
+  width: 670rpx;
+  height: 80rpx;
+  margin: 40rpx;
+  display: flex;
+  justify-content: space-between;
+}
+.searchInfo_content_menu_btn_reset {
+  width: 320rpx;
+  line-height: 80rpx;
+  background-color: #eeeeee;
+  text-align: center;
+  font-size: 32rpx;
+  border-radius: 80rpx;
+}
+.searchInfo_content_menu_btn_submit {
+  width: 320rpx;
+  line-height: 80rpx;
+  background-color: #0c499c;
+  text-align: center;
+  color: #FFF;
+  font-size: 32rpx;
+  border-radius: 80rpx;
 }
 
 

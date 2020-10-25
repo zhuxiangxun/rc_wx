@@ -67,8 +67,8 @@
       <van-image width="100%" height="100%"></van-image>
     </view>
     <view class="content_info_left_info">
-      <view class="content_info_left_info_title">{{ markersObj.ptName || markersObj.cyName || markersObj.proName || markersObj.qyName || markersObj.cyztName || markersObj.qyName || markersObj.needName || markersObj.proName || markersObj.needName }}</view>
-      <view class="content_info_left_info_adress">地址：{{ markersObj.provinceName + markersObj.cityName +  markersObj.districtName}}</view>
+      <view class="content_info_left_info_title">{{ markersObj.title }}</view>
+      <view class="content_info_left_info_adress">地址：{{ markersObj.provinceName + markersObj.cityName +  markersObj.districtName }}</view>
     </view>
   </view>
   <view class="content_info_right">
@@ -83,192 +83,418 @@
 <!--底部搜索结果-->
 <view class="search_content" wx:if="{{ isSearchShow  }}">
   <view class="search_content_left">
-    <view class="search_content_left_btn"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/top_icon.png" /></view>
+    <view class="search_content_left_btn" bindtap="searchInfoOpen"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/top_icon.png" /></view>
     <view class="search_content_left_address" bindtap="mapArea">
       <view class="search_content_left_address_icon"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/address.png" /></view>
       <view class="search_content_left_address_title">青岛市</view>
     </view>
-    <view class="search_content_left_num">共查询到8552个结果</view>
+    <view class="search_content_left_num">共查询到 {{ num }} 个结果</view>
   </view>
   <view class="search_content_right">
-    <view class="search_content_right_close"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/close.png" /></view>
-    <view class="search_content_right_btn"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/search_icon.png" /></view>
+    <view class="search_content_right_close" bindtap="searchClose">
+      <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/close.png" />
+    </view>
+    <view class="search_content_right_btn" bindtap="searchInfoOpen">
+      <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/search_icon.png" />
+  </view>
   </view>
 </view>
 
 <!--底部搜索列表-->
 <view class="searchInfo_content" wx:if="{{ isSearchInfoShow  }}">
   <!--关闭按钮-->
-  <view class="searchInfo_content_top"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/bottom_icon.png" /></view>
+  <view class="searchInfo_content_top" bindtap="searchInfoClose"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/bottom_icon.png" /></view>
   <!--名称搜索-->
   <view class="searchInfo_content_input">
     <van-search value="{{ searchKey }}" placeholder="请输入名称搜索关键词" />
   </view>
   <!--找平台-->
-  <view class="searchInfo_content_btn_list">
-    <view class="searchInfo_content_btn_list_item searchInfo_content_btn_list_item_hover">全部</view>
-    <view class="searchInfo_content_btn_list_item">创新平台</view>
-    <view class="searchInfo_content_btn_list_item">创业平台</view>
+  <view class="searchInfo_content_btn_list" wx:if="{{ ptSearchInfoShow }}">
+    <view data-num="1" class="searchInfo_content_btn_list_item {{ ptBtnClass==1?'searchInfo_content_btn_list_item_hover':'' }}" bindtap="ptBtnToggle">全部</view>
+    <view data-num="2" class="searchInfo_content_btn_list_item {{ ptBtnClass==2?'searchInfo_content_btn_list_item_hover':'' }}"  bindtap="ptBtnToggle">创新平台</view>
+    <view data-num="3" class="searchInfo_content_btn_list_item {{ ptBtnClass==3?'searchInfo_content_btn_list_item_hover':'' }}"  bindtap="ptBtnToggle">创业平台</view>
+  </view>
+  <!--找资金-->
+  <view class="searchInfo_content_btn_list" wx:if="{{ zjSearchInfoShow }}">
+    <view class="searchInfo_content_btn_list_item">全部</view>
+    <view class="searchInfo_content_btn_list_item searchInfo_content_btn_list_item_hover">金融服务</view>
+    <view class="searchInfo_content_btn_list_item">找投资</view>
+    <view class="searchInfo_content_btn_list_item">找融资</view>
   </view>
   <!--高级搜索-->
   <view class="searchInfo_content_menu">
-    <van-dropdown-menu>
-      <van-dropdown-item id="1" title="平台资质">
-        <view class="searchInfo_content_menu_main">
-          <view class="searchInfo_content_menu_main_item">实验室（研究中心）</view>
-          <view class="searchInfo_content_menu_main_item">实验室（研究中心）</view>
-          <view class="searchInfo_content_menu_main_item">实验室（研究中心）</view>
+    <!--找平台-->
+    <van-dropdown-menu wx:if="{{ ptBtnShow }}">
+      <van-dropdown-item id="1" title="平台类型">
+        <view class="searchInfo_content_menu_pt">
+          <view class="searchInfo_content_menu_pt_item">平台类型</view>
+          <view class="searchInfo_content_menu_pt_item">平台类型</view>
+          <view class="searchInfo_content_menu_pt_item">平台类型</view>
+          <view class="searchInfo_content_menu_pt_item">平台类型</view>
+          <view class="searchInfo_content_menu_pt_item">平台类型</view>
+          <view class="searchInfo_content_menu_pt_item">平台类型</view>
+          <view class="searchInfo_content_menu_pt_item">平台类型</view>
+          <view class="searchInfo_content_menu_pt_item">平台类型</view>
+          <view class="searchInfo_content_menu_pt_item">平台类型</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
         </view>
       </van-dropdown-item>
-      <van-dropdown-item id="2" title="平台类型">
-        平台类型
+      <van-dropdown-item id="2" title="平台资质">
+        <view class="searchInfo_content_menu_pt">
+          <view class="searchInfo_content_menu_pt_item">平台资质</view>
+          <view class="searchInfo_content_menu_pt_item">平台资质</view>
+          <view class="searchInfo_content_menu_pt_item">平台资质</view>
+          <view class="searchInfo_content_menu_pt_item">平台资质</view>
+          <view class="searchInfo_content_menu_pt_item">平台资质</view>
+          <view class="searchInfo_content_menu_pt_item">平台资质</view>
+          <view class="searchInfo_content_menu_pt_item">平台资质</view>
+          <view class="searchInfo_content_menu_pt_item">平台资质</view>
+          <view class="searchInfo_content_menu_pt_item">平台资质</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
       </van-dropdown-item>
       <van-dropdown-item id="3" title="产业/行业">
-        产业/行业
+        <view class="searchInfo_content_menu_industry">
+          <van-tree-select
+            items="{{ industryList }}"
+            main-active-index="{{ ptIndustryIndex }}"
+            active-id="{{ ptIndustryId }}"
+            height="200"
+            bind:click-item="ptIndustryItem"/>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
       </van-dropdown-item>
-      <van-dropdown-item id="4" title="更多">
-        更多
+    </van-dropdown-menu>
+
+    <!--找项目-->
+    <van-dropdown-menu wx:if="{{ proSearchInfoShow }}">
+      <van-dropdown-item id="1" title="所处阶段">
+        <view class="searchInfo_content_menu_pt">
+          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
+          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
+          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
+          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
+          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
+          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
+          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
+          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
+          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="2" title="需求类别">
+        <view class="searchInfo_content_menu_pt">
+          <view class="searchInfo_content_menu_pt_item">需求类别</view>
+          <view class="searchInfo_content_menu_pt_item">需求类别</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="3" title="融资金额">
+        <view class="searchInfo_content_menu_pt">
+          <view class="searchInfo_content_menu_pt_item">200-500（万元）</view>
+          <view class="searchInfo_content_menu_pt_item">200-500（万元）</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="4" title="产业/行业">
+        <view class="searchInfo_content_menu_industry">
+          <van-tree-select
+            items="{{ industryList }}"
+            main-active-index="{{ proIndustryIndex }}"
+            active-id="{{ proIndustryId }}"
+            height="200"
+            bind:click-item="proIndustryItem"/>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+    </van-dropdown-menu>
+    <!--找资金（金融服务）-->
+    <van-dropdown-menu wx:if="{{ jrSearchInfoShow }}">
+      <van-dropdown-item id="1" title="服务类别">
+        <view class="searchInfo_content_menu_pt">
+          <view class="searchInfo_content_menu_pt_item">服务类别</view>
+          <view class="searchInfo_content_menu_pt_item">服务类别</view>
+          <view class="searchInfo_content_menu_pt_item">服务类别</view>
+          <view class="searchInfo_content_menu_pt_item">服务类别</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="2" title="单位类型">
+        <view class="searchInfo_content_menu_pt">
+          <view class="searchInfo_content_menu_pt_item">单位类型</view>
+          <view class="searchInfo_content_menu_pt_item">单位类型</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="2" title="单位规模">
+        <view class="searchInfo_content_menu_pt">
+          <view class="searchInfo_content_menu_pt_item">单位规模</view>
+          <view class="searchInfo_content_menu_pt_item">单位规模</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="4" title="产业/行业">
+        <view class="searchInfo_content_menu_industry">
+          <van-tree-select
+            items="{{ industryList }}"
+            main-active-index="{{ jrIndustryIndex }}"
+            active-id="{{ jrIndustryId }}"
+            height="200"
+            bind:click-item="jrIndustryItem"/>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+    </van-dropdown-menu>
+
+    <!--找资金（找投资）-->
+    <van-dropdown-menu wx:if="{{ tzSearchInfoShow }}">
+      <van-dropdown-item id="1" title="投资区域">
+        <view class="searchInfo_content_menu_pt">
+          <view class="searchInfo_content_menu_pt_item">投资区域</view>
+          <view class="searchInfo_content_menu_pt_item">投资区域</view>
+          <view class="searchInfo_content_menu_pt_item">投资区域</view>
+          <view class="searchInfo_content_menu_pt_item">投资区域</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="2" title="投资方式">
+        <view class="searchInfo_content_menu_pt">
+          <view class="searchInfo_content_menu_pt_item">投资方式</view>
+          <view class="searchInfo_content_menu_pt_item">投资方式</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="3" title="产业/行业">
+        <view class="searchInfo_content_menu_industry">
+          <van-tree-select
+            items="{{ industryList }}"
+            main-active-index="{{ tzIndustryIndex }}"
+            active-id="{{ tzIndustryId }}"
+            height="200"
+            bind:click-item="tzIndustryItem"/>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="3" title="更多">
+        <view class="searchInfo_content_menu_tz">
+          <view class="searchInfo_content_menu_tz_title">投资金额（万元）</view>
+          <view class="searchInfo_content_menu_tz_list">
+            <view class="searchInfo_content_menu_tz_item">1-50</view>
+            <view class="searchInfo_content_menu_tz_item">单位规模</view>
+          </view>
+          <view class="searchInfo_content_menu_tz_title">资金类型</view>
+          <view class="searchInfo_content_menu_tz_list">
+            <view class="searchInfo_content_menu_tz_item">资金类型</view>
+            <view class="searchInfo_content_menu_tz_item">资金类型</view>
+            <view class="searchInfo_content_menu_tz_item">资金类型</view>
+            <view class="searchInfo_content_menu_tz_item">资金类型</view>
+            <view class="searchInfo_content_menu_tz_item">资金类型</view>
+            <view class="searchInfo_content_menu_tz_item">资金类型</view>
+          </view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+    </van-dropdown-menu>
+
+
+    <!--找资金（找融资）-->
+    <van-dropdown-menu wx:if="{{ rzSearchInfoShow }}">
+      <van-dropdown-item id="1" title="融资方式">
+        <view class="searchInfo_content_menu_pt">
+          <view class="searchInfo_content_menu_pt_item">融资方式</view>
+          <view class="searchInfo_content_menu_pt_item">融资方式</view>
+          <view class="searchInfo_content_menu_pt_item">融资方式</view>
+          <view class="searchInfo_content_menu_pt_item">融资方式</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="2" title="融资金额">
+        <view class="searchInfo_content_menu_pt">
+          <view class="searchInfo_content_menu_pt_item">融资金额</view>
+          <view class="searchInfo_content_menu_pt_item">融资金额</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="3" title="产业/行业">
+        <view class="searchInfo_content_menu_industry">
+          <van-tree-select
+            items="{{ industryList }}"
+            main-active-index="{{ rzIndustryIndex }}"
+            active-id="{{ rzIndustryId }}"
+            height="200"
+            bind:click-item="rzIndustryItem"/>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+    </van-dropdown-menu>
+
+
+
+    <!--找场地-->
+    <van-dropdown-menu wx:if="{{ cdSearchInfoShow }}">
+      <van-dropdown-item id="1" title="载体资源类型">
+        <view class="searchInfo_content_menu_pt">
+          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
+          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
+          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
+          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
+          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
+          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
+          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
+          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
+          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="2" title="场地用途">
+        <view class="searchInfo_content_menu_pt">
+          <view class="searchInfo_content_menu_pt_item">出租</view>
+          <view class="searchInfo_content_menu_pt_item">出售</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="3" title="产业/行业">
+        <view class="searchInfo_content_menu_industry">
+          <van-tree-select
+            items="{{ industryList }}"
+            main-active-index="{{ cdIndustryIndex }}"
+            active-id="{{ cdIndustryId }}"
+            height="200"
+            bind:click-item="cdIndustryItem"/>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+    </van-dropdown-menu>
+    <!--找服务-->
+    <van-dropdown-menu wx:if="{{ fwSearchInfoShow }}">
+      <van-dropdown-item id="1" title="服务类别">
+        <view class="searchInfo_content_menu_pt">
+          <view class="searchInfo_content_menu_pt_item">服务类别</view>
+          <view class="searchInfo_content_menu_pt_item">服务类别</view>
+          <view class="searchInfo_content_menu_pt_item">服务类别</view>
+          <view class="searchInfo_content_menu_pt_item">服务类别</view>
+          <view class="searchInfo_content_menu_pt_item">服务类别</view>
+          <view class="searchInfo_content_menu_pt_item">服务类别</view>
+          <view class="searchInfo_content_menu_pt_item">服务类别</view>
+          <view class="searchInfo_content_menu_pt_item">服务类别</view>
+          <view class="searchInfo_content_menu_pt_item">服务类别</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="2" title="单位类型">
+        <view class="searchInfo_content_menu_pt">
+          <view class="searchInfo_content_menu_pt_item">单位类型</view>
+          <view class="searchInfo_content_menu_pt_item">单位类型</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="3" title="单位规模">
+        <view class="searchInfo_content_menu_pt">
+          <view class="searchInfo_content_menu_pt_item">单位规模</view>
+          <view class="searchInfo_content_menu_pt_item">单位规模</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="4" title="产业/行业">
+        <view class="searchInfo_content_menu_industry">
+          <van-tree-select
+            items="{{ industryList }}"
+            main-active-index="{{ fwIndustryIndex }}"
+            active-id="{{ fwIndustryId }}"
+            height="200"
+            bind:click-item="fwIndustryItem"/>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit">完成</view>
+        </view>
       </van-dropdown-item>
     </van-dropdown-menu>
   </view>
   <!--搜索列表-->
   <view class="searchInfo_content_list">
     <!---->
-    <view class="searchInfo_content_list_item">
+    <view class="searchInfo_content_list_item" wx:for="{{ mumList }}"  wx:for-item="item" wx:key="id">
       <view class="searchInfo_content_list_item_img">
-        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
+        <van-image width="100%" height="100%" src="{{  item.logoPics?(api.imgUrl + item.logoPics):'' }}" />
       </view>
       <view class="searchInfo_content_list_item_main">
-        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
-        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
+        <view class="searchInfo_content_list_item_main_title">{{ item.title }}</view>
+        <view class="searchInfo_content_list_item_main_address">地址：{{ item.provinceName + item.cityName + item.districtName }}</view>
       </view>
-      <view class="searchInfo_content_list_item_address" bindtap="navigation">
-        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
-        <view class="searchInfo_content_list_item_address_font">去这里</view>
-      </view>
-    </view>
-    <!---->
-    <view class="searchInfo_content_list_item">
-      <view class="searchInfo_content_list_item_img">
-        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
-      </view>
-      <view class="searchInfo_content_list_item_main">
-        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
-        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
-      </view>
-      <view class="searchInfo_content_list_item_address" bindtap="navigation">
-        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
-        <view class="searchInfo_content_list_item_address_font">去这里</view>
-      </view>
-    </view>
-    <!---->
-    <view class="searchInfo_content_list_item">
-      <view class="searchInfo_content_list_item_img">
-        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
-      </view>
-      <view class="searchInfo_content_list_item_main">
-        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
-        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
-      </view>
-      <view class="searchInfo_content_list_item_address" bindtap="navigation">
-        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
-        <view class="searchInfo_content_list_item_address_font">去这里</view>
-      </view>
-    </view>
-    <!---->
-    <view class="searchInfo_content_list_item">
-      <view class="searchInfo_content_list_item_img">
-        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
-      </view>
-      <view class="searchInfo_content_list_item_main">
-        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
-        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
-      </view>
-      <view class="searchInfo_content_list_item_address" bindtap="navigation">
-        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
-        <view class="searchInfo_content_list_item_address_font">去这里</view>
-      </view>
-    </view>
-    <!---->
-    <view class="searchInfo_content_list_item">
-      <view class="searchInfo_content_list_item_img">
-        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
-      </view>
-      <view class="searchInfo_content_list_item_main">
-        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
-        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
-      </view>
-      <view class="searchInfo_content_list_item_address" bindtap="navigation">
-        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
-        <view class="searchInfo_content_list_item_address_font">去这里</view>
-      </view>
-    </view>
-    <!---->
-    <view class="searchInfo_content_list_item">
-      <view class="searchInfo_content_list_item_img">
-        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
-      </view>
-      <view class="searchInfo_content_list_item_main">
-        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
-        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
-      </view>
-      <view class="searchInfo_content_list_item_address" bindtap="navigation">
-        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
-        <view class="searchInfo_content_list_item_address_font">去这里</view>
-      </view>
-    </view>
-    <!---->
-    <view class="searchInfo_content_list_item">
-      <view class="searchInfo_content_list_item_img">
-        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
-      </view>
-      <view class="searchInfo_content_list_item_main">
-        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
-        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
-      </view>
-      <view class="searchInfo_content_list_item_address" bindtap="navigation">
-        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
-        <view class="searchInfo_content_list_item_address_font">去这里</view>
-      </view>
-    </view>
-    <!---->
-    <view class="searchInfo_content_list_item">
-      <view class="searchInfo_content_list_item_img">
-        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
-      </view>
-      <view class="searchInfo_content_list_item_main">
-        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
-        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
-      </view>
-      <view class="searchInfo_content_list_item_address" bindtap="navigation">
-        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
-        <view class="searchInfo_content_list_item_address_font">去这里</view>
-      </view>
-    </view>
-    <!---->
-    <view class="searchInfo_content_list_item">
-      <view class="searchInfo_content_list_item_img">
-        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
-      </view>
-      <view class="searchInfo_content_list_item_main">
-        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
-        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
-      </view>
-      <view class="searchInfo_content_list_item_address" bindtap="navigation">
-        <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
-        <view class="searchInfo_content_list_item_address_font">去这里</view>
-      </view>
-    </view>
-    <!---->
-    <view class="searchInfo_content_list_item">
-      <view class="searchInfo_content_list_item_img">
-        <van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/img_01.png" />
-      </view>
-      <view class="searchInfo_content_list_item_main">
-        <view class="searchInfo_content_list_item_main_title">青岛创业园区</view>
-        <view class="searchInfo_content_list_item_main_address">地址：青岛市黄岛区长江路25号</view>
-      </view>
-      <view class="searchInfo_content_list_item_address" bindtap="navigation">
+      <view class="searchInfo_content_list_item_address" data-markers="{{ item.markers }}" bindtap="navigation">
         <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
         <view class="searchInfo_content_list_item_address_font">去这里</view>
       </view>
