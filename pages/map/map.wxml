@@ -106,7 +106,7 @@
   <view class="searchInfo_content_top" bindtap="searchInfoClose"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/bottom_icon.png" /></view>
   <!--名称搜索-->
   <view class="searchInfo_content_input">
-    <van-search value="{{ searchKey }}" placeholder="请输入名称搜索关键词" />
+    <van-search value="{{ searchKey }}" placeholder="请输入名称搜索关键词" bind:blur="searchBlur" />
   </view>
   <!--找平台-->
   <view class="searchInfo_content_btn_list" wx:if="{{ ptSearchInfoShow }}">
@@ -125,107 +125,83 @@
   <view class="searchInfo_content_menu">
     <!--找平台-->
     <van-dropdown-menu wx:if="{{ ptBtnShow }}">
-      <van-dropdown-item id="1" title="平台类型">
+      <van-dropdown-item id="ptType" title="平台类型">
         <view class="searchInfo_content_menu_pt">
-          <view class="searchInfo_content_menu_pt_item">平台类型</view>
-          <view class="searchInfo_content_menu_pt_item">平台类型</view>
-          <view class="searchInfo_content_menu_pt_item">平台类型</view>
-          <view class="searchInfo_content_menu_pt_item">平台类型</view>
-          <view class="searchInfo_content_menu_pt_item">平台类型</view>
-          <view class="searchInfo_content_menu_pt_item">平台类型</view>
-          <view class="searchInfo_content_menu_pt_item">平台类型</view>
-          <view class="searchInfo_content_menu_pt_item">平台类型</view>
-          <view class="searchInfo_content_menu_pt_item">平台类型</view>
+          <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ ptTypeClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ typeList }}" wx:key="id" bindtap="ptTypeFn">{{ item.dicName }}</view>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="1" bindtap="ptReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="1" bindtap="ptSubmit">完成</view>
         </view>
       </van-dropdown-item>
-      <van-dropdown-item id="2" title="平台资质">
+      <van-dropdown-item id="ptZiZhi" title="平台资质">
         <view class="searchInfo_content_menu_pt">
-          <view class="searchInfo_content_menu_pt_item">平台资质</view>
-          <view class="searchInfo_content_menu_pt_item">平台资质</view>
-          <view class="searchInfo_content_menu_pt_item">平台资质</view>
-          <view class="searchInfo_content_menu_pt_item">平台资质</view>
-          <view class="searchInfo_content_menu_pt_item">平台资质</view>
-          <view class="searchInfo_content_menu_pt_item">平台资质</view>
-          <view class="searchInfo_content_menu_pt_item">平台资质</view>
-          <view class="searchInfo_content_menu_pt_item">平台资质</view>
-          <view class="searchInfo_content_menu_pt_item">平台资质</view>
+          <view data-id="{{ item.id }}" data-title="{{ item.title }}"  class="searchInfo_content_menu_pt_item {{ ptZiZhiClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ ptZiZhiList }}" wx:key="id" bindtap="ptZiZhiFn">平台资质</view>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="2" bindtap="ptReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="2" bindtap="ptSubmit">完成</view>
         </view>
       </van-dropdown-item>
-      <van-dropdown-item id="3" title="产业/行业">
+      <van-dropdown-item id="ptIndustry" title="产业/行业" >
         <view class="searchInfo_content_menu_industry">
           <van-tree-select
             items="{{ industryList }}"
-            main-active-index="{{ ptIndustryIndex }}"
+            main-active-index="{{ ptIndex }}"
             active-id="{{ ptIndustryId }}"
             height="200"
+            bind:click-nav="ptNavItem"
             bind:click-item="ptIndustryItem"/>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="3" bindtap="ptReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="3" bindtap="ptSubmit">完成</view>
         </view>
       </van-dropdown-item>
     </van-dropdown-menu>
 
     <!--找项目-->
     <van-dropdown-menu wx:if="{{ proSearchInfoShow }}">
-      <van-dropdown-item id="1" title="所处阶段">
+      <van-dropdown-item id="xmStage" title="所处阶段">
         <view class="searchInfo_content_menu_pt">
-          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
-          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
-          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
-          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
-          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
-          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
-          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
-          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
-          <view class="searchInfo_content_menu_pt_item">所处阶段</view>
+          <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ xmStageClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ xmStageList }}" wx:key="id" bindtap="xmStageFn">{{ item.dicName }}</view>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="1" bindtap="xmReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="1" bindtap="xmSubmit">完成</view>
         </view>
       </van-dropdown-item>
-      <van-dropdown-item id="2" title="需求类别">
+      <van-dropdown-item id="xmCategory" title="需求类别">
         <view class="searchInfo_content_menu_pt">
-          <view class="searchInfo_content_menu_pt_item">需求类别</view>
-          <view class="searchInfo_content_menu_pt_item">需求类别</view>
+          <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ xmCategoryClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ xmCategoryList }}" wx:key="id" bindtap="xmCategoryFn">{{ item.dicName }}</view>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="2" bindtap="xmReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="2" bindtap="xmSubmit">完成</view>
         </view>
       </van-dropdown-item>
-      <van-dropdown-item id="3" title="融资金额">
+      <van-dropdown-item id="xmFinancing" title="融资金额">
         <view class="searchInfo_content_menu_pt">
-          <view class="searchInfo_content_menu_pt_item">200-500（万元）</view>
-          <view class="searchInfo_content_menu_pt_item">200-500（万元）</view>
+          <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ xmFinancingClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ xmFinancingList }}" wx:key="id" bindtap="xmCategoryFn">{{ item.dicName }}</view>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="3" bindtap="xmReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="3" bindtap="xmSubmit">完成</view>
         </view>
       </van-dropdown-item>
-      <van-dropdown-item id="4" title="产业/行业">
+      <van-dropdown-item id="xmIndustry" title="产业/行业">
         <view class="searchInfo_content_menu_industry">
           <van-tree-select
             items="{{ industryList }}"
-            main-active-index="{{ proIndustryIndex }}"
-            active-id="{{ proIndustryId }}"
+            main-active-index="{{ xmIndex }}"
+            active-id="{{ xmIndustryId }}"
             height="200"
-            bind:click-item="proIndustryItem"/>
+            bind:click-nav="xmNavItem"
+            bind:click-item="xmIndustryItem"/>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="4" bindtap="xmReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="4" bindtap="xmSubmit">完成</view>
         </view>
       </van-dropdown-item>
     </van-dropdown-menu>
@@ -386,45 +362,38 @@
 
     <!--找场地-->
     <van-dropdown-menu wx:if="{{ cdSearchInfoShow }}">
-      <van-dropdown-item id="1" title="载体资源类型">
+      <van-dropdown-item id="cdType" title="载体资源类型">
         <view class="searchInfo_content_menu_pt">
-          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
-          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
-          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
-          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
-          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
-          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
-          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
-          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
+          <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ cdTypeClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ cdCarrierList }}" wx:key="id" bindtap="cdTypeFn">{{ item.dicName }}</view>
           <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="1" bindtap="cdReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="1" bindtap="cdSubmit">完成</view>
         </view>
       </van-dropdown-item>
-      <van-dropdown-item id="2" title="场地用途">
+      <van-dropdown-item id="cdUser" title="场地用途">
         <view class="searchInfo_content_menu_pt">
-          <view class="searchInfo_content_menu_pt_item">出租</view>
-          <view class="searchInfo_content_menu_pt_item">出售</view>
+          <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ cdUserClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ cdUserList }}" wx:key="id" bindtap="cdUseFn">{{ item.dicName }}</view>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="2" bindtap="cdReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="2" bindtap="cdSubmit">完成</view>
         </view>
       </van-dropdown-item>
-      <van-dropdown-item id="3" title="产业/行业">
+      <van-dropdown-item id="cdIndustry" title="产业/行业">
         <view class="searchInfo_content_menu_industry">
           <van-tree-select
             items="{{ industryList }}"
-            main-active-index="{{ cdIndustryIndex }}"
+            main-active-index="{{ cdIndex }}"
             active-id="{{ cdIndustryId }}"
             height="200"
+            bind:click-nav="cdNavItem"
             bind:click-item="cdIndustryItem"/>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="3" bindtap="cdReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="3" bindtap="cdSubmit">完成</view>
         </view>
       </van-dropdown-item>
     </van-dropdown-menu>
@@ -491,10 +460,10 @@
         <van-image width="100%" height="100%" src="{{  item.logoPics?(api.imgUrl + item.logoPics):'' }}" />
       </view>
       <view class="searchInfo_content_list_item_main">
-        <view class="searchInfo_content_list_item_main_title">{{ item.title }}</view>
+        <view class="searchInfo_content_list_item_main_title">{{ item.title?item.title:'未填报' }}</view>
         <view class="searchInfo_content_list_item_main_address">地址：{{ item.provinceName + item.cityName + item.districtName }}</view>
       </view>
-      <view class="searchInfo_content_list_item_address" data-markers="{{ item.markers }}" bindtap="navigation">
+      <view class="searchInfo_content_list_item_address" data-markers="{{ item.markers }}" data-title="{{ item.title }}" bindtap="navigation">
         <view class="searchInfo_content_list_item_address_img"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/goAddress.png" /></view>
         <view class="searchInfo_content_list_item_address_font">去这里</view>
       </view>

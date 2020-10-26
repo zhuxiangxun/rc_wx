@@ -288,6 +288,10 @@ page {
   background-color: #eeeeee;
   border-radius: 8rpx;
 }
+.searchInfo_content_menu_pt_item_hover {
+  background-color: #0c499c;
+  color: #FFF;
+}
 .searchInfo_content_menu_industry {
   width: 710rpx;
   height: 400rpx;
@@ -402,6 +406,7 @@ page {
 }
 .searchInfo_content_list_item_main_title {
   width: 450rpx;
+  height: 40rpx;
   line-height: 40rpx;
   margin-top: 30rpx;
   color: #0c499c;

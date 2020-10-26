@@ -4,17 +4,20 @@ App<any>({
   globalData: {
     mapApiKey: 'AWYBZ-C3IWO-5TIWD-SEPVW-KQMOF-RXBAV',                           //使用在腾讯位置服务申请的key
     imgUrl: 'http://files.eyunhan.com/eweb_upload/download/getPic?filePath=',   //图片服务器
-    url: 'http://lu.eyunhan.com/sit-rencai-api',                                //服务器
+    //url: 'http://lu.eyunhan.com/sit-rencai-api',                              //服务器（测试）
+    url: 'http://rc.qdcsdn.cn/sit-rencai-api',                                  //服务器（正式）
     login: '/web/login',                           //登录接口
     curUser: '/web/curUser',                       //获取当前登录用户信息
     count: '/website/count',                       //统计12条信息
-    dic: '/dic/submenuDic',                        //字典表
+    submenuDic: '/dic/submenuDic',                 //高级搜索字典表
     circle: '/website/circle',                     //平台动态
     all: '/web/cyPlat/all',                        //全部数据（六找地图首页）
     tenants: '/web/platformMap/tenants',           //获取区
     allDetail: '/web/cyPlat/allDetail',            //六找中通过id查看详情
     cxPlatformUser: '/web/cxPlatform/user',        //六找创新平台统计
     cyPlatUser: '/web/cyPlat/user',                //六找创业平台统计
+    findPro: '/web/project/findPro',               //六找项目
+    cyPlatform: '/web/cyVector/cyPlatform',        //六找场地
     
     
   },

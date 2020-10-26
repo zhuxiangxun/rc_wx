@@ -32,7 +32,7 @@ function request(url:string, data?:any, method?:any):any{
 }
 
 //带token的ajax
-function successRequest(url:string, method:any, data?:any):any{
+function successRequest(url:string, data?:any, method?:any):any{
   try {
     const token:string = wx.getStorageSync('token');
     if (token) {
