@@ -2,7 +2,8 @@
 const api = getApp().globalData;  // 获取应用实例
 let https  = require('../../utils/myRequest.js');  //获取ajax方法
 let Dialog = require('../../miniprogram_npm/@vant/weapp/dialog/dialog.js').default;
-let mapArea = require('../../libs/qqmap-wx-jssdk.js');
+
+let QQMapWX = require('../../utils/qqmap-wx-jssdk.js');  // 引入SDK核心类
 
 Page({
   //页面数据
@@ -2088,7 +2089,19 @@ Page({
   },
 
   getArea():void{  //获取当前位置所在区
-      
+    let qqmapsdk:any = new QQMapWX({
+      key: api.mapApiKey
+    });
+    qqmapsdk.reverseGeocoder({
+      location: this.data.latitude + ',' +this.data.longitude,
+      success:(res:any):void=>{
+        console.log(res);
+        this.setData({
+          longitude: '120.54987',    //中心经度
+          latitude: '36.411443'       //中心纬度
+        })
+      }
+    })
   },
 
 
@@ -2105,11 +2118,11 @@ Page({
         this.setData({
           longitude: res.longitude,    //中心经度
           latitude: res.latitude       //中心纬度
-        })
+        })  
+        this.getArea();     //逆解析当前位置所在的区
       }
     });
-    //当前位置所在的区
-    this.getArea();
+    
   },
 
   //页面显示
