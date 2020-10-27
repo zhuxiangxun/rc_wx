@@ -2,6 +2,8 @@
 App<any>({
   //全局变量
   globalData: {
+    areaId: '',                  //位置区ID
+    areaName: '',                //位置区名称
     mapApiKey: 'AWYBZ-C3IWO-5TIWD-SEPVW-KQMOF-RXBAV',                           //使用在腾讯位置服务申请的key
     imgUrl: 'http://files.eyunhan.com/eweb_upload/download/getPic?filePath=',   //图片服务器
     //url: 'http://lu.eyunhan.com/sit-rencai-api',                              //服务器（测试）
@@ -14,10 +16,17 @@ App<any>({
     all: '/web/cyPlat/all',                        //全部数据（六找地图首页）
     tenants: '/web/platformMap/tenants',           //获取区
     allDetail: '/web/cyPlat/allDetail',            //六找中通过id查看详情
+    
+    allPlatform: '/web/cyPlat/allPlatform',        //六找所有平台统计
     cxPlatformUser: '/web/cxPlatform/user',        //六找创新平台统计
     cyPlatUser: '/web/cyPlat/user',                //六找创业平台统计
     findPro: '/web/project/findPro',               //六找项目
     cyPlatform: '/web/cyVector/cyPlatform',        //六找场地
+    findFw: '/web/enter/fw/findFw',                //六找服务
+    allFund: '/web/cyPlat/allFund',                //六找资金全部
+    jinrong: '/web/enter/fw/jinrong',              //六找资金金融服务
+    touzi: '/web/need/touzi',                      //六找资金找投资
+    rongzi: '/web/project/rongzi',                 //六找资金找融资
     
     
   },

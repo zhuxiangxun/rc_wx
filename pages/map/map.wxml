@@ -18,7 +18,7 @@
 <view class="content_footer" wx:if="{{ isListShow }}">
   <view class="content_footer_address" bindtap="mapArea">
     <view class="content_footer_address_icon"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/address.png" /></view>
-    <view class="content_footer_address_title">青岛市</view>
+    <view class="content_footer_address_title">{{ areaName }}</view>
   </view>
   <view class="content_footer_list">
       <view class="content_footer_list_item" bindtap="ptFn">
@@ -86,7 +86,7 @@
     <view class="search_content_left_btn" bindtap="searchInfoOpen"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/top_icon.png" /></view>
     <view class="search_content_left_address" bindtap="mapArea">
       <view class="search_content_left_address_icon"><van-image width="100%" height="100%" src="http://www.eyunhan.cn/images/address.png" /></view>
-      <view class="search_content_left_address_title">青岛市</view>
+      <view class="search_content_left_address_title">{{ areaName }}</view>
     </view>
     <view class="search_content_left_num">共查询到 {{ num }} 个结果</view>
   </view>
@@ -116,10 +116,10 @@
   </view>
   <!--找资金-->
   <view class="searchInfo_content_btn_list" wx:if="{{ zjSearchInfoShow }}">
-    <view class="searchInfo_content_btn_list_item">全部</view>
-    <view class="searchInfo_content_btn_list_item searchInfo_content_btn_list_item_hover">金融服务</view>
-    <view class="searchInfo_content_btn_list_item">找投资</view>
-    <view class="searchInfo_content_btn_list_item">找融资</view>
+    <view data-num="1" class="searchInfo_content_btn_list_item {{ zjBtnClass==1?'searchInfo_content_btn_list_item_hover':'' }}"  bindtap="zjBtnToggle">全部</view>
+    <view data-num="2" class="searchInfo_content_btn_list_item {{ zjBtnClass==2?'searchInfo_content_btn_list_item_hover':'' }}"  bindtap="zjBtnToggle">金融服务</view>
+    <view data-num="3" class="searchInfo_content_btn_list_item {{ zjBtnClass==3?'searchInfo_content_btn_list_item_hover':'' }}"  bindtap="zjBtnToggle">找投资</view>
+    <view data-num="4" class="searchInfo_content_btn_list_item {{ zjBtnClass==4?'searchInfo_content_btn_list_item_hover':'' }}"  bindtap="zjBtnToggle">找融资</view>
   </view>
   <!--高级搜索-->
   <view class="searchInfo_content_menu">
@@ -136,7 +136,7 @@
       </van-dropdown-item>
       <van-dropdown-item id="ptZiZhi" title="平台资质">
         <view class="searchInfo_content_menu_pt">
-          <view data-id="{{ item.id }}" data-title="{{ item.title }}"  class="searchInfo_content_menu_pt_item {{ ptZiZhiClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ ptZiZhiList }}" wx:key="id" bindtap="ptZiZhiFn">平台资质</view>
+          <view data-id="{{ item.id }}" data-title="{{ item.title }}"  class="searchInfo_content_menu_pt_item {{ ptZiZhiClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ ptZiZhiList }}" wx:key="id" bindtap="ptZiZhiFn">{{ item.title }}</view>
         </view>
         <view class="searchInfo_content_menu_btn">
           <view class="searchInfo_content_menu_btn_reset" data-flag="2" bindtap="ptReset">重置</view>
@@ -207,112 +207,107 @@
     </van-dropdown-menu>
     <!--找资金（金融服务）-->
     <van-dropdown-menu wx:if="{{ jrSearchInfoShow }}">
-      <van-dropdown-item id="1" title="服务类别">
-        <view class="searchInfo_content_menu_pt">
-          <view class="searchInfo_content_menu_pt_item">服务类别</view>
-          <view class="searchInfo_content_menu_pt_item">服务类别</view>
-          <view class="searchInfo_content_menu_pt_item">服务类别</view>
-          <view class="searchInfo_content_menu_pt_item">服务类别</view>
-        </view>
-        <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
-        </view>
-      </van-dropdown-item>
-      <van-dropdown-item id="2" title="单位类型">
-        <view class="searchInfo_content_menu_pt">
-          <view class="searchInfo_content_menu_pt_item">单位类型</view>
-          <view class="searchInfo_content_menu_pt_item">单位类型</view>
-        </view>
-        <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
-        </view>
-      </van-dropdown-item>
-      <van-dropdown-item id="2" title="单位规模">
-        <view class="searchInfo_content_menu_pt">
-          <view class="searchInfo_content_menu_pt_item">单位规模</view>
-          <view class="searchInfo_content_menu_pt_item">单位规模</view>
-        </view>
-        <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
-        </view>
-      </van-dropdown-item>
-      <van-dropdown-item id="4" title="产业/行业">
+      <van-dropdown-item id="jrCategoryId" title="服务类别">
         <view class="searchInfo_content_menu_industry">
           <van-tree-select
-            items="{{ industryList }}"
-            main-active-index="{{ jrIndustryIndex }}"
-            active-id="{{ jrIndustryId }}"
+            items="{{ fwCategoryList }}"
+            main-active-index="{{ jrCategoryIndex }}"
+            active-id="{{ jrCategoryId }}"
             height="200"
-            bind:click-item="jrIndustryItem"/>
+            bind:click-nav="jrCategoryNavItem"
+            bind:click-item="jrCategoryItem"/>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="1" bindtap="jrReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="1" bindtap="jrSubmit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="jrType" title="单位类型">
+        <view class="searchInfo_content_menu_pt">
+          <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ jrTypeClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ fwTypeList }}" wx:key="id" bindtap="jrTypeFn">{{ item.dicName }}</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset" data-flag="2" bindtap="jrReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="2" bindtap="jrSubmit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="jrScaleId" title="单位规模">
+        <view class="searchInfo_content_menu_pt">
+          <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ jrScaleClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ fwScaleList }}" wx:key="id" bindtap="jrScaleFn">{{ item.dicName }}</view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset" data-flag="3" bindtap="jrReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="3" bindtap="jrSubmit">完成</view>
+        </view>
+      </van-dropdown-item>
+      <van-dropdown-item id="jrIndustryId" title="产业/行业">
+        <view class="searchInfo_content_menu_industry">
+          <view class="searchInfo_content_menu_industry">
+            <van-tree-select
+              items="{{ industryList }}"
+              main-active-index="{{ jrIndustryIndex }}"
+              active-id="{{ jrIndustryId }}"
+              height="200"
+              bind:click-nav="jrNavItem"
+            bind:click-item="jrIndustryItem"/>
+          </view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset" data-flag="4" bindtap="jrReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="4" bindtap="jrSubmit">完成</view>
         </view>
       </van-dropdown-item>
     </van-dropdown-menu>
 
     <!--找资金（找投资）-->
     <van-dropdown-menu wx:if="{{ tzSearchInfoShow }}">
-      <van-dropdown-item id="1" title="投资区域">
+      <van-dropdown-item id="tzAreaId" title="投资区域">
         <view class="searchInfo_content_menu_pt">
-          <view class="searchInfo_content_menu_pt_item">投资区域</view>
-          <view class="searchInfo_content_menu_pt_item">投资区域</view>
-          <view class="searchInfo_content_menu_pt_item">投资区域</view>
-          <view class="searchInfo_content_menu_pt_item">投资区域</view>
+          <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ tzAreaClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ tzAreaList }}" wx:key="id" bindtap="tzAreaFn">{{ item.dicName }}</view>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="1" bindtap="tzReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="1" bindtap="tzSubmit">完成</view>
         </view>
       </van-dropdown-item>
-      <van-dropdown-item id="2" title="投资方式">
+      <van-dropdown-item id="tzWayId" title="投资方式">
         <view class="searchInfo_content_menu_pt">
-          <view class="searchInfo_content_menu_pt_item">投资方式</view>
-          <view class="searchInfo_content_menu_pt_item">投资方式</view>
+          <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ tzWayClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ tzWayList }}" wx:key="id" bindtap="tzWayFn">{{ item.dicName }}</view>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="2" bindtap="tzReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="2" bindtap="tzSubmit">完成</view>
         </view>
       </van-dropdown-item>
-      <van-dropdown-item id="3" title="产业/行业">
+      <van-dropdown-item id="tzIndustryId" title="产业/行业">
         <view class="searchInfo_content_menu_industry">
-          <van-tree-select
-            items="{{ industryList }}"
-            main-active-index="{{ tzIndustryIndex }}"
-            active-id="{{ tzIndustryId }}"
-            height="200"
+            <van-tree-select
+              items="{{ industryList }}"
+              main-active-index="{{ tzIndex }}"
+              active-id="{{ tzIndustryId }}"
+              height="200"
+              bind:click-nav="tzNavItem"
             bind:click-item="tzIndustryItem"/>
-        </view>
+          </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="3" bindtap="tzReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="3" bindtap="tzSubmit">完成</view>
         </view>
       </van-dropdown-item>
-      <van-dropdown-item id="3" title="更多">
+      <van-dropdown-item id="tzMoreId" title="更多">
         <view class="searchInfo_content_menu_tz">
           <view class="searchInfo_content_menu_tz_title">投资金额（万元）</view>
           <view class="searchInfo_content_menu_tz_list">
-            <view class="searchInfo_content_menu_tz_item">1-50</view>
-            <view class="searchInfo_content_menu_tz_item">单位规模</view>
+             <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ tzOtherClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ tzOtherList }}" wx:key="id" bindtap="tzOtherFn">{{ item.dicName }}</view>
           </view>
           <view class="searchInfo_content_menu_tz_title">资金类型</view>
           <view class="searchInfo_content_menu_tz_list">
-            <view class="searchInfo_content_menu_tz_item">资金类型</view>
-            <view class="searchInfo_content_menu_tz_item">资金类型</view>
-            <view class="searchInfo_content_menu_tz_item">资金类型</view>
-            <view class="searchInfo_content_menu_tz_item">资金类型</view>
-            <view class="searchInfo_content_menu_tz_item">资金类型</view>
-            <view class="searchInfo_content_menu_tz_item">资金类型</view>
+             <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ tzTypeClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ tzTypeList }}" wx:key="id" bindtap="tzTypeFn">{{ item.dicName }}</view>
           </view>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="4" bindtap="tzReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="4" bindtap="tzSubmit">完成</view>
         </view>
       </van-dropdown-item>
     </van-dropdown-menu>
@@ -320,40 +315,53 @@
 
     <!--找资金（找融资）-->
     <van-dropdown-menu wx:if="{{ rzSearchInfoShow }}">
-      <van-dropdown-item id="1" title="融资方式">
+      <van-dropdown-item id="rzCategoryId" title="需求类别">
         <view class="searchInfo_content_menu_pt">
-          <view class="searchInfo_content_menu_pt_item">融资方式</view>
-          <view class="searchInfo_content_menu_pt_item">融资方式</view>
-          <view class="searchInfo_content_menu_pt_item">融资方式</view>
-          <view class="searchInfo_content_menu_pt_item">融资方式</view>
+          <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ rzCategoryClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ xmCategoryList }}" wx:key="id" bindtap="rzCategoryFn">{{ item.dicName }}</view>
         </view>
         <view class="searchInfo_content_menu_btn">
           <view class="searchInfo_content_menu_btn_reset">重置</view>
           <view class="searchInfo_content_menu_btn_submit">完成</view>
         </view>
       </van-dropdown-item>
-      <van-dropdown-item id="2" title="融资金额">
+      <van-dropdown-item id="rzStageId" title="所处阶段">
         <view class="searchInfo_content_menu_pt">
-          <view class="searchInfo_content_menu_pt_item">融资金额</view>
-          <view class="searchInfo_content_menu_pt_item">融资金额</view>
+          <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ rzStageClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ xmStageList }}" wx:key="id" bindtap="rzStageFn">{{ item.dicName }}</view>
         </view>
         <view class="searchInfo_content_menu_btn">
           <view class="searchInfo_content_menu_btn_reset">重置</view>
           <view class="searchInfo_content_menu_btn_submit">完成</view>
         </view>
       </van-dropdown-item>
-      <van-dropdown-item id="3" title="产业/行业">
+      <van-dropdown-item id="rzIndustryId" title="产业/行业">
         <view class="searchInfo_content_menu_industry">
           <van-tree-select
             items="{{ industryList }}"
-            main-active-index="{{ rzIndustryIndex }}"
+            main-active-index="{{ rzIndex }}"
             active-id="{{ rzIndustryId }}"
             height="200"
+            bind:click-nav="rzNavItem"
             bind:click-item="rzIndustryItem"/>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="3" bindtap="rzReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="3" bindtap="rzSubmit">完成</view>
+        </view>
+      </van-dropdown-item>
+       <van-dropdown-item id="rzMoreId" title="更多">
+        <view class="searchInfo_content_menu_tz">
+          <view class="searchInfo_content_menu_tz_title">融资方式</view>
+          <view class="searchInfo_content_menu_tz_list">
+             <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ rzWayClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ rzWayList }}" wx:key="id" bindtap="rzWayFn">{{ item.dicName }}</view>
+          </view>
+          <view class="searchInfo_content_menu_tz_title">融资金额</view>
+          <view class="searchInfo_content_menu_tz_list">
+             <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ rzFinancingClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ xmFinancingList }}" wx:key="id" bindtap="rzFinancingFn">{{ item.dicName }}</view>
+          </view>
+        </view>
+        <view class="searchInfo_content_menu_btn">
+          <view class="searchInfo_content_menu_btn_reset" data-flag="4" bindtap="rzReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="4" bindtap="rzSubmit">完成</view>
         </view>
       </van-dropdown-item>
     </van-dropdown-menu>
@@ -399,55 +407,52 @@
     </van-dropdown-menu>
     <!--找服务-->
     <van-dropdown-menu wx:if="{{ fwSearchInfoShow }}">
-      <van-dropdown-item id="1" title="服务类别">
-        <view class="searchInfo_content_menu_pt">
-          <view class="searchInfo_content_menu_pt_item">服务类别</view>
-          <view class="searchInfo_content_menu_pt_item">服务类别</view>
-          <view class="searchInfo_content_menu_pt_item">服务类别</view>
-          <view class="searchInfo_content_menu_pt_item">服务类别</view>
-          <view class="searchInfo_content_menu_pt_item">服务类别</view>
-          <view class="searchInfo_content_menu_pt_item">服务类别</view>
-          <view class="searchInfo_content_menu_pt_item">服务类别</view>
-          <view class="searchInfo_content_menu_pt_item">服务类别</view>
-          <view class="searchInfo_content_menu_pt_item">服务类别</view>
+      <van-dropdown-item id="fwCategoryId" title="服务类别">
+        <view class="searchInfo_content_menu_industry">
+          <van-tree-select
+            items="{{ fwCategoryList }}"
+            main-active-index="{{ fwCategoryIndex }}"
+            active-id="{{ fwCategoryId }}"
+            height="200"
+            bind:click-nav="fwCategoryNavItem"
+            bind:click-item="fwCategoryItem"/>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="1" bindtap="fwReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="1" bindtap="fwSubmit">完成</view>
         </view>
       </van-dropdown-item>
-      <van-dropdown-item id="2" title="单位类型">
+      <van-dropdown-item id="fwTypeId" title="单位类型">
         <view class="searchInfo_content_menu_pt">
-          <view class="searchInfo_content_menu_pt_item">单位类型</view>
-          <view class="searchInfo_content_menu_pt_item">单位类型</view>
+          <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ fwTypeClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ fwTypeList }}" wx:key="id" bindtap="fwTypeFn">{{ item.dicName }}</view>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="2" bindtap="fwReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="2" bindtap="fwSubmit">完成</view>
         </view>
       </van-dropdown-item>
-      <van-dropdown-item id="3" title="单位规模">
+      <van-dropdown-item id="fwScaleId" title="单位规模">
         <view class="searchInfo_content_menu_pt">
-          <view class="searchInfo_content_menu_pt_item">单位规模</view>
-          <view class="searchInfo_content_menu_pt_item">单位规模</view>
+          <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ fwScaleClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ fwScaleList }}" wx:key="id" bindtap="fwScaleFn">{{ item.dicName }}</view>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="3" bindtap="fwReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="3" bindtap="fwSubmit">完成</view>
         </view>
       </van-dropdown-item>
-      <van-dropdown-item id="4" title="产业/行业">
+      <van-dropdown-item id="fwIndustryId" title="产业/行业">
         <view class="searchInfo_content_menu_industry">
           <van-tree-select
             items="{{ industryList }}"
             main-active-index="{{ fwIndustryIndex }}"
             active-id="{{ fwIndustryId }}"
             height="200"
+            bind:click-nav="fwNavItem"
             bind:click-item="fwIndustryItem"/>
         </view>
         <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit">完成</view>
+          <view class="searchInfo_content_menu_btn_reset" data-flag="4" bindtap="fwReset">重置</view>
+          <view class="searchInfo_content_menu_btn_submit" data-flag="4" bindtap="fwSubmit">完成</view>
         </view>
       </van-dropdown-item>
     </van-dropdown-menu>

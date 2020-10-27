@@ -5,16 +5,32 @@ let https  = require('../../utils/myRequest.js');  //获取ajax方法
 Page({
   //页面数据
   data: {
-    list: []  //区
+    areaClass: null,     //选中状态
+    areaList: []         //区
   },
 
+  areaFn(e:any):void{  //点击区时触发
+    api.areaId = e.target.dataset.id;
+    api.areaName = e.target.dataset.title;
+    wx.switchTab({ 
+      url:'../map/map'
+    });
+  },
 
   //获取市区
   getArea():void{
     https.successRequest(api.tenants, null, 'GET')
     .then((res:any):void=>{
       if(res){
-        console.log(res);
+        let arr:any = res.list.map((item:any):any=>{
+          return {
+            id: item.model.id,
+            title: item.model.cname
+          }
+        })
+        this.setData({
+          areaList: arr
+        })
       }
     },(err:any)=>{
     console.log(err);
