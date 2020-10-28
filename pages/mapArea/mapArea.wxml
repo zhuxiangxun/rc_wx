@@ -1,4 +1,4 @@
 <!--mapArea.wxml-->
 <view class="content_list">
-  <view class="content_list_item" data-id="{{ item.id }}" data-title="{{ item.title }}" wx:for="{{ areaList }}" wx:key="id" bindtap="areaFn">{{ item.title }}</view>
+  <view class="content_list_item" data-id="{{ item.id }}" data-title="{{ item.title }}" data-longitude="{{ item.longitude }}" data-latitude="{{ item.latitude }}" wx:for="{{ areaList }}" wx:key="id" bindtap="areaFn">{{ item.title }}</view>
 </view>

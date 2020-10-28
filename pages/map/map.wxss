@@ -412,6 +412,11 @@ page {
   color: #0c499c;
   font-size: 32rpx;
   font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp :1;
+  -webkit-box-orient: vertical;
 }
 .searchInfo_content_list_item_main_address {
   width: 450rpx;

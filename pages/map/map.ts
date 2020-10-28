@@ -8,6 +8,12 @@ let QQMapWX = require('../../utils/qqmap-wx-jssdk.js');  // 引入SDK核心类
 Page({
   //页面数据
   data: {
+    //页码
+    pageSize: 10,             //每页显示数量
+    pageIndex: 1,             //当前页
+    total: 0,                 //总条数
+    //区市
+    areaList: [],             //区列表
     areaName: '',             //切换的区名
     areaId: '',               //切换的区ID
     //搜索
@@ -420,8 +426,15 @@ Page({
   //搜索按钮触发
   searchBlur(event:any):void{
     this.setData({
-      searchKey: event.detail.value
+      searchKey: event.detail.value,     //普通搜索
+      pageSize: 10,                      //每页显示数量
+      pageIndex: 1,                      //当前页
+      total: 0,                          //总条数
+      markers: [],                       //标记总数
+      num: 0,                             //6找结果
+      mumList: [],                        //6找列表
     })
+    this.getAllPro();                     //6找全部平台统计
   },
 
   //搜索列表显示
@@ -456,52 +469,142 @@ Page({
     })
   },
 
-
-  //找平台
-  ptFn():void{                   //6找平台触发
+  hideFn():void{       //需要隐藏的元素
     this.setData({
+      pageSize: 10,             //每页显示数量
+      pageIndex: 1,             //当前页
+      total: 0,                 //总条数
+
+      markers: [],              //标记总数
+      
       num: 0,                    //6找结果
       mumList: [],               //6找列表
       searchKey: '',             //关键字搜索
 
       isListShow: false,         //默认显示6找内容
       isInfoShow: false,         //单条信息显示
-      isSearchShow: true,        //搜索结果数据
+      isSearchShow: false,       //搜索结果数据
       isSearchInfoShow: false,   //搜索列表数据
 
-      ptSearchInfoShow: true,    //平台全部按钮
+      ptSearchInfoShow: false,    //平台全部按钮
+      ptBtnShow: false,           //平台高级搜索隐藏
+      proSearchInfoShow: false,   //项目高级搜索
+
       zjSearchInfoShow: false,   //资金全部按钮
       jrSearchInfoShow: false,   //找资金（金融服务）
       tzSearchInfoShow: false,   //找资金（找投资）
       rzSearchInfoShow: false,   //找资金（找融资）
-      proSearchInfoShow: false,  //项目高级搜索
+      
       cdSearchInfoShow: false,   //场地高级搜索
       fwSearchInfoShow: false,   //服务高级搜索
     })
-    this.getAllPro();             //6找全部平台统计
+  },
+
+
+  //找平台
+  ptFn():void{                   //6找平台触发
+    this.hideFn();               //需要隐藏的元素
+    this.setData({
+      isSearchShow: true,        //搜索结果数据
+      ptSearchInfoShow: true,    //平台全部按钮
+    })
+    this.getAllPro();              //6找全部平台统计
   },
   getAllPro():void{               //6找全部平台统计
     https.successRequest(api.allPlatform, {
-      tenantId: this.data.tenantId,     //地区id
+      tenantId: api.areaId,     //地区id
       key: this.data.searchKey,         //关键字搜索
+      pageSize: this.data.pageSize,     //每页显示数量
+      pageIndex: this.data.pageIndex,   //页数
     }, 'GET').then((res:any):void=>{
       if(res){
-        let list:any = res.list.map((item:any):any=>{
+        //创新平台
+        let cxPlatformModelsList:any = res.val.cxPlatformModels.map((item:any):any=>{
           return {
-            id: item.id,                          //ID
-            longitude: item.longitude,            //中心经度
-            latitude: item.latitude,              //中心纬度
-            title: item.cxName,                   //标题
+            id: item.id,
+            longitude: item.lng,   //经度
+            latitude: item.lat,    //纬度
+            iconPath: '../../images/cx.png',             //标记
+            width: 27,
+            height: 35,
+            callout: {
+              content: item.ptName?item.ptName:'未填报',
+              color: '#000',
+              fontSize: 14,
+              bgColor: '#FFF',
+              padding: 5,
+              borderRadius: 4,
+              borderColor: '#CCC',
+              borderWidth: 1,
+              display: 'BYCLICK'
+            },
             provinceName: item.provinceName?item.provinceName:'',     //省
             cityName: item.cityName?item.cityName:'',                 //市
-            districtName: item.districtName?item.districtName:'',     //区
-            markers: item.markers                                     //坐标
+            districtName: item.districtName?item.districtName:''      //区
           }
-        })
-        this.setData({
-          num: res.total,
-          mumList: list
-        })
+        });
+        //创业平台
+        let cyPlatformModelsList:any = res.val.cyPlatformModels.map((item:any):any=>{
+          return {
+            id: item.id,
+            longitude: item.lng,   //经度
+            latitude: item.lat,    //纬度
+            iconPath: '../../images/cy.png',             //标记
+            width: 27,
+            height: 35,
+            callout: {
+              content: item.cyName?item.cyName:'未填报',
+              color: '#000',
+              fontSize: 18,
+              bgColor: '#FFF',
+              padding: 5,
+              borderRadius: 4,
+              borderColor: '#CCC',
+              borderWidth: 1,
+              display: 'BYCLICK'
+            },
+            provinceName: item.provinceName?item.provinceName:'',     //省
+            cityName: item.cityName?item.cityName:'',                 //市
+            districtName: item.districtName?item.districtName:''      //区
+          }
+        });
+        //处理ID为数字
+        let markersList:any  = this.data.markers.concat(cxPlatformModelsList,cyPlatformModelsList);
+        let newMarkersList:any = markersList.map((item:any, index:number):any=>{
+          return {
+            id: index,                   //map用的自定义ID
+            longitude: item.longitude,   //经度
+            latitude: item.latitude,     //纬度
+            iconPath: item.iconPath,     //标记
+            width: 27,
+            height: 35,
+            callout: item.callout,
+            oldId: item.id,                      //原始ID
+            title: item.callout.content,         //标题
+            provinceName: item.provinceName,     //省
+            cityName: item.cityName,             //市
+            districtName: item.districtName      //区
+          }
+        });
+        if(this.data.total == 0){
+          this.setData({
+            markers: newMarkersList,               //标记
+            total: res.val.total,                  //总数
+            mumList: newMarkersList,                //列表
+          })
+        }else{
+          this.setData({
+            markers: newMarkersList,               //标记
+            mumList: newMarkersList,                //列表
+          })
+        }
+        
+        // if(this.data.markers.length < res.val.total){
+        //   this.setData({
+        //     pageIndex: this.data.pageIndex += 1,             //当前页
+        //   })
+        //   this.getAllPro();                                  //6找全部平台统计
+        // }
       }
     },(err:any)=>{
       console.log(err);
@@ -509,30 +612,61 @@ Page({
   },
   getCxPro():void{               //6找创新平台统计
     https.successRequest(api.cxPlatformUser, {
-      tenantId: this.data.tenantId,     //地区id
+      tenantId: api.areaId,             //地区id
       key: this.data.searchKey,         //关键字搜索
+      pageSize: this.data.pageSize,     //每页显示数量
+      pageIndex: this.data.pageIndex,   //页数
       typeId: this.data.ptTypeId,       //平台类型id
       ziZhi: this.data.ptZiZhi,         //平台资质id
       cyTypeId: this.data.ptCyTypeId,   //产业id
       hyTypeId: this.data.ptHyTypeId    //行业id
     }, 'GET').then((res:any):void=>{
       if(res){
-        let list:any = res.list.map((item:any):any=>{
+        let newMarkersList:any = res.list.map((item:any, index:number):any=>{
           return {
-            id: item.id,                          //ID
-            longitude: item.longitude,            //中心经度
-            latitude: item.latitude,              //中心纬度
-            title: item.cxName,                   //标题
+            id: index,                                   //map用的自定义ID
+            longitude: item.lng,                         //经度
+            latitude: item.lat,                          //纬度
+            iconPath: '../../images/cx.png',             //标记
+            width: 27,
+            height: 35,
+            callout: {
+              content: item.ptName?item.ptName:'未填报',
+              color: '#000',
+              fontSize: 18,
+              bgColor: '#FFF',
+              padding: 5,
+              borderRadius: 4,
+              borderColor: '#CCC',
+              borderWidth: 1,
+              display: 'BYCLICK'
+            },
+            oldId: item.id,                                          //原始ID
+            title: item.ptName?item.ptName:'未填报',                  //标题
             provinceName: item.provinceName?item.provinceName:'',     //省
             cityName: item.cityName?item.cityName:'',                 //市
-            districtName: item.districtName?item.districtName:'',     //区
-            markers: item.markers                                     //坐标
+            districtName: item.districtName?item.districtName:''      //区
           }
-        })
-        this.setData({
-          num: this.data.num += res.total,
-          mumList: this.data.mumList.concat(list)
-        })
+        });
+        if(this.data.total == 0){
+          this.setData({
+            markers: newMarkersList,               //标记
+            total: res.total,                  //总数
+            mumList: newMarkersList,                //列表
+          })
+        }else{
+          this.setData({
+            markers: newMarkersList,               //标记
+            mumList: newMarkersList,                //列表
+          })
+        }
+        
+        // if(this.data.markers.length < res.val.total){
+        //   this.setData({
+        //     pageIndex: this.data.pageIndex += 1,             //当前页
+        //   })
+        //   this.getCxPro();                                  //6找创新平台统计
+        // }
       }
     },(err:any)=>{
       console.log(err);
@@ -540,30 +674,61 @@ Page({
   },
   getCyPro():void{               //6找创业平台统计
     https.successRequest(api.cyPlatUser, {
-      tenantId: this.data.tenantId,     //地区id
+      tenantId: api.areaId,             //地区id
       key: this.data.searchKey,         //关键字搜索
+      pageSize: this.data.pageSize,     //每页显示数量
+      pageIndex: this.data.pageIndex,   //页数
       typeId: this.data.ptTypeId,       //平台类型id
       ziZhi: this.data.ptZiZhi,         //平台资质id
       cyTypeId: this.data.ptCyTypeId,   //产业id
       hyTypeId: this.data.ptHyTypeId    //行业id
     }, 'GET').then((res:any):void=>{
       if(res){
-        let list:any = res.list.map((item:any):any=>{
+        let newMarkersList:any = res.list.map((item:any, index:number):any=>{
           return {
-            id: item.id,                          //ID
-            longitude: item.longitude,            //中心经度
-            latitude: item.latitude,              //中心纬度
-            title: item.cyName,                   //标题
+            id: index,                                   //map用的自定义ID
+            longitude: item.lng,                         //经度
+            latitude: item.lat,                          //纬度
+            iconPath: '../../images/cy.png',             //标记
+            width: 27,
+            height: 35,
+            callout: {
+              content: item.ptName?item.ptName:'未填报',
+              color: '#000',
+              fontSize: 18,
+              bgColor: '#FFF',
+              padding: 5,
+              borderRadius: 4,
+              borderColor: '#CCC',
+              borderWidth: 1,
+              display: 'BYCLICK'
+            },
+            oldId: item.id,                                          //原始ID
+            title: item.cyName?item.cyName:'未填报',                  //标题
             provinceName: item.provinceName?item.provinceName:'',     //省
             cityName: item.cityName?item.cityName:'',                 //市
-            districtName: item.districtName?item.districtName:'',     //区
-            markers: item.markers                                     //坐标
+            districtName: item.districtName?item.districtName:''      //区
           }
         })
-        this.setData({
-          num: this.data.num += res.total,
-          mumList: this.data.mumList.concat(list)
-        })
+        if(this.data.total == 0){
+          this.setData({
+            markers: newMarkersList,               //标记
+            total: res.total,                  //总数
+            mumList: newMarkersList,                //列表
+          })
+        }else{
+          this.setData({
+            markers: newMarkersList,               //标记
+            mumList: newMarkersList,                //列表
+          })
+        }
+        
+        // if(this.data.markers.length < res.val.total){
+        //   this.setData({
+        //     pageIndex: this.data.pageIndex += 1,             //当前页
+        //   })
+        //   this.getCyPro();                                  //6找创业平台统计
+        // }
       }
     },(err:any)=>{
       console.log(err);
@@ -574,8 +739,13 @@ Page({
       this.setData({  //全部
         ptBtnClass: e.target.dataset.num,
         ptBtnShow: false,          //高级搜索
-        num: 0,                     //6找结果
-        mumList: [],                //6找列表
+        pageSize: 10,             //每页显示数量
+        pageIndex: 1,             //当前页
+        total: 0,                 //总条数
+        markers: [],              //标记总数
+        num: 0,                   //6找结果
+        mumList: [],              //6找列表
+        searchKey: '',            //关键字搜索
       })
       this.getAllPro();             //6找全部平台统计
     }else if(e.target.dataset.num == 2){
@@ -589,9 +759,15 @@ Page({
         ptIndex: 0,                 //当前索引
         ptIndustryId: null,         //选中的id
         ptCyTypeId: '',             //产业id
-        ptHyTypeId: '',               //行业id
-        num: 0,                    //6找结果
-        mumList: [],               //6找列表
+        ptHyTypeId: '',             //行业id
+
+        pageSize: 10,             //每页显示数量
+        pageIndex: 1,             //当前页
+        total: 0,                 //总条数
+        markers: [],              //标记总数
+        num: 0,                   //6找结果
+        mumList: [],              //6找列表
+        searchKey: '',            //关键字搜索
       })
       this.getCxPro();             //6找创新平台统计
       this.ptTypes();              //类型
@@ -610,9 +786,15 @@ Page({
         ptIndex: 0,                 //当前索引
         ptIndustryId: null,         //选中的id
         ptCyTypeId: '',             //产业id
-        ptHyTypeId: '',               //行业id
-        num: 0,                    //6找结果
-        mumList: [],               //6找列表
+        ptHyTypeId: '',             //行业id
+
+        pageSize: 10,             //每页显示数量
+        pageIndex: 1,             //当前页
+        total: 0,                 //总条数
+        markers: [],              //标记总数
+        num: 0,                   //6找结果
+        mumList: [],              //6找列表
+        searchKey: '',            //关键字搜索
       })
       this.getCyPro();             //6找创业平台统计
       this.ptTypes();              //类型
@@ -646,7 +828,7 @@ Page({
   ptZiZhiFn(e:any):void{  //平台资质触发
     this.setData({
       ptZiZhiClass: e.target.dataset.id,
-      ptTypeId: e.target.dataset.title
+      ptZiZhi: e.target.dataset.title
     })
   },
 
@@ -704,25 +886,10 @@ Page({
 
   //找项目
   xmFn():void{  //找项目
+    this.hideFn();             //需要隐藏的元素
     this.setData({
-      num: 0,                    //6找结果
-      mumList: [],               //6找列表
-      searchKey: '',             //关键字搜索
-
-      isListShow: false,         //默认显示6找内容
-      isInfoShow: false,         //单条信息显示
       isSearchShow: true,        //搜索结果数据
-      isSearchInfoShow: false,   //搜索列表数据
-
-      ptSearchInfoShow: false,   //平台全部按钮
-      ptBtnShow: false,          //平台高级搜索
-      zjSearchInfoShow: false,   //资金全部按钮
-      jrSearchInfoShow: false,   //找资金（金融服务）
-      tzSearchInfoShow: false,   //找资金（找投资）
-      rzSearchInfoShow: false,   //找资金（找融资）
       proSearchInfoShow: true,   //项目高级搜索
-      cdSearchInfoShow: false,   //场地高级搜索
-      fwSearchInfoShow: false,   //服务高级搜索
     })
     this.getProList();           //6找项目统计
     this.xmStage();              //所处阶段
@@ -731,31 +898,64 @@ Page({
     this.industry();             //产业、行业
   },
   getProList():void{               //6找项目统计
+
     https.successRequest(api.findPro, {
-      tenantId: this.data.tenantId,         //地区id
+      tenantId: api.areaId,                 //地区id
       key: this.data.searchKey,             //关键字搜索
+      pageSize: this.data.pageSize,         //每页显示数量
+      pageIndex: this.data.pageIndex,       //页数
+      proNeedtype: this.data.xmStageId,     //所处阶段
       needTypes: this.data.xmTypeId,        //需求类别
       tzMoney: this.data.xmTzMoney,         //融资金额
       cyTypeId: this.data.xmCyTypeId,       //产业id
       hyTypeId: this.data.xmHyTypeId        //行业id
     }, 'GET').then((res:any):void=>{
       if(res){
-        let list:any = res.list.map((item:any):any=>{
+        let newMarkersList:any = res.list.map((item:any, index:number):any=>{
           return {
-            id: item.id,                          //ID
-            longitude: item.longitude,            //中心经度
-            latitude: item.latitude,              //中心纬度
-            title: item.proName,                  //标题
+            id: index,                                   //map用的自定义ID
+            longitude: item.lng,                         //经度
+            latitude: item.lat,                          //纬度
+            iconPath: '../../images/xm.png',             //标记
+            width: 27,
+            height: 35,
+            callout: {
+              content: item.proName?item.proName:'未填报',
+              color: '#000',
+              fontSize: 18,
+              bgColor: '#FFF',
+              padding: 5,
+              borderRadius: 4,
+              borderColor: '#CCC',
+              borderWidth: 1,
+              display: 'BYCLICK'
+            },
+            oldId: item.id,                                          //原始ID
+            title: item.proName?item.proName:'未填报',                  //标题
             provinceName: item.provinceName?item.provinceName:'',     //省
             cityName: item.cityName?item.cityName:'',                 //市
-            districtName: item.districtName?item.districtName:'',     //区
-            markers: item.markers                                     //坐标
+            districtName: item.districtName?item.districtName:''      //区
           }
         })
-        this.setData({
-          num: res.total,
-          mumList: list
-        })
+        if(this.data.total == 0){
+          this.setData({
+            markers: newMarkersList,               //标记
+            total: res.total,                      //总数
+            mumList: newMarkersList,                //列表
+          })
+        }else{
+          this.setData({
+            markers: newMarkersList,               //标记
+            mumList: newMarkersList,                //列表
+          })
+        }
+        
+        // if(this.data.markers.length < res.val.total){
+        //   this.setData({
+        //     pageIndex: this.data.pageIndex += 1,             //当前页
+        //   })
+        //   this.getCyPro();                                  //6找创业平台统计
+        // }
       }
     },(err:any)=>{
       console.log(err);
@@ -854,25 +1054,10 @@ Page({
 
   //找场地
   cdFn():void{  //找场地
+    this.hideFn();               //需要隐藏的元素
     this.setData({
-      num: 0,                    //6找结果
-      mumList: [],               //6找列表
-      searchKey: '',             //关键字搜索
-
-      isListShow: false,         //默认显示6找内容
-      isInfoShow: false,         //单条信息显示
-      isSearchShow: true,        //搜索结果数据
-      isSearchInfoShow: false,   //搜索列表数据
-
-      ptSearchInfoShow: false,   //平台全部按钮
-      ptBtnShow: false,          //平台高级搜索
-      zjSearchInfoShow: false,   //资金全部按钮
-      jrSearchInfoShow: false,   //找资金（金融服务）
-      tzSearchInfoShow: false,   //找资金（找投资）
-      rzSearchInfoShow: false,   //找资金（找融资）
-      proSearchInfoShow: false,  //项目高级搜索
-      cdSearchInfoShow: true,   //场地高级搜索
-      fwSearchInfoShow: false,    //服务高级搜索
+      isSearchShow: true,          //搜索结果数据
+      cdSearchInfoShow: true,      //场地高级搜索
     })
     this.getSiteList();            //6找场地统计
 
@@ -881,9 +1066,10 @@ Page({
   },
   getSiteList():void{               //6找场地统计
     https.successRequest(api.cyPlatform, {
-      tenantId: this.data.tenantId,         //地区id
+      tenantId: api.areaId,                 //地区id
       key: this.data.searchKey,             //关键字搜索
-      
+      pageSize: this.data.pageSize,         //每页显示数量
+      pageIndex: this.data.pageIndex,       //页数
       ztTypeId: this.data.cdTypeId,         //载体空间类型
       isChuZu: this.data.cdChuZuId,          //是否出租
       isSale: this.data.cdSaleId,           //是否出售
@@ -891,22 +1077,51 @@ Page({
       hyTypeId: this.data.cdHyTypeId        //行业id
     }, 'GET').then((res:any):void=>{
       if(res){
-        let list:any = res.list.map((item:any):any=>{
+        let newMarkersList:any = res.list.map((item:any, index:number):any=>{
           return {
-            id: item.id,                          //ID
-            longitude: item.longitude,            //中心经度
-            latitude: item.latitude,              //中心纬度
-            title: item.qyName   ,                //标题
+            id: index,                                   //map用的自定义ID
+            longitude: item.lng,                         //经度
+            latitude: item.lat,                          //纬度
+            iconPath: '../../images/cd.png',             //标记
+            width: 27,
+            height: 35,
+            callout: {
+              content: item.cyztName?item.cyztName:'未填报',
+              color: '#000',
+              fontSize: 18,
+              bgColor: '#FFF',
+              padding: 5,
+              borderRadius: 4,
+              borderColor: '#CCC',
+              borderWidth: 1,
+              display: 'BYCLICK'
+            },
+            oldId: item.id,                                          //原始ID
+            title: item.cyztName?item.cyztName:'未填报',                  //标题
             provinceName: item.provinceName?item.provinceName:'',     //省
             cityName: item.cityName?item.cityName:'',                 //市
-            districtName: item.districtName?item.districtName:'',     //区
-            markers: item.markers                                     //坐标
+            districtName: item.districtName?item.districtName:''      //区
           }
         })
-        this.setData({
-          num: res.total,
-          mumList: list
-        })
+        if(this.data.total == 0){
+          this.setData({
+            markers: newMarkersList,               //标记
+            total: res.total,                      //总数
+            mumList: newMarkersList,                //列表
+          })
+        }else{
+          this.setData({
+            markers: newMarkersList,               //标记
+            mumList: newMarkersList,                //列表
+          })
+        }
+        
+        // if(this.data.markers.length < res.val.total){
+        //   this.setData({
+        //     pageIndex: this.data.pageIndex += 1,             //当前页
+        //   })
+        //   this.getCyPro();                                  //6找创业平台统计
+        // }
       }
     },(err:any)=>{
       console.log(err);
@@ -999,24 +1214,9 @@ Page({
 
   //找服务
   fwFn():void{
+    this.hideFn();               //需要隐藏的元素
     this.setData({
-      num: 0,                    //6找结果
-      mumList: [],               //6找列表
-      searchKey: '',             //关键字搜索
-
-      isListShow: false,         //默认显示6找内容
-      isInfoShow: false,         //单条信息显示
       isSearchShow: true,        //搜索结果数据
-      isSearchInfoShow: false,   //搜索列表数据
-
-      ptSearchInfoShow: false,   //平台全部按钮
-      ptBtnShow: false,          //平台高级搜索
-      zjSearchInfoShow: false,   //资金全部按钮
-      jrSearchInfoShow: false,   //找资金（金融服务）
-      tzSearchInfoShow: false,   //找资金（找投资）
-      rzSearchInfoShow: false,   //找资金（找融资）
-      proSearchInfoShow: false,  //项目高级搜索
-      cdSearchInfoShow: false,   //场地高级搜索
       fwSearchInfoShow: true,    //服务高级搜索
     })
     this.getServiceList();       //6找服务统计
@@ -1027,9 +1227,10 @@ Page({
   },
   getServiceList():void{         //6找服务统计
     https.successRequest(api.findFw, {
-      tenantId: this.data.tenantId,         //地区id
+      tenantId: api.areaId,                 //地区id
       key: this.data.searchKey,             //关键字搜索
-      
+      pageSize: this.data.pageSize,         //每页显示数量
+      pageIndex: this.data.pageIndex,       //页数
       typeOneId: this.data.fwTypeOneId,     //服务类别一级菜单
       typeTwoId: this.data.fwTypeTwoId,     //服务类别二级菜单
       dwStatusId: this.data.fwDwStatusId,   //单位类型id
@@ -1038,22 +1239,51 @@ Page({
       hyTypeId: this.data.fwHyTypeId        //行业id
     }, 'GET').then((res:any):void=>{
       if(res){
-        let list:any = res.list.map((item:any):any=>{
+        let newMarkersList:any = res.list.map((item:any, index:number):any=>{
           return {
-            id: item.id,                          //ID
-            longitude: item.longitude,            //中心经度
-            latitude: item.latitude,              //中心纬度
-            title: item.proName,                  //标题
+            id: index,                                   //map用的自定义ID
+            longitude: item.lng,                         //经度
+            latitude: item.lat,                          //纬度
+            iconPath: '../../images/fw.png',             //标记
+            width: 27,
+            height: 35,
+            callout: {
+              content: item.qyName?item.qyName:'未填报',
+              color: '#000',
+              fontSize: 18,
+              bgColor: '#FFF',
+              padding: 5,
+              borderRadius: 4,
+              borderColor: '#CCC',
+              borderWidth: 1,
+              display: 'BYCLICK'
+            },
+            oldId: item.id,                                          //原始ID
+            title: item.qyName?item.qyName:'未填报',                  //标题
             provinceName: item.provinceName?item.provinceName:'',     //省
             cityName: item.cityName?item.cityName:'',                 //市
-            districtName: item.districtName?item.districtName:'',     //区
-            markers: item.markers                                     //坐标
+            districtName: item.districtName?item.districtName:''      //区
           }
         })
-        this.setData({
-          num: res.total,
-          mumList: list
-        })
+        if(this.data.total == 0){
+          this.setData({
+            markers: newMarkersList,               //标记
+            total: res.total,                      //总数
+            mumList: newMarkersList,                //列表
+          })
+        }else{
+          this.setData({
+            markers: newMarkersList,               //标记
+            mumList: newMarkersList,                //列表
+          })
+        }
+        
+        // if(this.data.markers.length < res.val.total){
+        //   this.setData({
+        //     pageIndex: this.data.pageIndex += 1,             //当前页
+        //   })
+        //   this.getCyPro();                                  //6找创业平台统计
+        // }
       }
     },(err:any)=>{
       console.log(err);
@@ -1120,7 +1350,7 @@ Page({
         num: 0,                    //6找结果
         mumList: [],               //6找列表
       })
-      this.selectComponent('#fwType').toggle(false);        //单位类型关闭
+      this.selectComponent('#fwTypeId').toggle(false);        //单位类型关闭
     }else if(flag == 3){  //单位规模
       this.setData({
         fwScaleClass: null,
@@ -1165,95 +1395,164 @@ Page({
 
   //找资金
   zjFn():void{
+    this.hideFn();               //需要隐藏的元素
     this.setData({
-      num: 0,                    //6找结果
-      mumList: [],               //6找列表
-      searchKey: '',             //关键字搜索
-
-      isListShow: false,         //默认显示6找内容
-      isInfoShow: false,         //单条信息显示
       isSearchShow: true,        //搜索结果数据
-      isSearchInfoShow: false,   //搜索列表数据
-
-      ptSearchInfoShow: false,   //平台全部按钮
-      ptBtnShow: false,          //平台高级搜索
       zjSearchInfoShow: true,    //资金全部按钮
-      jrSearchInfoShow: false,   //找资金（金融服务）
-      tzSearchInfoShow: false,   //找资金（找投资）
-      rzSearchInfoShow: false,   //找资金（找融资）
-
-      proSearchInfoShow: false,  //项目高级搜索
-      cdSearchInfoShow: false,   //场地高级搜索
-      fwSearchInfoShow: false,   //服务高级搜索
     })
     this.getAllFundsList();       //6找服务统计
   },
   getAllFundsList(){  //找资金（全部）
     https.successRequest(api.allFund, {
-      tenantId: this.data.tenantId,         //地区id
+      tenantId: api.areaId,                 //地区id
       key: this.data.searchKey,             //关键字搜索
+      pageSize: this.data.pageSize,         //每页显示数量
+      pageIndex: this.data.pageIndex,       //页数
     }, 'GET').then((res:any):void=>{
       if(res){
         //金融
-        let jrjgMdoelsList:any =  res.val.jrjgMdoels.map((item:any):any=>{
+        let jrjgMdoelsList:any = res.val.jrjgMdoels.map((item:any):any=>{
           return {
-            id: item.id,                          //ID
-            longitude: item.longitude,            //中心经度
-            latitude: item.latitude,              //中心纬度
+            id: item.id,
+            longitude: item.lng,   //经度
+            latitude: item.lat,    //纬度
+            iconPath: '../../images/zj.png',             //标记
+            width: 27,
+            height: 35,
+            callout: {
+              content: item.qyName?item.qyName:'未填报',
+              color: '#000',
+              fontSize: 14,
+              bgColor: '#FFF',
+              padding: 5,
+              borderRadius: 4,
+              borderColor: '#CCC',
+              borderWidth: 1,
+              display: 'BYCLICK'
+            },
             title: item.qyName,                   //标题
             provinceName: item.provinceName?item.provinceName:'',     //省
             cityName: item.cityName?item.cityName:'',                 //市
-            districtName: item.districtName?item.districtName:'',     //区
-            markers: item.markers                                     //坐标
+            districtName: item.districtName?item.districtName:''      //区
           }
         });
-  
+        
         //投资
         let tzModelsList:any = res.val.tzModels.map((item:any):any=>{
           return {
-            id: item.id,                          //ID
-            longitude: item.longitude,            //中心经度
-            latitude: item.latitude,              //中心纬度
-            title: item.needName,                  //标题
+            id: item.id,
+            longitude: item.lng,   //经度
+            latitude: item.lat,    //纬度
+            iconPath: '../../images/tz.png',             //标记
+            width: 27,
+            height: 35,
+            callout: {
+              content: item.needName?item.needName:'未填报',
+              color: '#000',
+              fontSize: 14,
+              bgColor: '#FFF',
+              padding: 5,
+              borderRadius: 4,
+              borderColor: '#CCC',
+              borderWidth: 1,
+              display: 'BYCLICK'
+            },
+            title: item.needName,                   //标题
             provinceName: item.provinceName?item.provinceName:'',     //省
             cityName: item.cityName?item.cityName:'',                 //市
-            districtName: item.districtName?item.districtName:'',     //区
-            markers: item.markers                                     //坐标
+            districtName: item.districtName?item.districtName:''      //区
           }
         });
 
         //融资（需求）
-        let rongziNeedsList:any =  res.val.rongziNeeds.map((item:any):any=>{
+        let rongziNeedsList:any = res.val.rongziNeeds.map((item:any):any=>{
           return {
-            id: item.id,                          //ID
-            longitude: item.longitude,            //中心经度
-            latitude: item.latitude,              //中心纬度
-            title: item.needName,                  //标题
+            id: item.id,
+            longitude: item.lng,   //经度
+            latitude: item.lat,    //纬度
+            iconPath: '../../images/rz.png',             //标记
+            width: 27,
+            height: 35,
+            callout: {
+              content: item.needName?item.needName:'未填报',
+              color: '#000',
+              fontSize: 14,
+              bgColor: '#FFF',
+              padding: 5,
+              borderRadius: 4,
+              borderColor: '#CCC',
+              borderWidth: 1,
+              display: 'BYCLICK'
+            },
+            title: item.needName,                   //标题
             provinceName: item.provinceName?item.provinceName:'',     //省
             cityName: item.cityName?item.cityName:'',                 //市
-            districtName: item.districtName?item.districtName:'',     //区
-            markers: item.markers                                     //坐标
+            districtName: item.districtName?item.districtName:''      //区
           }
         });
-
         //融资（项目）
-        let rongziProsList:any =  res.val.rongziPros.map((item:any):any=>{
+        let rongziProsList:any = res.val.rongziPros.map((item:any):any=>{
           return {
-            id: item.id,                          //ID
-            longitude: item.longitude,            //中心经度
-            latitude: item.latitude,              //中心纬度
-            title: item.proName,                  //标题
+            id: item.id,
+            longitude: item.lng,   //经度
+            latitude: item.lat,    //纬度
+            iconPath: '../../images/xm.png',             //标记
+            width: 27,
+            height: 35,
+            callout: {
+              content: item.proName?item.proName:'未填报',
+              color: '#000',
+              fontSize: 14,
+              bgColor: '#FFF',
+              padding: 5,
+              borderRadius: 4,
+              borderColor: '#CCC',
+              borderWidth: 1,
+              display: 'BYCLICK'
+            },
+            title: item.proName,                   //标题
             provinceName: item.provinceName?item.provinceName:'',     //省
             cityName: item.cityName?item.cityName:'',                 //市
-            districtName: item.districtName?item.districtName:'',     //区
-            markers: item.markers                                     //坐标
+            districtName: item.districtName?item.districtName:''      //区
           }
         });
-        let list:any = jrjgMdoelsList.concat(tzModelsList, rongziNeedsList, rongziProsList);
-        this.setData({
-          num: res.val.total,
-          mumList: list
-        })
+        //处理ID为数字
+        let list:any  = this.data.markers.concat(jrjgMdoelsList, tzModelsList, rongziNeedsList, rongziProsList);
+        let newMarkersList:any = list.map((item:any, index:number):any=>{
+          return {
+            id: index,                   //map用的自定义ID
+            longitude: item.longitude,   //经度
+            latitude: item.latitude,     //纬度
+            iconPath: item.iconPath,     //标记
+            width: 27,
+            height: 35,
+            callout: item.callout,
+            oldId: item.id,                      //原始ID
+            title: item.title,                   //标题
+            provinceName: item.provinceName,     //省
+            cityName: item.cityName,             //市
+            districtName: item.districtName      //区
+          }
+        });
+        if(this.data.total == 0){
+          this.setData({
+            markers: newMarkersList,               //标记
+            total: res.val.total,                  //总数
+            mumList: newMarkersList,                //列表
+          })
+        }else{
+          this.setData({
+            markers: newMarkersList,               //标记
+            mumList: newMarkersList,                //列表
+          })
+        }
+        
+        // if(this.data.markers.length < res.val.total){
+        //   this.setData({
+        //     pageIndex: this.data.pageIndex += 1,             //当前页
+        //   })
+        //   this.getAllPro();                                  //6找全部平台统计
+        // }
       }
     },(err:any)=>{
       console.log(err);
@@ -1323,9 +1622,10 @@ Page({
   //找资金（金融服务）
   getJrList(){  //找资金（金融）
     https.successRequest(api.jinrong, {
-      tenantId: this.data.tenantId,         //地区id
+      tenantId: api.areaId,                 //地区id
       key: this.data.searchKey,             //关键字搜索
-
+      pageSize: this.data.pageSize,         //每页显示数量
+      pageIndex: this.data.pageIndex,       //页数
       typeOneId: this.data.jrTypeOneId,     //服务类别一级菜单
       typeTwoId: this.data.jrTypeTwoId,     //服务类别二级菜单
       dwStatusId: this.data.jrDwStatusId,   //单位类型id
@@ -1742,16 +2042,15 @@ Page({
 
   //路线导航
   navigation(e:any):void{
-    if(!!e.currentTarget.dataset.markers){  //处理6找列表导航
+    if(!!e.currentTarget.dataset.longitude){  //处理6找列表导航
       let title:string = e.currentTarget.dataset.title;
-      let markers:any = JSON.parse(e.currentTarget.dataset.markers)[0].position;
-      if(markers.length > 0){
-        this.setData({
-          goName: title,
-          goLongitude: markers[0].lng,
-          goLatitude: markers[0].lat
-       })
-      }
+      let longitude:any = e.currentTarget.dataset.longitude;
+      let latitude:any = e.currentTarget.dataset.latitude;
+      this.setData({
+        goName: title,
+        goLongitude: longitude,
+        goLatitude: latitude
+     })
     }
 
     let endPoint:any = JSON.stringify({  //终点
@@ -1818,7 +2117,38 @@ Page({
   verification():void{
     let token:string = wx.getStorageSync('token');
     if(!!token){
-      this.getMark();  //获取地图标点
+      //切换区的操作
+      if(api.areaName){
+        this.setData({
+          pageSize: 10,               //每页显示数量
+          pageIndex: 1,               //当前页
+          total: 0,                   //总条数
+          markers: [],                //清空
+
+          areaName: api.areaName,
+          areaId: api.areaId,
+          longitude: api.longitude,    //中心经度
+          latitude: api.latitude       //中心纬度
+        })
+        this.getMark();               //获取地图标点
+      }else{
+        //第一次进入获取当前位置
+        wx.getLocation({
+          type: 'wgs84',
+          success:(res:any):void=>{
+            this.setData({
+              pageSize: 10,               //每页显示数量
+              pageIndex: 1,               //当前页
+              total: 0,                   //总条数
+              markers: [],                //清空
+
+              longitude: res.longitude,    //中心经度
+              latitude: res.latitude       //中心纬度 
+            })
+            this.getAreaList();               //获取青岛所有区
+          }
+        });
+      }
     }else{
       Dialog.alert({
         message: '登录后才能查看地图！',
@@ -1832,8 +2162,11 @@ Page({
 
   //获取地图标点
   getMark():void{
-    https.successRequest(api.all, null, 'GET')
-    .then((res:any):void=>{
+    https.successRequest(api.all,{
+      tenantId: api.areaId,                     //区ID
+      pageSize: this.data.pageSize,             //每页显示数量
+      pageIndex: this.data.pageIndex,           //页数
+    }, 'GET').then((res:any):void=>{
       if(res){
         //创新平台
         let cxPlatformModelsList:any = res.val.cxPlatformModels.map((item:any):any=>{
@@ -1841,9 +2174,9 @@ Page({
             id: item.id,
             longitude: item.lng,   //经度
             latitude: item.lat,    //纬度
-            iconPath: '../../images/address.png',             //标记
-            width: 30,
-            height: 30,
+            iconPath: '../../images/cx.png',             //标记
+            width: 27,
+            height: 35,
             callout: {
               content: item.ptName,
               color: '#000',
@@ -1866,9 +2199,9 @@ Page({
             id: item.id,
             longitude: item.lng,   //经度
             latitude: item.lat,    //纬度
-            iconPath: '../../images/address.png',             //标记
-            width: 30,
-            height: 30,
+            iconPath: '../../images/cy.png',             //标记
+            width: 27,
+            height: 35,
             callout: {
               content: item.cyName,
               color: '#000',
@@ -1891,9 +2224,9 @@ Page({
             id: item.id,
             longitude: item.lng,   //经度
             latitude: item.lat,    //纬度
-            iconPath: '../../images/address.png',             //标记
-            width: 30,
-            height: 30,
+            iconPath: '../../images/xm.png',             //标记
+            width: 27,
+            height: 35,
             callout: {
               content: item.proName,
               color: '#000',
@@ -1917,9 +2250,9 @@ Page({
             id: item.id,
             longitude: item.lng,   //经度
             latitude: item.lat,    //纬度
-            iconPath: '../../images/address.png',             //标记
-            width: 30,
-            height: 30,
+            iconPath: '../../images/fw.png',             //标记
+            width: 27,
+            height: 35,
             callout: {
               content: item.qyName ,
               color: '#000',
@@ -1942,9 +2275,9 @@ Page({
             id: item.id,
             longitude: item.lng,   //经度
             latitude: item.lat,    //纬度
-            iconPath: '../../images/address.png',             //标记
-            width: 30,
-            height: 30,
+            iconPath: '../../images/cd.png',             //标记
+            width: 27,
+            height: 35,
             callout: {
               content: item.cyztName  ,
               color: '#000',
@@ -1967,9 +2300,9 @@ Page({
             id: item.id,
             longitude: item.lng,   //经度
             latitude: item.lat,    //纬度
-            iconPath: '../../images/address.png',             //标记
-            width: 30,
-            height: 30,
+            iconPath: '../../images/zj.png',             //标记
+            width: 27,
+            height: 35,
             callout: {
               content: item.qyName,
               color: '#000',
@@ -1992,9 +2325,9 @@ Page({
             id: item.id,
             longitude: item.lng,   //经度
             latitude: item.lat,    //纬度
-            iconPath: '../../images/address.png',             //标记
-            width: 30,
-            height: 30,
+            iconPath: '../../images/tz.png',             //标记
+            width: 27,
+            height: 35,
             callout: {
               content: item.needName   ,
               color: '#000',
@@ -2017,9 +2350,9 @@ Page({
             id: item.id,
             longitude: item.lng,   //经度
             latitude: item.lat,    //纬度
-            iconPath: '../../images/address.png',             //标记
-            width: 30,
-            height: 30,
+            iconPath: '../../images/rz.png',             //标记
+            width: 27,
+            height: 35,
             callout: {
               content: item.proName ,
               color: '#000',
@@ -2042,9 +2375,9 @@ Page({
             id: item.id,
             longitude: item.lng,   //经度
             latitude: item.lat,    //纬度
-            iconPath: '../../images/address.png',             //标记
-            width: 30,
-            height: 30,
+            iconPath: '../../images/rz.png',             //标记
+            width: 27,
+            height: 35,
             callout: {
               content: item.needName,
               color: '#000',
@@ -2068,9 +2401,9 @@ Page({
             id: index,                   //map用的自定义ID
             longitude: item.longitude,   //经度
             latitude: item.latitude,     //纬度
-            iconPath: '../../images/address.png',      //标记
-            width: 30,
-            height: 30,
+            iconPath: item.iconPath,     //标记
+            width: 27,
+            height: 35,
             callout: item.callout,
             oldId: item.id,                      //原始ID
             title: item.callout.content,         //标题
@@ -2079,26 +2412,172 @@ Page({
             districtName: item.districtName      //区
           }
         });
-        this.setData({
-          markers: newMarkersList
-        })
+        if(this.data.total == 0){
+          this.setData({
+            markers: newMarkersList,
+            total: res.val.total         //总数
+          })
+        }else{
+          this.setData({
+            markers: newMarkersList
+          })
+        }
+        
+        // if(this.data.markers.length < res.val.total){
+        //   this.setData({
+        //     pageIndex: this.data.pageIndex += 1,             //当前页
+        //   })
+        //   this.getMark();     //获取地图标点
+        // }
       }
     },(err:any)=>{
       console.log(err);
     });
   },
 
+  //获取市区
+  getAreaList():void{
+    https.successRequest(api.tenants, null, 'GET').then((res:any):void=>{
+      if(res){
+        let list:any = res.list.map((item:any):any=>{
+          return {
+            id: item.model.id,
+            title: item.model.cname
+          }
+        })
+        let newList:any = [];
+        list.forEach((item:any):void=>{
+          if(item.title == '李沧区'){
+            newList.push({
+              id: item.id,
+              title: item.title,
+              longitude: '120.439601',      //中心经度
+              latitude: '36.151586',        //中心纬度
+            })
+          }
+          if(item.title == '市北区'){
+            newList.push({
+              id: item.id,
+              title: item.title,
+              longitude: '120.380385',          //中心经度
+              latitude: '36.093512',            //中心纬度
+            })
+          }
+          if(item.title == '西海岸新区'){
+            newList.push({
+              id: item.id,
+              title: item.title,
+              longitude: '120.20446',          //中心经度
+              latitude: '35.966251',           //中心纬度
+            })
+          }
+          if(item.title == '市南区'){
+            newList.push({
+              id: item.id,
+              title: item.title,
+              longitude: '120.419487',         //中心经度
+              latitude: '36.080924',           //中心纬度
+            })
+          }
+          if(item.title == '崂山区'){
+            newList.push({
+              id: item.id,
+              title: item.title,
+              longitude: '120.475533',         //中心经度
+              latitude: '36.113575',           //中心纬度
+            })
+          }
+          if(item.title == '城阳区'){
+            newList.push({
+              id: item.id,
+              title: item.title,
+              longitude: '120.403094',         //中心经度
+              latitude: '36.312985',           //中心纬度
+            })
+          }
+          if(item.title == '即墨区'){
+            newList.push({
+              id: item.id,
+              title: item.title,
+              longitude: '120.453974',         //中心经度
+              latitude: '36.395534',           //中心纬度
+            })
+          }
+          if(item.title == '胶州市'){
+            newList.push({
+              id: item.id,
+              title: item.title,
+              longitude: '120.039172',          //中心经度
+              latitude: '36.270863',            //中心纬度
+            })
+          }
+          if(item.title == '平度市'){
+            newList.push({
+              id: item.id,
+              title: item.title,
+              longitude: '119.993754',          //中心经度
+              latitude: '36.782908',           //中心纬度
+            })
+          }
+          if(item.title == '莱西市'){
+            newList.push({
+              id: item.id,
+              title: item.title,
+              longitude: '120.526126',          //中心经度
+              latitude: '36.894743',           //中心纬度
+            })
+          }
+          if(item.title == '高新区'){
+            newList.push({
+              id: item.id,
+              title: item.title,
+              longitude: '120.284476',          //中心经度
+              latitude: '36.272367',           //中心纬度
+            })
+          }
+          if(item.title == '青岛蓝谷'){
+            newList.push({
+              id: item.id,
+              title: item.title,
+              longitude: '120.683445',          //中心经度
+              latitude: '36.353411',           //中心纬度
+            })
+          }
+        })
+        this.setData({
+          areaList: newList
+        })
+        this.getArea();         //获取当前位置所在区
+      }
+    },(err:any)=>{
+    console.log(err);
+    });
+  },
+
   getArea():void{  //获取当前位置所在区
     let qqmapsdk:any = new QQMapWX({
       key: api.mapApiKey
-    });
+    })
     qqmapsdk.reverseGeocoder({
-      location: this.data.latitude + ',' +this.data.longitude,
+      location: this.data.latitude + ',' + this.data.longitude,
       success:(res:any):void=>{
-        console.log(res);
-        this.setData({
-          longitude: '120.54987',    //中心经度
-          latitude: '36.411443'       //中心纬度
+        let areaName:string = res.result.address_component.district;
+        this.data.areaList.forEach((item:any)=>{
+          if(item.title == areaName){
+            //全局变量
+            api.areaName = areaName;   //区名
+            api.areaId = item.id;      //区ID
+            api.longitude = item.longitude,    //中心经度
+            api.latitude = item.latitude       //中心纬度
+            //当前页变量（切换地图显示区域）
+            this.setData({
+              areaName: api.areaName,
+              areaId: api.areaId,
+              longitude: api.longitude,    //中心经度
+              latitude: api.latitude       //中心纬度
+            });
+            this.getMark();  //获取地图标点
+          }
         })
       }
     })
@@ -2111,27 +2590,11 @@ Page({
     wx.setNavigationBarTitle({     
       title: "人才创新创业平台地图"
     });
-    //当前位置
-    wx.getLocation({
-      type: 'wgs84',
-      success:(res:any):void=>{
-        this.setData({
-          longitude: res.longitude,    //中心经度
-          latitude: res.latitude       //中心纬度
-        })  
-        this.getArea();     //逆解析当前位置所在的区
-      }
-    });
-    
   },
 
   //页面显示
   onShow(){
     this.verification();  //验证用户登录状态
-    this.setData({  //切换区
-      areaName: api.areaName,
-      areaId: api.areaId
-    })
   },
 
   //页面渲染完成
@@ -2139,6 +2602,10 @@ Page({
 
   //页面隐藏
   onHide(){
+    api.areaName = '';      //清空全局位置名称
+    api.areaId = '';        //清空全局位置ID
+    api.longitude = '';     //中心经度
+    api.latitude = '';      //中心纬度
     this.setData({
       isListShow: true,          //默认显示6找内容
       isInfoShow: false,         //单条信息显示
