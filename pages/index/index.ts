@@ -77,6 +77,7 @@ Page({
   ptFn():void{
     let token:string = wx.getStorageSync('token');
     if(!!token){
+      api.indexFlag = 'pt';
       wx.switchTab({
         url: '../map/map'
       })
@@ -103,7 +104,10 @@ Page({
   xmFn():void{
     let token:string = wx.getStorageSync('token');
     if(!!token){
-      
+      api.indexFlag = 'xm';
+      wx.switchTab({
+        url: '../map/map'
+      })
     }else{
       wx.navigateTo({
         url: '../loginForm/loginForm'
@@ -115,7 +119,10 @@ Page({
   zjFn():void{
     let token:string = wx.getStorageSync('token');
     if(!!token){
-      
+      api.indexFlag = 'zj';
+      wx.switchTab({
+        url: '../map/map'
+      })
     }else{
       wx.navigateTo({
         url: '../loginForm/loginForm'
@@ -127,7 +134,10 @@ Page({
   cdFn():void{
     let token:string = wx.getStorageSync('token');
     if(!!token){
-      
+      api.indexFlag = 'cd';
+      wx.switchTab({
+        url: '../map/map'
+      })
     }else{
       wx.navigateTo({
         url: '../loginForm/loginForm'
@@ -139,7 +149,10 @@ Page({
   fwFn():void{
     let token:string = wx.getStorageSync('token');
     if(!!token){
-      
+      api.indexFlag = 'fw';
+      wx.switchTab({
+        url: '../map/map'
+      })
     }else{
       wx.navigateTo({
         url: '../loginForm/loginForm'
@@ -151,7 +164,9 @@ Page({
   mapFn():void{
     let token:string = wx.getStorageSync('token');
     if(!!token){
-      
+      wx.switchTab({ 
+        url:'../map/map'
+      });
     }else{
       wx.navigateTo({
         url: '../loginForm/loginForm'
@@ -204,5 +219,7 @@ Page({
 
   //页面关闭
   onUnload(){},
+
+
 })
 export {};

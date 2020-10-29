@@ -2,20 +2,27 @@
 App<any>({
   //全局变量
   globalData: {
+    indexFlag: '',               //首页6找判断
+
     areaId: '',                  //位置区ID
     areaName: '',                //位置区名称
     longitude: '',               //中心经度(终点)
     latitude: '',                //中心纬度(终点)
     
-    mapApiKey: 'AWYBZ-C3IWO-5TIWD-SEPVW-KQMOF-RXBAV',                           //使用在腾讯位置服务申请的key
-    imgUrl: 'http://files.eyunhan.com/eweb_upload/download/getPic?filePath=',   //图片服务器
-    url: 'http://lu.eyunhan.com/sit-rencai-api',                              //服务器（测试）
+    //mapApiKey: 'AWYBZ-C3IWO-5TIWD-SEPVW-KQMOF-RXBAV',                          //使用在腾讯位置服务申请的key
+    mapApiKey: 'AWYBZ-C3IWO-5TIWD-SEPVW-KQMOF-RXBAV',                            //使用在腾讯位置服务申请的key
+    imgUrl: 'http://files.eyunhan.com/eweb_upload/download/getPic?filePath=',    //图片服务器
+    url: 'http://lu.eyunhan.com/sit-rencai-api',                                 //服务器（测试）
     //url: 'http://rc.qdcsdn.cn/sit-rencai-api',                                  //服务器（正式）
+
     login: '/web/login',                           //登录接口
     curUser: '/web/curUser',                       //获取当前登录用户信息
     count: '/website/count',                       //统计12条信息
     submenuDic: '/dic/submenuDic',                 //高级搜索字典表
     circle: '/website/circle',                     //平台动态
+    notice: '/website/notice',                     //通知公告
+    activity: '/website/activity',                 //活动信息
+    
     all: '/web/cyPlat/all',                        //全部数据（六找地图首页）
     tenants: '/web/platformMap/tenants',           //获取区
     allDetail: '/web/cyPlat/allDetail',            //六找中通过id查看详情

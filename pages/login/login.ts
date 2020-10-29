@@ -6,36 +6,24 @@ let Toast = require('../../miniprogram_npm/@vant/weapp/toast/toast.js').default;
 Page({
   //页面数据
   data: {
-    // footerActive: 2,
-    // icon: {
-    //   normal: 'https://img.yzcdn.cn/vant/user-inactive.png',
-    //   active: 'https://img.yzcdn.cn/vant/user-active.png',
-    // }
+    loginInfo: '',          //登录名
     loginBtn: '',           //登录 / 退出按钮
   },
 
   //个人信息
-  showPopup():void {
-    
+  loginInfoFn():void {
+    // wx.navigateTo({
+    //   url:'../loginInfo/loginInfo'
+    // })
   },
 
-  //底部菜单
-  // onFooterChange(event:any):void {
-  //   this.setData({ active: event.detail });
-  //   if(event.detail == 1){
-  //     wx.navigateTo({
-  //       url:'../map/map'
-  //     })
-  //   }else if(event.detail == 2){
-  //     wx.navigateTo({
-  //       url:'../login/login'
-  //     })
-  //   }else{
-  //     wx.navigateTo({
-  //       url:'../index/index'
-  //     })
-  //   }
-  // },
+  //修改密码
+  changePassword():void{
+    // wx.navigateTo({
+    //   url:'../newPassword/newPassword'
+    // })
+  },
+
 
   //登录跳转或者退出登录
   loginFn():void{
@@ -43,7 +31,8 @@ Page({
       wx.clearStorage();  //清除缓存
       Toast('已退出登录');
       this.setData({
-        loginBtn: '登录'
+        loginBtn: '登录',
+        loginInfo: '未登录'
       })
     }else{
       wx.navigateTo({
@@ -72,17 +61,17 @@ Page({
         https.successRequest(api.curUser, null, 'get')
         .then((res:any):void=>{
           if(res){
-            console.log(res);
+            this.setData({
+              loginInfo: res.val.realName,
+              loginBtn: '退出登录'
+            })
           }
         },(err:any)=>{
           Toast(err);
         });
-        //---------
-        this.setData({
-          loginBtn: '退出登录'
-        })
       }else{
         this.setData({
+          loginInfo: '未登录',
           loginBtn: '登录'
         })
       }

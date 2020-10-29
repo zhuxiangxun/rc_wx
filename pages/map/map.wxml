@@ -474,7 +474,7 @@
       </view>
     </view>
     <!---->
-    <!-- <view class="searchInfo_content_more">下拉加载更多</view> -->
+    <!-- <view class="searchInfo_content_more">{{ moreTitle }}</view> -->
     <!---->
   </view>
 </view>

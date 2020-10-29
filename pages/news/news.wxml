@@ -1,17 +1,23 @@
 <!--news.wxml-->
 <view class="news">
-  <van-tabs active="dongtai" tab-active-class="custom-class">
+  <van-tabs active="dongtai" tab-active-class="custom-class" bind:click="tabFn">
       <!--平台动态-->
       <van-tab title="平台动态" name="dongtai">
-        <moving id="moving"></moving>
+        <scroll-view scroll-y="true" style="height: 100vh">
+          <moving id="moving"></moving>
+        </scroll-view>
       </van-tab>
       <!--通知公告-->
       <van-tab title="通知公告" name="gonggao">
-        <notice id="notice"></notice>
+        <scroll-view scroll-y="true" style="height: 100vh">
+          <notice id="notice"></notice>
+        </scroll-view>
       </van-tab>
       <!--活动信息-->
       <van-tab title="活动信息" name="huodong">
-        <activity id="activity"></activity>
+        <scroll-view scroll-y="true" style="height: 100vh">
+          <activity id="activity"></activity>
+        </scroll-view>
       </van-tab>
       <!---->
   </van-tabs>

@@ -8,6 +8,10 @@
     "pages/news/news",
     "pages/login/login",
     "pages/loginForm/loginForm",
+    "pages/loginInfo/loginInfo",
+    "pages/newPassword/newPassword",
+    
+    
     "pages/device/device",
     "pages/transaction/transaction",
     "pages/smallTalk/smallTalk",

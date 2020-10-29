@@ -14,6 +14,7 @@ Component({
    * 组件的初始数据
    */
   data: {
+    moreName: '',  //加载更多字段
     imgUrl: '',    //服务器
     listData:[],   //列表数据
     total: 0,      //总数
@@ -30,11 +31,20 @@ Component({
       let url:string = api.circle + '?ncolumnId=' + id + '&pageIndex=' + this.data.pageIndex + '&pageSize=' + this.data.pageSize;
       https.request(url, null, 'GET')
       .then((res:any):void=>{
-        this.setData({
-          imgUrl: api.imgUrl,
-          total: res.total,
-          listData: res.list
-        });
+        console.log(this.data.listData.length)
+        if(this.data.listData.length < res.total){
+          this.setData({
+            moreName: '下拉加载更多',
+            imgUrl: api.imgUrl,
+            total: res.total,
+            listData: this.data.listData.concat(res.list)
+          });
+        }else{
+          this.setData({
+            moreName: '已加载全部'
+          });
+        }
+        
       },(err:any)=>{
         console.log(err);
       });

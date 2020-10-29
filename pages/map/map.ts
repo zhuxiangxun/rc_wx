@@ -8,6 +8,7 @@ let QQMapWX = require('../../utils/qqmap-wx-jssdk.js');  // 引入SDK核心类
 Page({
   //页面数据
   data: {
+    moreTitle: '',            //加载更多
     //页码
     pageSize: 10,             //每页显示数量
     pageIndex: 1,             //当前页
@@ -460,6 +461,7 @@ Page({
   //搜索结果关闭
   searchClose():void{
     this.setData({
+      markers: [],               //清空
       num: 0,                    //6找结果
       mumList: [],               //6找列表
       isListShow: true,          //默认显示6找内容
@@ -512,7 +514,7 @@ Page({
   },
   getAllPro():void{               //6找全部平台统计
     https.successRequest(api.allPlatform, {
-      tenantId: api.areaId,     //地区id
+      tenantId: api.areaId,             //地区id
       key: this.data.searchKey,         //关键字搜索
       pageSize: this.data.pageSize,     //每页显示数量
       pageIndex: this.data.pageIndex,   //页数
@@ -2130,7 +2132,7 @@ Page({
           longitude: api.longitude,    //中心经度
           latitude: api.latitude       //中心纬度
         })
-        this.getMark();               //获取地图标点
+        //this.getMark();               //获取地图标点
       }else{
         //第一次进入获取当前位置
         wx.getLocation({
@@ -2576,7 +2578,19 @@ Page({
               longitude: api.longitude,    //中心经度
               latitude: api.latitude       //中心纬度
             });
-            this.getMark();  //获取地图标点
+            if(api.indexFlag == 'pt'){         //首页找平台进入
+              this.ptFn();
+            }else if(api.indexFlag == 'xm'){   //首页找政策进入
+              this.xmFn();
+            }else if(api.indexFlag == 'zj'){   //首页找资金进入
+              this.zjFn();
+            }else if(api.indexFlag == 'cd'){   //首页找场地进入
+              this.cdFn();
+            }else if(api.indexFlag == 'fw'){   //首页找服务进入
+              this.fwFn();
+            }else{                      
+              //this.getMark();  //获取地图标点
+            }
           }
         })
       }
@@ -2602,10 +2616,13 @@ Page({
 
   //页面隐藏
   onHide(){
+    api.indexFlag = '';     //首页6找判断
+
     api.areaName = '';      //清空全局位置名称
     api.areaId = '';        //清空全局位置ID
     api.longitude = '';     //中心经度
     api.latitude = '';      //中心纬度
+
     this.setData({
       isListShow: true,          //默认显示6找内容
       isInfoShow: false,         //单条信息显示
