@@ -62,11 +62,11 @@
 
 <!--单条查询信息-->
 <view class="content_info" wx:if="{{ isInfoShow  }}">
-  <view class="content_info_left" bindtap="mapDetail">
+  <view class="content_info_left">
     <view class="content_info_left_img">
       <van-image width="100%" height="100%"></van-image>
     </view>
-    <view class="content_info_left_info">
+    <view class="content_info_left_info" data-id="{{ item.oldId }}" data-name="{{ item.name }}" bindtap="mapDetail">
       <view class="content_info_left_info_title">{{ markersObj.title }}</view>
       <view class="content_info_left_info_adress">地址：{{ markersObj.provinceName + markersObj.cityName +  markersObj.districtName }}</view>
     </view>
@@ -460,11 +460,11 @@
   <!--搜索列表-->
   <view class="searchInfo_content_list">
     <!---->
-    <view class="searchInfo_content_list_item" wx:for="{{ mumList }}"  wx:for-item="item" wx:key="id">
+    <view class="searchInfo_content_list_item" wx:for="{{ mumList }}"  wx:for-item="item" wx:key="item">
       <view class="searchInfo_content_list_item_img">
         <van-image width="100%" height="100%" src="{{  item.logoPics?(api.imgUrl + item.logoPics):'' }}" />
       </view>
-      <view class="searchInfo_content_list_item_main">
+      <view class="searchInfo_content_list_item_main" data-id="{{ item.oldId }}" data-name="{{ item.name }}"  bindtap="mapDetail">
         <view class="searchInfo_content_list_item_main_title">{{ item.title?item.title:'未填报' }}</view>
         <view class="searchInfo_content_list_item_main_address">地址：{{ item.provinceName + item.cityName + item.districtName }}</view>
       </view>
@@ -474,7 +474,10 @@
       </view>
     </view>
     <!---->
-    <!-- <view class="searchInfo_content_more">{{ moreTitle }}</view> -->
+    <view class="searchInfo_content_more"  wx:if="{{ moreShow }}" bindtap="moreFn">{{ moreTitle }}</view>
+    <view class="more_lodding" wx:else>
+      <van-loading size="24px" vertical>加载中...</van-loading>
+    </view>
     <!---->
   </view>
 </view>

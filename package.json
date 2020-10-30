@@ -10,7 +10,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@vant/weapp": "^1.5.1"
+    "@vant/weapp": "^1.5.1",
+    "wx-minicomponent": "^1.0.12"
   },
   "devDependencies": {
     "miniprogram-api-typings": "^2.8.3-1",

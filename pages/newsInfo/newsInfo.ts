@@ -20,7 +20,7 @@ Page({
         this.setData({
           title: res.val.ntitle,
           name: res.val.publishSubject,
-          time: res.val.publishTime,
+          time: res.val.publishTime.split(' ')[0],
           num: res.val.clickCount,
           content: res.val.content
         })

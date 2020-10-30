@@ -11,5 +11,5 @@
 </view>
 <!--详情-->
 <view class="content_main2">
-  {{content }}
+  <wxParse nodes="{{ content }}" />
 </view>

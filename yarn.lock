@@ -16,3 +16,8 @@ typescript@^3.3.3333:
   version "3.9.7"
   resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.9.7.tgz?cache=0&sync_timestamp=1602227980758&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
   integrity sha1-mNYApevcOPQMsndSLxLcgA6eJfo=
+
+wx-minicomponent@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.npm.taobao.org/wx-minicomponent/download/wx-minicomponent-1.0.12.tgz#c3645a85e9e4395f9a13dd2ad757cfd68cd12947"
+  integrity sha1-w2RahenkOV+aE90q11fP1ozRKUc=

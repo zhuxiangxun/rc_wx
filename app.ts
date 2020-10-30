@@ -9,14 +9,9 @@ App<any>({
     longitude: '',               //中心经度(终点)
     latitude: '',                //中心纬度(终点)
     
-    mapApiKey: 'AWYBZ-C3IWO-5TIWD-SEPVW-KQMOF-RXBAV',                          //使用在腾讯位置服务申请的key
+    mapApiKey: '2L6BZ-6BWWS-RS6OI-6TPZT-ZRS4V-22BIF',                            //使用在腾讯位置服务申请的key
     imgUrl: 'http://files.eyunhan.com/eweb_upload/download/getPic?filePath=',    //图片服务器
-    url: 'http://lu.eyunhan.com/sit-rencai-api',                                 //服务器（测试）
-    //url: 'http://rc.qdcsdn.cn/sit-rencai-api',                                  //服务器（正式）
-
-    //mapApiKey: 'AWYBZ-C3IWO-5TIWD-SEPVW-KQMOF-RXBAV',                            //使用在腾讯位置服务申请的key
-    //imgUrl: 'https://www.qdcsdn.cn/eweb_upload/download/getPic?filePath=',    //图片服务器
-    //url: 'https://www.qdcsdn.cn/sit-rencai-api',                                 //服务器（测试）
+    url: 'https://rcapp.qdcsdn.cn/sit-rencai-api',                                //服务器（测试）
 
     login: '/web/login',                           //登录接口
     curUser: '/web/curUser',                       //获取当前登录用户信息

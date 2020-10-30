@@ -445,8 +445,14 @@ page {
 /**加载更多**/
 .searchInfo_content_more {
   width: 710rpx;
+  height: 120rpx;
   line-height: 120rpx;
   font-size: 28rpx;
   color: #999999;
+  text-align: center;
+}
+.more_lodding {
+  width: 710rpx;
+  height: 120rpx;
   text-align: center;
 }

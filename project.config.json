@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.13.1",
+	"libVersion": "2.13.2",
 	"projectname": "rc_wx",
 	"scripts": {
 		"beforeCompile": "npm run tsc",
