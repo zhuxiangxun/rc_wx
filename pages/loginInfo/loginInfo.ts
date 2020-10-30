@@ -6,8 +6,8 @@ let Toast = require('../../miniprogram_npm/@vant/weapp/toast/toast.js').default;
 Page({
   //页面数据
   data: {
-    userIcon: 'http://www.eyunhan.cn/images/login_01.png',       //用户名图标
-    passwordIcon: 'http://www.eyunhan.cn/images/login_02.png',   //密码图标
+    userIcon: 'https://cim.qdcsdn.cn/rc_wx/login_01.png',       //用户名图标
+    passwordIcon: 'https://cim.qdcsdn.cn/rc_wx/login_02.png',   //密码图标
     formDate:{  //表单
       username: '',
       password: ''

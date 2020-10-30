@@ -1,5 +1,5 @@
-/**news.wxss**/
-.news {
+/**loginForm.wxss**/
+.rcLink {
   width: 750rpx;
   height: 100vh;
 }

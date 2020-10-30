@@ -2,7 +2,7 @@
 .loginForm {
   width: 750rpx;
   height: 100vh;
-  background-image: url(http://www.eyunhan.cn/images/login_bg.jpg);
+  background-image: url(https://cim.qdcsdn.cn/rc_wx/login_bg.jpg);
   overflow: hidden;
   background-size: 100% 100%;
 }

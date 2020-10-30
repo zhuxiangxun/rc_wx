@@ -1,14 +1,16 @@
-<!--moving.wxml-->
+<!--activity.wxml-->
 <view class="moving_list">
-  <view class="moving_list">
-    <view class="moving_list_item" wx:for="{{ listData }}" wx:for-item="item" wx:key="id">
-      <view class="moving_list_item_info">
-        <view class="moving_list_item_info_title">{{ item.ntitle }}</view>
-        <view class="moving_list_item_info_time">{{ item.publishTime }}</view>
-      </view>
-      <view class="moving_list_item_img">
-      <van-image width="100%" height="100%" src="{{ imgUrl + item.picPath }}"></van-image>
-      </view>
+  <view class="moving_list_item" data-id="{{ item.id }}" wx:for="{{ listData }}" wx:for-item="item" wx:key="index" bindtap="newsInfo">
+    <view class="moving_list_item_info">
+      <view class="moving_list_item_info_title">{{ item.ntitle }}</view>
+      <view class="moving_list_item_info_time">{{ item.publishTime }}</view>
     </view>
+    <view class="moving_list_item_img">
+      <van-image width="100%" height="100%" src="{{ imgUrl + item.picPath }}"></van-image>
+    </view>
+  </view>
+  <view class="moving_more" wx:if="{{ moreShow }}">{{ moreTitle }}</view>
+  <view class="moving_lodding" wx:else>
+    <van-loading size="24px" vertical>加载中...</van-loading>
   </view>
 </view>

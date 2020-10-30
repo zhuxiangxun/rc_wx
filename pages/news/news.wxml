@@ -4,19 +4,19 @@
       <!--平台动态-->
       <van-tab title="平台动态" name="dongtai">
         <scroll-view scroll-y="true" style="height: 100vh">
-          <moving id="moving"></moving>
+          <activity id="dongtai" listData="{{ listData }}" imgUrl="{{ imgUrl }}" moreTitle="{{ moreTitle }}" moreShow="{{ moreShow }}"></activity>
         </scroll-view>
       </van-tab>
       <!--通知公告-->
       <van-tab title="通知公告" name="gonggao">
         <scroll-view scroll-y="true" style="height: 100vh">
-          <notice id="notice"></notice>
+          <activity id="gonggao" listData="{{ listData }}" imgUrl="{{ imgUrl }}" moreTitle="{{ moreTitle }}" moreShow="{{ moreShow }}"></activity>
         </scroll-view>
       </van-tab>
       <!--活动信息-->
       <van-tab title="活动信息" name="huodong">
         <scroll-view scroll-y="true" style="height: 100vh">
-          <activity id="activity"></activity>
+          <activity id="huodong" listData="{{ listData }}" imgUrl="{{ imgUrl }}" moreTitle="{{ moreTitle }}" moreShow="{{ moreShow }}"></activity>
         </scroll-view>
       </van-tab>
       <!---->

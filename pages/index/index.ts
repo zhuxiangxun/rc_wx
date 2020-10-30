@@ -88,16 +88,11 @@ Page({
     }
   },
 
-  //找政策
-  zcFn():void{
-    let token:string = wx.getStorageSync('token');
-    if(!!token){
-      
-    }else{
-      wx.navigateTo({
-        url: '../loginForm/loginForm'
-      })
-    }
+  //人才网外链
+  linkFn():void{
+    wx.navigateTo({
+      url: '../rcLink/rcLink'
+    })
   },
 
   //找项目

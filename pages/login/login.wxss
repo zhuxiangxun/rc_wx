@@ -9,7 +9,7 @@
   width: 750rpx;
   height: 440rpx;
   overflow: hidden;
-  background-image: url('http://www.eyunhan.cn/images/login_03.png');
+  background-image: url('https://cim.qdcsdn.cn/rc_wx/login_03.png');
 }
 .login_avatar {
   width: 210rpx;
@@ -48,6 +48,7 @@
 .login_info_btn {
   position: absolute;
   width: 350rpx;
+  height: 80rpx;
   line-height: 80rpx;
   border-radius: 40rpx;
   background-color: #0c499c;

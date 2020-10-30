@@ -1,0 +1,4 @@
+<!--rcLink.wxml-->
+<view class="rcLink">
+  <web-view src="https://rc.qingdao.gov.cn/"></web-view>
+</view>

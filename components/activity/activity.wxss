@@ -1,4 +1,4 @@
-/**moving.wxss**/
+/**activity.wxss**/
 .moving_list {
   width: 750rpx;
   height: calc(100vh - 120rpx);
@@ -44,4 +44,18 @@
   margin-top: 20rpx;
   margin-right: 20rpx;
   float: right;
+}
+/**加载更多**/
+.moving_more {
+  width: 710rpx;
+  height: 120rpx;
+  line-height: 120rpx;
+  font-size: 28rpx;
+  color: #999999;
+  text-align: center;
+}
+.moving_lodding {
+  width: 710rpx;
+  height: 120rpx;
+  text-align: center;
 }

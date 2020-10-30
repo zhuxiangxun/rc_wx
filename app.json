@@ -1,5 +1,6 @@
 {
   "pages": [
+    
     "pages/index/index",
     "pages/map/map",
     "pages/mapArea/mapArea",
@@ -10,12 +11,14 @@
     "pages/loginForm/loginForm",
     "pages/loginInfo/loginInfo",
     "pages/newPassword/newPassword",
+    "pages/newsInfo/newsInfo",
     
     
     "pages/device/device",
     "pages/transaction/transaction",
     "pages/smallTalk/smallTalk",
-    "pages/home/home"
+    "pages/home/home",
+    "pages/rcLink/rcLink"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -81,6 +84,7 @@
     "van-field": "@vant/weapp/field/index",
     "van-toast": "@vant/weapp/toast/index",
     "van-dialog": "@vant/weapp/dialog/index",
-    "van-tree-select": "@vant/weapp/tree-select/index"
+    "van-tree-select": "@vant/weapp/tree-select/index",
+    "van-loading": "@vant/weapp/loading/index"
   }
 }

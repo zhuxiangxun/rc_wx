@@ -1,0 +1,15 @@
+<!--newsInfo.wxml-->
+<view class="content_main">
+  <view class="content_main_top">
+    {{ title }}
+  </view>
+  <view class="content_main_list">
+    <view class="content_main_list_item">发布者：{{ name }}</view>
+    <view class="content_main_list_item">发布时间：{{ time }}</view>
+    <view class="content_main_list_item">点击次数：{{ num }}</view>
+  </view>
+</view>
+<!--详情-->
+<view class="content_main2">
+  {{content }}
+</view>
