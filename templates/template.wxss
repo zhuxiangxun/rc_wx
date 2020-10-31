@@ -34,6 +34,11 @@
   font-size: 24rpx;
   color: #FFF;
   text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp :1;
+  -webkit-box-orient: vertical;
 }
 swiper {
   height: 170rpx;

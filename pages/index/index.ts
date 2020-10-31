@@ -1,6 +1,7 @@
 // index.ts
 // 获取应用实例
 const api = getApp().globalData;  // 获取应用实例
+let Dialog = require('../../miniprogram_npm/@vant/weapp/dialog/dialog.js').default;
 let https  = require('../../utils/myRequest.js');     //获取ajax方法
 let globalFn  = require('../../utils/globalFn.js');   //获取公共封装方法
 let expressFn = globalFn.throttle(function(){         //信息速递（函数防抖）
@@ -88,11 +89,35 @@ Page({
     }
   },
 
+  zcFn():void{
+    wx.navigateToMiniProgram({
+      appId: 'wxf4083a5f8365a30a',
+      path: 'https://rc.qingdao.gov.cn',
+      success() {
+        // 打开成功
+        // wx.switchTab({
+        //   url: '/pages/index/index'
+        // })
+      }
+    })
+  },
+
   //人才网外链
   linkFn():void{
-    wx.navigateTo({
-      url: '../rcLink/rcLink'
-    })
+    Dialog.alert({
+      message: '“平台地图”正与全市人才相关部门办事服务实现互联互通，目前，请先使用“青岛人才”进行登录办理，后期将逐步完善各项功能板块，敬请期待！',
+    }).then(() => {
+      wx.navigateToMiniProgram({
+        appId: 'wx2e070e33c6154515',
+        path: 'https://rc.qingdao.gov.cn',
+        success() {
+          // 打开成功
+          // wx.switchTab({
+          //   url: '/pages/index/index'
+          // })
+        }
+      })
+    });
   },
 
   //找项目

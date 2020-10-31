@@ -33,9 +33,9 @@
     <view class="loginForm_btn">
       <van-button type="primary" color="#0c499c" block bind:click="loginFn">登录</van-button>
     </view>
-    <view class="loginForm_bottom">
+    <!-- <view class="loginForm_bottom">
       <view class="loginForm_bottom_left">忘记密码/找回密码</view>
       <view class="loginForm_bottom_right">注册</view>
-    </view>
+    </view> -->
   </view>
 </view>

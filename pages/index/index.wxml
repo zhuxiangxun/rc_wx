@@ -1,4 +1,5 @@
 <!--index.wxml-->
+<van-dialog id="van-dialog" />
 <!--头部轮播-->
 <import src="../../templates/template.wxml" /> 
 <view bindtap="indexHeaderFn">
@@ -6,7 +7,7 @@
 </view>
 <!--青岛人才创业平台地图-->
 <view class="map_content">
-  <view class="map_content_title">青岛人才创业平台地图</view>
+  <view class="map_content_title">青岛人才创新创业平台地图</view>
   <view class="map_content_list">
     <view class="map_content_list_item" bindtap="ptFn">
       <view class="map_content_list_item_img">
@@ -14,7 +15,7 @@
       </view>
       <view class="map_content_list_item_title">找平台</view>
     </view>
-    <view class="map_content_list_item" bindtap="linkFn">
+    <view class="map_content_list_item" bindtap="zcFn">
       <view class="map_content_list_item_img">
         <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/icon_02.png" />
       </view>
@@ -46,7 +47,7 @@
     </view>
   </view>
   <view class="map_content_img" bindtap="mapFn">
-    <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/img_01.png" />
+    <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/img_01.jpg" />
   </view>
 </view>
 <!--外部链接-->

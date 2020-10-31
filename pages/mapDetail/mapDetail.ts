@@ -16,9 +16,53 @@ Page({
   onLoad(option:any){
     let token:string = wx.getStorageSync('token');
     if(option.name == '创新'){
-      console.log(option.name)
       this.setData({
-        url: 'http://wangxu.eyunhan.com/cfy/index.html#/xcXcxPlatformDemo?token=' + token + '&id=' + option.id
+        url: 'https://rcapp.qdcsdn.cn/#/xcXcxPlatformDemo?token=' + token + '&id=' + option.id
+      })
+    }
+    if(option.name == '创业'){
+      this.setData({
+        url: 'https://rcapp.qdcsdn.cn/#/xcXcyPlatformDemo?token=' + token + '&id=' + option.id
+      })
+    }
+    if(option.name == '项目'){
+      this.setData({
+        url: 'https://rcapp.qdcsdn.cn/#/xcXproject?token=' + token + '&id=' + option.id
+      })
+    }
+    if(option.name == '场地'){
+      this.setData({
+        url: 'https://rcapp.qdcsdn.cn/#/xcXztSpace?token=' + token + '&id=' + option.id
+      })
+    }
+    if(option.name == '服务'){
+      this.setData({
+        url: 'https://rcapp.qdcsdn.cn/#/xcXserverJg?token=' + token + '&id=' + option.id
+      })
+    }
+    if(option.name == '金融'){
+      this.setData({
+        url: 'https://rcapp.qdcsdn.cn/#/xcXserverJg?token=' + token + '&id=' + option.id
+      })
+    }
+    if(option.name == '资金'){
+      this.setData({
+        url: 'https://rcapp.qdcsdn.cn/#/xcXtzDemand?token=' + token + '&id=' + option.id
+      })
+    }
+    if(option.name == '需求'){
+      this.setData({
+        url: 'https://rcapp.qdcsdn.cn/#/xcXtzDemand?token=' + token + '&id=' + option.id
+      })
+    }
+    if(option.name == '融资'){
+      this.setData({
+        url: 'https://rcapp.qdcsdn.cn/#/xcXrzDemand?token=' + token + '&id=' + option.id
+      })
+    }
+    if(option.name == '投资'){
+      this.setData({
+        url: 'https://rcapp.qdcsdn.cn/#/xcXcxPlatformDemo?token=' + token + '&id=' + option.id
       })
     }
 

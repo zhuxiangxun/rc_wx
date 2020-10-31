@@ -2,18 +2,19 @@
   "pages": [
     
     "pages/index/index",
+    
+    
     "pages/map/map",
     "pages/mapArea/mapArea",
     "pages/mapDetail/mapDetail",
-    
     "pages/news/news",
     "pages/login/login",
     "pages/loginForm/loginForm",
     "pages/loginInfo/loginInfo",
     "pages/newPassword/newPassword",
+    
     "pages/newsInfo/newsInfo",
-    
-    
+    "pages/mapCxDetail/mapCxDetail",
     "pages/device/device",
     "pages/transaction/transaction",
     "pages/smallTalk/smallTalk",
@@ -23,7 +24,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#FFF",
-    "navigationBarTitleText": "才赋云",
+    "navigationBarTitleText": "青岛人才创新创业平台地图",
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json",

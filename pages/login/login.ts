@@ -12,16 +12,26 @@ Page({
 
   //个人信息
   loginInfoFn():void {
-    // wx.navigateTo({
-    //   url:'../loginInfo/loginInfo'
-    // })
+    let token:string = wx.getStorageSync('token');
+    if(!!token){
+      wx.navigateTo({
+        url:'../loginInfo/loginInfo'
+      })
+    }else{
+      Toast('请先登录！');
+    }
   },
 
   //修改密码
   changePassword():void{
-    // wx.navigateTo({
-    //   url:'../newPassword/newPassword'
-    // })
+    let token:string = wx.getStorageSync('token');
+    if(!!token){
+      wx.navigateTo({
+        url:'../newPassword/newPassword'
+      })
+    }else{
+      Toast('请先登录！');
+    }
   },
 
 
@@ -42,8 +52,7 @@ Page({
   },
 
   //页面初始化
-  onLoad(options){
-    console.log(options)
+  onLoad(){
     wx.setNavigationBarTitle({     
       title: "我的"
     });
@@ -61,6 +70,7 @@ Page({
         https.successRequest(api.curUser, null, 'get')
         .then((res:any):void=>{
           if(res){
+            api.userId = res.val.id;        //用户ID
             this.setData({
               loginInfo: res.val.realName,
               loginBtn: '退出登录'

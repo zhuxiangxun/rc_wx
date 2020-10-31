@@ -1,70 +1,36 @@
-/**loginForm.wxss**/
-.loginForm {
+/**loginInfo.wxss**/
+page {
+  background-color: #ebecf0;
+}
+.loginInfo {
   width: 750rpx;
   height: 100vh;
-  background-image: url(https://cim.qdcsdn.cn/rc_wx/login_bg.jpg);
-  overflow: hidden;
-  background-size: 100% 100%;
 }
-.loginForm_main {
-  width: 650rpx;
-  height: 600rpx;
-  position: absolute;
-  top: 50%;
-  left: 50rpx;
-  margin-top: -300rpx;
-  background-color: rgba(255,255,255,0.9);
-  border-radius: 8rpx;
-}
-.loginForm_user {
-  width: 590rpx;
-  line-height: 90rpx;
-  margin-left: 30rpx;
-  margin-top: 60rpx;
-  border-bottom: 1rpx solid #b9bbbe;
-}
-.loginForm_parssword {
-  width: 590rpx;
-  line-height: 90rpx;
-  margin-left: 30rpx;
+.loginInfo_list {
+  width: 710rpx;
+  height: 120rpx;
+  margin-left: 20rpx;
   margin-top: 20rpx;
-  border-bottom: 1rpx solid #b9bbbe;
-}
-.loginForm_btn {
-  width: 590rpx;
-  line-height: 80rpx;
-  color: #FFF;
-  font-size: 28rpx;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 60rpx;
-  margin-left: 30rpx;
+  background-color: #FFF;
   border-radius: 8rpx;
+  display: flex;
+  justify-content: space-between;
+}
+.loginInfo_list_title {
+  line-height: 120rpx;
+  margin-left: 20rpx;
+  font-size: 28rpx;
+}
+.loginInfo_list_img {
+  width: 100rpx;
+  height: 100rpx;
+  margin-top: 10rpx;
+  margin-right: 20rpx;
+  border-radius: 100rpx;
   overflow: hidden;
 }
-.loginForm_bottom {
-  width: 590rpx;
-  line-height: 40rpx;
-  margin-top: 20rpx;
-  margin-left: 30rpx;
-}
-.loginForm_bottom_left {
-  width: auto;
-  line-height: 40rpx;
+.loginInfo_list_right {
+  line-height: 120rpx;
+  margin-right: 20rpx;
   font-size: 28rpx;
-  color: #707070;
-  float: left;
-}
-.loginForm_bottom_right {
-  width: auto;
-  line-height: 40rpx;
-  font-size: 28rpx;
-  color: #707070;
-  float: right;
-}
-.van-cell {
-  background-color: transparent!important;
-}
-.van-field__input {
-  color: #000!important
 }

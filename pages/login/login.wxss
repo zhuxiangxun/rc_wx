@@ -15,8 +15,9 @@
   width: 210rpx;
   height: 210rpx;
   border-radius: 210rpx;
-  margin-top: 80rpx;
-  margin-left: 270rpx;
+  margin-top: 60rpx;
+  margin-left: 240rpx;
+  background-color: #f4f5f7;
 }
 .login_avatar_title {
   width: 750rpx;

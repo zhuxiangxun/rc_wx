@@ -2,8 +2,9 @@
 App<any>({
   //全局变量
   globalData: {
-    indexFlag: '',               //首页6找判断
+    userId: '',                  //登录用户ID
 
+    indexFlag: '',               //首页6找判断
     areaId: '',                  //位置区ID
     areaName: '',                //位置区名称
     longitude: '',               //中心经度(终点)
@@ -11,9 +12,11 @@ App<any>({
     
     mapApiKey: '2L6BZ-6BWWS-RS6OI-6TPZT-ZRS4V-22BIF',                            //使用在腾讯位置服务申请的key
     imgUrl: 'http://files.eyunhan.com/eweb_upload/download/getPic?filePath=',    //图片服务器
-    url: 'https://rcapp.qdcsdn.cn/sit-rencai-api',                                //服务器（测试）
+    url: 'https://rcapp.qdcsdn.cn/sit-rencai-api',                               //服务器（发布）
 
     login: '/web/login',                           //登录接口
+    editPass: '/web/editPass',                      //修改密码
+    
     curUser: '/web/curUser',                       //获取当前登录用户信息
     count: '/website/count',                       //统计12条信息
     submenuDic: '/dic/submenuDic',                 //高级搜索字典表
@@ -61,6 +64,7 @@ App<any>({
             success: res => {
               // 可以将 res 发送给后台解码出 unionId
               this.globalData.userInfo = res.userInfo
+              
 
               // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
               // 所以此处加入 callback 以防止这种情况
