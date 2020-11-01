@@ -21,7 +21,11 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    newsInfo(e:any):void{
+    onMoreBtn():void{  //调用父组件方法
+      console.log(111)
+      this.triggerEvent('moreBtn');
+    },
+    newsInfo(e:any):void{  //详情
       wx.navigateTo({
         url:'../newsInfo/newsInfo?id=' + e.currentTarget.dataset.id
       })

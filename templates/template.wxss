@@ -4,7 +4,7 @@
   height: 160rpx;
   margin-left: 20rpx;
   margin-top: 30rpx;
-  background-image: url('http://www.eyunhan.cn/images/img_02.png');
+  background-image: url('https://cim.qdcsdn.cn/rc_wx/img_02.png');
   background-size: 100% 100%;
 }
 .header_bar_item {
@@ -13,6 +13,10 @@
   display: flex;
   justify-content: space-between;
 }
+/* .header_bar_item:after{
+  content: '';
+  width: 50%;
+} */
 .header_bar_item_list {
   width: auto;
   padding-left: 30rpx;
@@ -34,11 +38,11 @@
   font-size: 24rpx;
   color: #FFF;
   text-align: center;
-  overflow: hidden;
+  /* overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp :1;
-  -webkit-box-orient: vertical;
+  -webkit-box-orient: vertical; */
 }
 swiper {
   height: 170rpx;

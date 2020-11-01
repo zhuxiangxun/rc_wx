@@ -18,7 +18,7 @@
 <view class="content_footer" wx:if="{{ isListShow }}">
   <view class="content_footer_address" bindtap="mapArea">
     <view class="content_footer_address_icon"><van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/address.png" /></view>
-    <view class="content_footer_address_title">{{ areaName }}</view>
+    <view class="content_footer_address_title">{{ areaName == '黄岛区'?'西海岸新区':areaName }}</view>
   </view>
   <view class="content_footer_list">
       <view class="content_footer_list_item" bindtap="ptFn">
@@ -64,9 +64,9 @@
 <view class="content_info" wx:if="{{ isInfoShow  }}">
   <view class="content_info_left">
     <view class="content_info_left_img">
-      <van-image width="100%" height="100%" src="{{  item.imgArr.length>0?(api.imgUrl + item.imgArr[0].filePath):'' }}" />
+      <van-image width="100%" height="100%" src="{{  markersObj.imgArr.length>0?(imgUrl + markersObj.imgArr[0].filePath):'' }}" />
     </view>
-    <view class="content_info_left_info" data-id="{{ item.oldId }}" data-name="{{ item.name }}" bindtap="mapDetail">
+    <view class="content_info_left_info" data-id="{{ markersObj.oldId }}" data-name="{{ markersObj.name }}" bindtap="mapDetail">
       <view class="content_info_left_info_title">{{ markersObj.title }}</view>
       <view class="content_info_left_info_adress">地址：{{ markersObj.provinceName + markersObj.cityName +  markersObj.districtName + markersObj.address }}</view>
     </view>
@@ -84,10 +84,10 @@
 <view class="search_content" wx:if="{{ isSearchShow  }}">
   <view class="search_content_left">
     <view class="search_content_left_btn" bindtap="searchInfoOpen"><van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/top_icon.png" /></view>
-    <view class="search_content_left_address" bindtap="mapArea">
+    <!-- <view class="search_content_left_address" bindtap="mapArea">
       <view class="search_content_left_address_icon"><van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/address.png" /></view>
-      <view class="search_content_left_address_title">{{ areaName }}</view>
-    </view>
+      <view class="search_content_left_address_title">{{ areaName == '黄岛区'?'西海岸新区':areaName }}</view>
+    </view> -->
     <view class="search_content_left_num">共查询到 {{ total }} 个结果</view>
   </view>
   <view class="search_content_right">
@@ -315,18 +315,18 @@
 
     <!--找资金（找融资）-->
     <van-dropdown-menu wx:if="{{ rzSearchInfoShow }}">
-      <van-dropdown-item id="rzCategoryId" title="需求类别">
+      <van-dropdown-item id="rzCategoryId" title="融资方式">
         <view class="searchInfo_content_menu_pt">
-          <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ rzCategoryClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ xmCategoryList }}" wx:key="id" bindtap="rzCategoryFn">{{ item.dicName }}</view>
+          <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ rzCategoryClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ rzWayList }}" wx:key="id" bindtap="rzCategoryFn">{{ item.dicName }}</view>
         </view>
         <view class="searchInfo_content_menu_btn">
           <view class="searchInfo_content_menu_btn_reset" data-flag="1" bindtap="rzReset">重置</view>
           <view class="searchInfo_content_menu_btn_submit" data-flag="1" bindtap="rzSubmit">完成</view>
         </view>
       </van-dropdown-item>
-      <van-dropdown-item id="rzStageId" title="所处阶段">
+      <van-dropdown-item id="rzStageId" title="融资金额">
         <view class="searchInfo_content_menu_pt">
-          <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ rzStageClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ xmStageList }}" wx:key="id" bindtap="rzStageFn">{{ item.dicName }}</view>
+           <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ rzFinancingClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ xmFinancingList }}" wx:key="id" bindtap="rzFinancingFn">{{ item.dicName }}</view>
         </view>
         <view class="searchInfo_content_menu_btn">
           <view class="searchInfo_content_menu_btn_reset" data-flag="2" bindtap="rzReset">重置</view>
@@ -348,22 +348,6 @@
           <view class="searchInfo_content_menu_btn_submit" data-flag="3" bindtap="rzSubmit">完成</view>
         </view>
       </van-dropdown-item>
-       <van-dropdown-item id="rzMoreId" title="更多">
-        <view class="searchInfo_content_menu_tz">
-          <view class="searchInfo_content_menu_tz_title">融资方式</view>
-          <view class="searchInfo_content_menu_tz_list">
-             <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ rzWayClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ rzWayList }}" wx:key="id" bindtap="rzWayFn">{{ item.dicName }}</view>
-          </view>
-          <view class="searchInfo_content_menu_tz_title">融资金额</view>
-          <view class="searchInfo_content_menu_tz_list">
-             <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ rzFinancingClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ xmFinancingList }}" wx:key="id" bindtap="rzFinancingFn">{{ item.dicName }}</view>
-          </view>
-        </view>
-        <view class="searchInfo_content_menu_btn">
-          <view class="searchInfo_content_menu_btn_reset" data-flag="4" bindtap="rzReset">重置</view>
-          <view class="searchInfo_content_menu_btn_submit" data-flag="4" bindtap="rzSubmit">完成</view>
-        </view>
-      </van-dropdown-item>
     </van-dropdown-menu>
 
 
@@ -373,7 +357,6 @@
       <van-dropdown-item id="cdType" title="载体资源类型">
         <view class="searchInfo_content_menu_pt">
           <view data-id="{{ item.id }}" class="searchInfo_content_menu_pt_item {{ cdTypeClass==item.id?'searchInfo_content_menu_pt_item_hover':'' }}" wx:for="{{ cdCarrierList }}" wx:key="id" bindtap="cdTypeFn">{{ item.dicName }}</view>
-          <view class="searchInfo_content_menu_pt_item">载体资源类型</view>
         </view>
         <view class="searchInfo_content_menu_btn">
           <view class="searchInfo_content_menu_btn_reset" data-flag="1" bindtap="cdReset">重置</view>
@@ -462,7 +445,7 @@
     <!---->
     <view class="searchInfo_content_list_item" wx:for="{{ mumList }}"  wx:for-item="item" wx:key="item">
       <view class="searchInfo_content_list_item_img">
-        <van-image width="100%" height="100%" src="{{  item.imgArr.length>0?(api.imgUrl + item.imgArr[0].filePath):'' }}" />
+        <van-image width="100%" height="100%" src="{{  item.imgArr.length>0?(imgUrl + item.imgArr[0].filePath):'' }}" />
       </view>
       <view class="searchInfo_content_list_item_main" data-id="{{ item.oldId }}" data-name="{{ item.name }}"  bindtap="mapDetail">
         <view class="searchInfo_content_list_item_main_title">{{ item.title?item.title:'未填报' }}</view>

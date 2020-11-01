@@ -3,21 +3,15 @@
   <van-tabs active="dongtai" tab-active-class="custom-class" bind:click="tabFn">
       <!--平台动态-->
       <van-tab title="平台动态" name="dongtai">
-        <scroll-view scroll-y="true" style="height: 100vh">
-          <activity id="dongtai" listData="{{ listData }}" imgUrl="{{ imgUrl }}" moreTitle="{{ moreTitle }}" moreShow="{{ moreShow }}"></activity>
-        </scroll-view>
+          <activity id="dongtai" bind:moreBtn="onMoreBtn" listData="{{ listData }}" imgUrl="{{ imgUrl }}" moreTitle="{{ moreTitle }}" moreShow="{{ moreShow }}"></activity>
       </van-tab>
       <!--通知公告-->
       <van-tab title="通知公告" name="gonggao">
-        <scroll-view scroll-y="true" style="height: 100vh">
-          <activity id="gonggao" listData="{{ listData }}" imgUrl="{{ imgUrl }}" moreTitle="{{ moreTitle }}" moreShow="{{ moreShow }}"></activity>
-        </scroll-view>
+          <activity id="gonggao" bind:moreBtn="onMoreBtn" listData="{{ listData }}" imgUrl="{{ imgUrl }}" moreTitle="{{ moreTitle }}" moreShow="{{ moreShow }}"></activity>
       </van-tab>
       <!--活动信息-->
       <van-tab title="活动信息" name="huodong">
-        <scroll-view scroll-y="true" style="height: 100vh">
-          <activity id="huodong" listData="{{ listData }}" imgUrl="{{ imgUrl }}" moreTitle="{{ moreTitle }}" moreShow="{{ moreShow }}"></activity>
-        </scroll-view>
+          <activity id="huodong" bind:moreBtn="onMoreBtn" listData="{{ listData }}" imgUrl="{{ imgUrl }}" moreTitle="{{ moreTitle }}" moreShow="{{ moreShow }}"></activity>
       </van-tab>
       <!---->
   </van-tabs>

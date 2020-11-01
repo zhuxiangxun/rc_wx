@@ -8,6 +8,7 @@ let QQMapWX = require('../../utils/qqmap-wx-jssdk.js');  // 引入SDK核心类
 Page({
   //页面数据
   data: {
+    imgUrl: '',                          //图片服务器
     moreTitle: '点击加载更多',            //加载更多
     flag: '',                            //当前列表
     moreShow: false,                     //加载更多状态
@@ -141,13 +142,9 @@ Page({
     rzIndustryId: null,         //选中的id
 
     rzCategoryClass: null,      //需求类别
-    rzStageClass: null,         //所处阶段
-    rzWayClass: null,           //融资方式
     rzFinancingClass: null,     //融资金额
 
-    rzCategoryId: '',           //需求类别
-    rzStageId: '',              //所处阶段
-    rzWayId: '',                //融资方式
+    rzCategoryId: '',           //融资方式
     rzFinancingId: '',          //融资金额
     rzCyTypeId: '',             //产业id
     rzHyTypeId: '',             //行业id
@@ -288,7 +285,7 @@ Page({
     });
   },
   xmFinancing():void{  //融资金额
-    https.successRequest(api.submenuDic + '?moid=55', null, 'GET')
+    https.successRequest(api.submenuDic + '?moid=52', null, 'GET')
     .then((res:any):void=>{
       if(res){
         this.setData({
@@ -343,7 +340,7 @@ Page({
     });
   },
   fwType():void{  //单位类型
-    https.successRequest(api.submenuDic + '?moid=18', null, 'GET')
+    https.successRequest(api.submenuDic + '?moid=14', null, 'GET')
     .then((res:any):void=>{
       if(res){
         this.setData({
@@ -560,6 +557,16 @@ Page({
     this.hideFn();               //需要隐藏的元素
     this.setData({
       flag: 'allPt',             //当前列表
+
+      ptIndex: 0,                 //当前索引
+      ptIndustryId: null,         //选中的id
+      ptTypeClass: null,          //类型按钮状态切换
+      ptZiZhiClass: null,         //资质按钮状态切换
+      ptTypeId: '',               //平台类型id
+      ptZiZhi: '',                //平台资质id
+      ptCyTypeId: '',             //产业id
+      ptHyTypeId: '',             //行业id
+
       isSearchShow: true,        //搜索结果数据
       ptSearchInfoShow: true,    //平台全部按钮
       ptBtnClass: 1,              //全部按钮状态切换
@@ -780,7 +787,7 @@ Page({
             width: 27,
             height: 35,
             callout: {
-              content: item.ptName?item.ptName:'未填报',
+              content: item.cyName?item.cyName:'未填报',
               color: '#000',
               fontSize: 18,
               bgColor: '#FFF',
@@ -978,7 +985,14 @@ Page({
       pageIndex: 1,             //当前页
       total: 0,                 //总条数
     })
-    this.getCxPro();             //6找创新平台统计
+    console.log()
+    if(this.data.flag == 'cxPt'){
+      this.getCxPro();             //6找创新平台统计
+    }
+    if(this.data.flag == 'cyPt'){
+      this.getCyPro();             //6找创业平台统计
+    }
+    
   },
 
 
@@ -986,7 +1000,7 @@ Page({
   zcFn():void{ 
     wx.navigateToMiniProgram({
       appId: 'wxf4083a5f8365a30a',
-      path: 'https://rc.qingdao.gov.cn',
+      path: '',
       success() {
         // 打开成功
         // wx.switchTab({
@@ -1002,6 +1016,19 @@ Page({
     this.hideFn();             //需要隐藏的元素
     this.setData({
       flag: 'xm',                //当前列表
+
+      xmIndex: 0,                 //当前索引
+      xmIndustryId: null,         //选中的id
+
+      xmStageClass: null,          //阶段按钮状态切换
+      xmCategoryClass: null,       //类别按钮状态切换
+      xmFinancingClass: null,      //金额按钮状态切换
+      xmStageId: '',               //所处阶段
+      xmTypeId: '',                //需求类别
+      xmTzMoney: '',               //融资金额
+      xmCyTypeId: '',              //产业id
+      xmHyTypeId: '',              //行业id
+
       isSearchShow: true,        //搜索结果数据
       proSearchInfoShow: true,   //项目高级搜索
     })
@@ -1020,9 +1047,9 @@ Page({
       key: this.data.searchKey,             //关键字搜索
       pageSize: this.data.pageSize,         //每页显示数量
       pageIndex: this.data.pageIndex,       //页数
-      proNeedtype: this.data.xmStageId,     //所处阶段
+      curStage: this.data.xmStageId,     //所处阶段
       needTypes: this.data.xmTypeId,        //需求类别
-      tzMoney: this.data.xmTzMoney,         //融资金额
+      rzMoney: this.data.xmTzMoney,         //融资金额
       cyTypeId: this.data.xmCyTypeId,       //产业id
       hyTypeId: this.data.xmHyTypeId        //行业id
     }, 'GET').then((res:any):void=>{
@@ -1185,6 +1212,19 @@ Page({
     this.hideFn();               //需要隐藏的元素
     this.setData({
       flag: 'cd',                  //当前列表
+
+      cdIndex: 0,                 //当前索引
+      cdIndustryId: null,         //选中的id
+  
+      cdTypeClass: null,          //资源类型
+      cdUserClass: null,          //场地用途
+
+      cdTypeId: '',               //载体空间类型
+      cdChuZuId: '',              //是否出租
+      cdSaleId: '',               //是否出售
+      cdCyTypeId: '',             //产业id
+      cdHyTypeId: '',             //行业id
+
       isSearchShow: true,          //搜索结果数据
       cdSearchInfoShow: true,      //场地高级搜索
     })
@@ -1361,6 +1401,22 @@ Page({
     this.hideFn();               //需要隐藏的元素
     this.setData({
       flag: 'fw',                 //当前列表
+
+      fwCategoryIndex: 0,         //当前索引（服务类别）
+      fwCategoryId: null,         //选中的id（服务类别）
+      fwIndustryIndex: 0,         //当前索引（行业产业）
+      fwIndustryId: null,         //选中的id（行业产业）
+
+      fwTypeClass: null,          //单位类型
+      fwScaleClass: null,         //单位规模
+
+      fwTypeOneId: '',            //服务类别一级菜单
+      fwTypeTwoId: '',            //服务类别二级菜单
+      fwDwStatusId: '',           //单位类型id
+      fwDwScaleId: '',            //单位规模id
+      fwCyTypeId: '',             //产业id
+      fwHyTypeId: '',             //行业id
+
       isSearchShow: true,        //搜索结果数据
       fwSearchInfoShow: true,    //服务高级搜索
     })
@@ -1381,7 +1437,7 @@ Page({
       pageIndex: this.data.pageIndex,       //页数
       typeOneId: this.data.fwTypeOneId,     //服务类别一级菜单
       typeTwoId: this.data.fwTypeTwoId,     //服务类别二级菜单
-      dwStatusId: this.data.fwDwStatusId,   //单位类型id
+      qyNatureId: this.data.fwDwStatusId,   //单位类型id
       dwScaleId: this.data.fwDwScaleId,     //单位规模id
       cyTypeId: this.data.fwCyTypeId,       //产业id
       hyTypeId: this.data.fwHyTypeId        //行业id
@@ -1558,9 +1614,61 @@ Page({
     this.hideFn();               //需要隐藏的元素
     this.setData({
       flag: 'zj',                //当前列表
-      isSearchShow: true,        //搜索结果数据
-      zjSearchInfoShow: true,    //资金全部按钮
-      zjBtnClass: 1,             //找资金全部
+
+    //找资金（金融服务）
+    jrSearchInfoShow: false,    //显示/隐藏
+    jrCategoryIndex: 0,         //当前索引（服务类别）
+    jrCategoryId: null,         //选中的id（服务类别）
+    jrIndustryIndex: 0,         //当前索引（行业产业）
+    jrIndustryId: null,         //选中的id（行业产业）
+
+    jrTypeClass: null,          //单位类型
+    jrScaleClass: null,         //单位规模
+
+    jrTypeOneId: '',            //服务类别一级菜单
+    jrTypeTwoId: '',            //服务类别二级菜单
+    jrDwStatusId: '',           //单位类型id
+    jrDwScaleId: '',            //单位规模id
+    jrCyTypeId: '',             //产业id
+    jrHyTypeId: '',             //行业id
+
+    //找资金（投资）
+    tzSearchInfoShow: false,    //显示/隐藏
+    tzIndex: 0,                 //当前索引
+    tzIndustryId: null,         //选中的id
+
+    tzAreaClass: null,          //投资区域
+    tzWayClass: null,           //投资方式
+    tzOtherClass: null,         //投资金额
+    tzTypeClass: null,          //投资类型
+
+    tzAreaId: '',               //投资区域
+    tzWayId: '',                //投资方式
+    tzOtherId: '',              //投资金额
+    tzTypeId: '',               //投资类型
+    tzCyTypeId: '',             //产业id
+    tzHyTypeId: '',             //行业id
+
+
+
+    //找资金（融资）
+    rzSearchInfoShow: false,    //显示/隐藏
+    rzIndex: 0,                 //当前索引
+    rzIndustryId: null,         //选中的id
+
+    rzCategoryClass: null,      //需求类别
+    rzStageClass: null,         //所处阶段
+    rzWayClass: null,           //融资方式
+    rzFinancingClass: null,     //融资金额
+
+    rzCategoryId: '',           //需求类别
+    rzFinancingId: '',          //融资金额
+    rzCyTypeId: '',             //产业id
+    rzHyTypeId: '',             //行业id
+
+    isSearchShow: true,        //搜索结果数据
+    zjSearchInfoShow: true,    //资金全部按钮
+    zjBtnClass: 1,             //找资金全部
     })
     this.getAllFundsList();       //找资金（全部）
   },
@@ -1744,88 +1852,81 @@ Page({
   },
 
   zjBtnToggle(e:any):void{  //找资金（按钮状态切换）
+    this.setData({
+      zjBtnClass: e.target.dataset.num,
+      //金融
+      jrCategoryIndex: 0,         //当前索引
+      jrCategoryId: null,         //选中的id
+      jrTypeOneId: '',            //服务类别一级菜单
+      jrTypeTwoId: '',            //服务类别二级菜单
+      jrTypeClass: null,
+      jrDwStatusId: '',          //单位类型
+      jrScaleClass: null,
+      jrDwScaleId: '',           //单位规模
+      jrIndustryIndex: 0,         //当前索引
+      jrIndustryId: null,         //选中的id
+      jrCyTypeId: '',             //产业id
+      jrHyTypeId: '',             //行业id
+
+      //投资
+      tzIndex: 0,                 //当前索引
+      tzIndustryId: null,         //选中的id
+
+      tzAreaClass: null,          //投资区域
+      tzWayClass: null,           //投资方式
+      tzOtherClass: null,         //投资金额
+      tzTypeClass: null,          //投资类型
+
+      tzAreaId: '',               //投资区域
+      tzWayId: '',                //投资方式
+      tzOtherId: '',              //投资金额
+      tzTypeId: '',               //投资类型
+      tzCyTypeId: '',             //产业id
+      tzHyTypeId: '',             //行业id
+
+      //融资
+      rzIndex: 0,                 //当前索引
+      rzIndustryId: null,         //选中的id
+
+      rzCategoryClass: null,      //需求类别
+      rzFinancingClass: null,     //融资金额
+
+      rzCategoryId: '',           //融资方式
+      rzFinancingId: '',          //融资金额
+      rzCyTypeId: '',             //产业id
+      rzHyTypeId: '',             //行业id
+
+      num: 0,                     //6找结果
+      mumList: [],                //6找列表
+      markers: [],                //地图标点
+      searchKey: '',              //关键字搜索
+    })
     if(e.target.dataset.num == 1){
       this.setData({  //全部
         flag: 'zj',                    //当前列表
-        zjBtnClass: e.target.dataset.num,
-
-        jrCategoryIndex: 0,         //当前索引
-        jrCategoryId: null,         //选中的id
-        jrTypeOneId: '',            //服务类别一级菜单
-        jrTypeTwoId: '',            //服务类别二级菜单
-        jrTypeClass: null,
-        jrDwStatusId: '',          //单位类型
-        jrScaleClass: null,
-        jrDwScaleId: '',           //单位规模
-        jrIndustryIndex: 0,         //当前索引
-        jrIndustryId: null,         //选中的id
-        jrCyTypeId: '',             //产业id
-        jrHyTypeId: '',             //行业id
-
         jrSearchInfoShow: false,          //高级搜索（金融服务）
         tzSearchInfoShow: false,          //高级搜索（找投资）
         rzSearchInfoShow: false,          //高级搜索（找融资）
-        num: 0,                     //6找结果
-        mumList: [],                //6找列表
-        searchKey: '',            //关键字搜索
       })
-
       this.getAllFundsList();       //6找资金全部
     }else if(e.target.dataset.num == 2){  //金融服务
       this.setData({
         flag: 'jr',                       //当前列表
-        zjBtnClass: e.target.dataset.num,
-
-        jrCategoryIndex: 0,         //当前索引
-        jrCategoryId: null,         //选中的id
-        jrTypeOneId: '',            //服务类别一级菜单
-        jrTypeTwoId: '',            //服务类别二级菜单
-        jrTypeClass: null,
-        jrDwStatusId: '',          //单位类型
-        jrScaleClass: null,
-        jrDwScaleId: '',           //单位规模
-        jrIndustryIndex: 0,         //当前索引
-        jrIndustryId: null,         //选中的id
-        jrCyTypeId: '',             //产业id
-        jrHyTypeId: '',             //行业id
-
         jrSearchInfoShow: true,           //高级搜索（金融服务）
         tzSearchInfoShow: false,          //高级搜索（找投资）
         rzSearchInfoShow: false,          //高级搜索（找融资）
-        num: 0,                           //6找结果
-        mumList: [],                      //6找列表
-        searchKey: '',            //关键字搜索
       })
       this.getJrList();            //找资金（金融）
       this.fwCategory();           //服务类别
       this.fwType();               //单位类型
       this.fwScale();              //单位规模
       this.industry();             //产业、行业
-
     }else if(e.target.dataset.num == 3){  //找投资
       this.setData({
         flag: 'tz',                       //当前列表
-        zjBtnClass: e.target.dataset.num,
-
-        jrCategoryIndex: 0,         //当前索引
-        jrCategoryId: null,         //选中的id
-        jrTypeOneId: '',            //服务类别一级菜单
-        jrTypeTwoId: '',            //服务类别二级菜单
-        jrTypeClass: null,
-        jrDwStatusId: '',          //单位类型
-        jrScaleClass: null,
-        jrDwScaleId: '',           //单位规模
-        jrIndustryIndex: 0,         //当前索引
-        jrIndustryId: null,         //选中的id
-        jrCyTypeId: '',             //产业id
-        jrHyTypeId: '',             //行业id
-
         jrSearchInfoShow: false,          //高级搜索（金融服务）
         tzSearchInfoShow: true,           //高级搜索（找投资）
         rzSearchInfoShow: false,          //高级搜索（找融资）
-        num: 0,                           //6找结果
-        mumList: [],                      //6找列表
-        searchKey: '',            //关键字搜索
       })
       this.getTzList();                   //找资金（投资）
       this.tzArea();                      //投资区域
@@ -1836,27 +1937,9 @@ Page({
     }else{  //找融资
       this.setData({
         flag: 'rz',                       //当前列表
-        zjBtnClass: e.target.dataset.num,
-
-        jrCategoryIndex: 0,         //当前索引
-        jrCategoryId: null,         //选中的id
-        jrTypeOneId: '',            //服务类别一级菜单
-        jrTypeTwoId: '',            //服务类别二级菜单
-        jrTypeClass: null,
-        jrDwStatusId: '',          //单位类型
-        jrScaleClass: null,
-        jrDwScaleId: '',           //单位规模
-        jrIndustryIndex: 0,         //当前索引
-        jrIndustryId: null,         //选中的id
-        jrCyTypeId: '',             //产业id
-        jrHyTypeId: '',             //行业id
-
         jrSearchInfoShow: false,          //高级搜索（金融服务）
         tzSearchInfoShow: false,          //高级搜索（找投资）
         rzSearchInfoShow: true,           //高级搜索（找融资）
-        num: 0,                           //6找结果
-        mumList: [],                      //6找列表
-        searchKey: '',            //关键字搜索
       })
       this.getRzList();                   //找资金（融资）
       this.rzWay();                       //融资方式
@@ -1880,7 +1963,7 @@ Page({
       pageIndex: this.data.pageIndex,       //页数
       typeOneId: this.data.jrTypeOneId,     //服务类别一级菜单
       typeTwoId: this.data.jrTypeTwoId,     //服务类别二级菜单
-      dwStatusId: this.data.jrDwStatusId,   //单位类型id
+      qyNatureId: this.data.jrDwStatusId,   //单位类型id
       dwScaleId: this.data.jrDwScaleId,     //单位规模id
       cyTypeId: this.data.jrCyTypeId,       //产业id
       hyTypeId: this.data.jrHyTypeId        //行业id
@@ -2259,9 +2342,7 @@ Page({
       pageSize: this.data.pageSize,         //每页显示数量
       pageIndex: this.data.pageIndex,       //页数
 
-      needTypes: this.data.rzCategoryId,    //需求类别
-      curStage: this.data.rzStageId,        //所处阶段
-      rzWay: this.data.rzWayId,             //融资方式
+      rzWay: this.data.rzCategoryId,        //融资方式
       rzMoney: this.data.rzFinancingId,     //融资金额
       cyTypeId: this.data.rzCyTypeId,       //产业id
       hyTypeId: this.data.rzHyTypeId        //行业id
@@ -2376,25 +2457,11 @@ Page({
       console.log(err);
     });
   },
-  rzCategoryFn(e:any):void{     //需求类别触发
+  rzCategoryFn(e:any):void{     //融资方式触发
     let id:any = e.target.dataset.id;
     this.setData({
       rzCategoryClass: id,
       rzCategoryId: id,         //需求类别ID
-    })
-  },
-  rzStageFn(e:any):void{     //所处阶段触发
-    let id:any = e.target.dataset.id;
-    this.setData({
-      rzStageClass: id,
-      rzStageId: id,         //所处阶段ID
-    })
-  },
-  rzWayFn(e:any):void{      //融资方式触发
-    let id:any = e.target.dataset.id;
-    this.setData({
-      rzWayClass: id,
-      rzWayId: id,         //融资方式ID
     })
   },
   rzFinancingFn(e:any):void{     //融资金额触发
@@ -2414,8 +2481,8 @@ Page({
     const pId = data.detail.pId;
     this.setData({
       rzIndustryId: id,
-      rzCyTypeId: pId ? pId : '',            //产业id
-      rzHyTypeId: pId == pId ? '' : id,     //行业id
+      rzCyTypeId: pId ? pId : '',          //产业id
+      rzHyTypeId: id == pId ? '' : id,     //行业id
     })
   },
   rzReset(e:any):void{  //找融资重置
@@ -2428,10 +2495,10 @@ Page({
         mumList: [],                //6找列表
       })
       this.selectComponent('#rzCategoryId').toggle(false);         //找融资需求类别关闭
-    }else if(flag == 2){  //找融资所处阶段
+    }else if(flag == 2){  //融资金额触发
       this.setData({
-        rzStageClass: null,
-        rzStageId: '',             //找融资所处阶段ID
+        rzFinancingClass: null,
+        rzFinancingId: '',             //找融资融资金额ID
         num: 0,                    //6找结果
         mumList: [],               //6找列表
       })
@@ -2446,16 +2513,6 @@ Page({
         mumList: [],               //6找列表
       })
       this.selectComponent('#rzIndustryId').toggle(false);        //产业行业关闭
-    }else{  //更多
-      this.setData({
-        rzWayClass: null,
-        rzWayId: '',               //投资金额ID
-        rzFinancingClass: null,
-        rzFinancingId: '',         //投资类型ID
-        num: 0,                    //6找结果
-        mumList: [],               //6找列表
-      })
-      this.selectComponent('#rzMoreId').toggle(false);     ///更多关闭
     }
     this.getRzList();            //找资金（融资)
   },
@@ -2467,8 +2524,6 @@ Page({
       this.selectComponent('#rzStageId').toggle(false);        //找融资所处阶段关闭
     }else if(flag == 3){
       this.selectComponent('#rzIndustryId').toggle(false);        //产业行业关闭
-    }else{
-      this.selectComponent('#rzMoreId').toggle(false);          ///更多关闭
     }
     this.setData({
       num: 0,                    //6找结果
@@ -2520,6 +2575,7 @@ Page({
   mapDetail(e:any):void {
     let name:String = e.currentTarget.dataset.name;
     let id:String = e.currentTarget.dataset.id;
+
     wx.navigateTo({
       url:"../mapDetail/mapDetail?name=" + name + '&id=' + id
     })
@@ -2532,6 +2588,7 @@ Page({
     let arr:any = this.data.markers.filter((item:any):any=>{
       return item.id == e.detail.markerId;
     });
+
     if(arr.length >= 1){
       this.setData({
         goName: arr[0].callout.content,         //要去的地址
@@ -2562,6 +2619,9 @@ Page({
   verification():void{
     let token:string = wx.getStorageSync('token');
     if(!!token){
+      this.setData({
+        imgUrl: api.imgUrl + '?token=' + token + '&filePath='
+      })
       //切换区的操作
       if(api.areaName){
         this.setData({
@@ -3139,7 +3199,7 @@ Page({
   onLoad(){
     //页面标题
     wx.setNavigationBarTitle({     
-      title: "人才创新创业平台地图"
+      title: "青岛人才创新创业平台地图"
     });
   },
 

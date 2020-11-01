@@ -6,31 +6,51 @@ page {
   width: 750rpx;
   height: 100vh;
 }
+.loginInfo_avatar {
+  width: 710rpx;
+  height: 140rpx;
+  margin-left: 20rpx;
+  margin-top: 30rpx;
+  background-color: #FFF;
+  border-radius: 8rpx;
+  display: flex;
+  justify-content: space-between;
+}
+.loginInfo_avatar_title {
+  line-height: 140rpx;
+  margin-left: 20rpx;
+  font-size: 28rpx;
+}
+.loginInfo_avatar_img {
+  width: 100rpx;
+  height: 100rpx;
+  margin-top: 20rpx;
+  margin-right: 20rpx;
+  border-radius: 100rpx;
+  overflow: hidden;
+}
+.loginInfo_avatar_right {
+  line-height: 120rpx;
+  margin-right: 20rpx;
+  font-size: 28rpx;
+}
 .loginInfo_list {
   width: 710rpx;
-  height: 120rpx;
+  height: 80rpx;
   margin-left: 20rpx;
-  margin-top: 20rpx;
+  margin-top: 10rpx;
   background-color: #FFF;
   border-radius: 8rpx;
   display: flex;
   justify-content: space-between;
 }
 .loginInfo_list_title {
-  line-height: 120rpx;
+  line-height: 80rpx;
   margin-left: 20rpx;
   font-size: 28rpx;
 }
-.loginInfo_list_img {
-  width: 100rpx;
-  height: 100rpx;
-  margin-top: 10rpx;
-  margin-right: 20rpx;
-  border-radius: 100rpx;
-  overflow: hidden;
-}
 .loginInfo_list_right {
-  line-height: 120rpx;
+  line-height: 80rpx;
   margin-right: 20rpx;
   font-size: 28rpx;
 }

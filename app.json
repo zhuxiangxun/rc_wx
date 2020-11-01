@@ -1,9 +1,6 @@
 {
   "pages": [
-    
     "pages/index/index",
-    
-    
     "pages/map/map",
     "pages/mapArea/mapArea",
     "pages/mapDetail/mapDetail",
@@ -12,7 +9,6 @@
     "pages/loginForm/loginForm",
     "pages/loginInfo/loginInfo",
     "pages/newPassword/newPassword",
-    
     "pages/newsInfo/newsInfo",
     "pages/mapCxDetail/mapCxDetail",
     "pages/device/device",

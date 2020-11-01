@@ -11,7 +11,7 @@ App<any>({
     latitude: '',                //中心纬度(终点)
     
     mapApiKey: '2L6BZ-6BWWS-RS6OI-6TPZT-ZRS4V-22BIF',                            //使用在腾讯位置服务申请的key
-    imgUrl: 'http://files.eyunhan.com/eweb_upload/download/getPic?filePath=',    //图片服务器
+    imgUrl: 'https://rcapp.qdcsdn.cn/eweb_upload/download/getPic',     //图片服务器
     url: 'https://rcapp.qdcsdn.cn/sit-rencai-api',                               //服务器（发布）
 
     login: '/web/login',                           //登录接口

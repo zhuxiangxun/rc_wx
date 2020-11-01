@@ -6,7 +6,7 @@ page {
 /**青岛人才创业平台地图**/
 .map_content {
   width: 710rpx;
-  height: 800rpx;
+  height: 700rpx;
   margin-left: 20rpx;
   margin-top: 40rpx;
   background-color: #FFF;
@@ -14,7 +14,8 @@ page {
 }
 .map_content_title {
   width: 670rpx;
-  line-height: 120rpx;
+  height: 20rpx;
+  line-height: 20rpx;
   font-size: 36rpx;
   margin: 0 20rpx;
   color: #0c499c;

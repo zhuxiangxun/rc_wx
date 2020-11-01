@@ -7,7 +7,7 @@ Page({
   data: {
     total: 0,          //总数
     pageIndex: 1,      //条数
-    pageSize: 3,       //页码
+    pageSize: 10,       //页码
 
     imgUrl: '',        //获取图片服务器
 
@@ -21,8 +21,8 @@ Page({
     activityId: '',    //活动ID
   },
 
-  //页面上拉
-  onReachBottom():void{
+  //点击加载更多
+  onMoreBtn():void{
     this.setData({
       moreShow: false
     })
@@ -62,14 +62,14 @@ Page({
     let url:string = api.activity + '?ncolumnId=' + this.data.movindId + '&pageIndex=' + this.data.pageIndex + '&pageSize=' + this.data.pageSize;
     https.request(url, null, 'GET').then((res:any):void=>{
       this.setData({
-        imgUrl: api.imgUrl,
+        imgUrl: api.imgUrl + '?filePath=',
         total: res.total,
         listData: this.data.listData.concat(res.list)
       });
       if(this.data.listData.length < res.total){
         this.setData({
           moreShow: true,
-          moreTitle: '下拉加载更多',     //加载更多
+          moreTitle: '点击加载更多',     //加载更多
         });
       }else{
         this.setData({
@@ -84,17 +84,17 @@ Page({
 
   //获取通知公告
   getTz():void{
-    let url:string = api.notice + '?ncolumnId=' + this.data.movindId + '&pageIndex=' + this.data.pageIndex + '&pageSize=' + this.data.pageSize;
+    let url:string = api.notice + '?ncolumnId=' + this.data.noticeId + '&pageIndex=' + this.data.pageIndex + '&pageSize=' + this.data.pageSize;
     https.request(url, null, 'GET').then((res:any):void=>{
       this.setData({
-        imgUrl: api.imgUrl,
+        imgUrl: api.imgUrl + '?filePath=',
         total: res.total,
         listData: this.data.listData.concat(res.list)
       });
       if(this.data.listData.length < res.total){
         this.setData({
           moreShow: true,
-          moreTitle: '下拉加载更多',     //加载更多
+          moreTitle: '点击加载更多',     //加载更多
         });
       }else{
         this.setData({
@@ -109,17 +109,17 @@ Page({
   
   //获取活动信息
   getHd():void{
-    let url:string = api.activity + '?ncolumnId=' + this.data.movindId + '&pageIndex=' + this.data.pageIndex + '&pageSize=' + this.data.pageSize;
+    let url:string = api.activity + '?ncolumnId=' + this.data.activityId + '&pageIndex=' + this.data.pageIndex + '&pageSize=' + this.data.pageSize;
     https.request(url, null, 'GET').then((res:any):void=>{
       this.setData({
-        imgUrl: api.imgUrl,
+        imgUrl: api.imgUrl + '?filePath=',
         total: res.total,
         listData: this.data.listData.concat(res.list)
       });
       if(this.data.listData.length < res.total){
         this.setData({
           moreShow: true,
-          moreTitle: '下拉加载更多',     //加载更多
+          moreTitle: '点击加载更多',     //加载更多
         });
       }else{
         this.setData({
@@ -139,7 +139,7 @@ Page({
       tabFlag: res.detail.name,      //tab切换状态
       total: 0,          //总数
       pageIndex: 1,      //条数
-      pageSize: 3,       //页码
+      pageSize: 10,       //页码
       listData: [],      //列表
       moreTitle: '暂无数据',     //加载更多
     })
@@ -186,6 +186,7 @@ Page({
 
   //页面初始化
   onLoad(){
+    this.getDic();  //获取字典表
     wx.setNavigationBarTitle({     
       title: "动态"
     });
@@ -193,7 +194,7 @@ Page({
 
   //页面显示
   onShow(){
-    this.getDic();  //获取字典表
+    
   },
 
   //页面渲染完成

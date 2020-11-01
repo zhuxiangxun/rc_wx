@@ -14,6 +14,7 @@ Page({
 
   //页面初始化
   onLoad(option:any){
+
     let token:string = wx.getStorageSync('token');
     if(option.name == '创新'){
       this.setData({

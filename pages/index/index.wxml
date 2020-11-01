@@ -7,7 +7,7 @@
 </view>
 <!--青岛人才创业平台地图-->
 <view class="map_content">
-  <view class="map_content_title">青岛人才创新创业平台地图</view>
+  <view class="map_content_title"></view>
   <view class="map_content_list">
     <view class="map_content_list_item" bindtap="ptFn">
       <view class="map_content_list_item_img">

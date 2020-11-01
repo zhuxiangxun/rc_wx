@@ -29,18 +29,18 @@
                     <view class="header_bar_item_list_num">{{ list.talentCountModel }}</view>
                     <view class="header_bar_item_list_title">重点人才</view>
                 </view>
-                <view class="header_bar_item_list">
+                <!-- <view class="header_bar_item_list">
                     <view class="header_bar_item_list_num">{{ list.zcCount }}</view>
                     <view class="header_bar_item_list_title">政策服务</view>
+                </view> -->
+                <view class="header_bar_item_list">
+                    <view class="header_bar_item_list_num">{{ list.fwTypeCount }}</view>
+                    <view class="header_bar_item_list_title">双创服务产品</view>
                 </view>
             </view>
         </swiper-item>
         <swiper-item>
             <view class="header_bar_item">
-                <view class="header_bar_item_list">
-                    <view class="header_bar_item_list_num">{{ list.fwTypeCount }}</view>
-                    <view class="header_bar_item_list_title">双创服务产品</view>
-                </view>
                 <view class="header_bar_item_list">
                     <view class="header_bar_item_list_num">{{ list.productCount }}</view>
                     <view class="header_bar_item_list_title">双创技术成果</view>
@@ -49,19 +49,19 @@
                     <view class="header_bar_item_list_num">{{ list.vectorCount }}</view>
                     <view class="header_bar_item_list_title">双创载体资源</view>
                 </view>
-            </view>
-        </swiper-item>
-        <swiper-item>
-            <view class="header_bar_item">
                 <view class="header_bar_item_list">
                     <view class="header_bar_item_list_num">{{ list.proCount }}</view>
                     <view class="header_bar_item_list_title">创新创业项目</view>
                 </view>
-                <view class="header_bar_item_list">
+            </view>
+        </swiper-item>
+        <swiper-item>
+            <view class="header_bar_item">
+                <view class="header_bar_item_list" style="width: 50%;">
                     <view class="header_bar_item_list_num">{{ list.equipCount }}</view>
                     <view class="header_bar_item_list_title">仪器设备资源</view>
                 </view>
-                <view class="header_bar_item_list">
+                <view class="header_bar_item_list" style="width: 50%;">
                     <view class="header_bar_item_list_num">{{ list.needCount }}</view>
                     <view class="header_bar_item_list_title">创新创业需求对接</view>
                 </view>

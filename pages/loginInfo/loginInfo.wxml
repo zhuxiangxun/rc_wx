@@ -1,8 +1,8 @@
 <!--loginInfo.wxml-->
 <view class="loginInfo">
-  <view class="loginInfo_list">
-    <view class="loginInfo_list_title">头像</view>
-    <view class="loginInfo_list_img"><van-image width="100%" height="100%" /></view>
+  <view class="loginInfo_avatar">
+    <view class="loginInfo_avatar_title">头像</view>
+    <view class="loginInfo_avatar_img"><van-image width="100%" height="100%" /></view>
   </view>
   <view class="loginInfo_list">
     <view class="loginInfo_list_title">昵称</view>

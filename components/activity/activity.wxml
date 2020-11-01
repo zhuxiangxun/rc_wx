@@ -9,7 +9,7 @@
       <van-image width="100%" height="100%" src="{{ imgUrl + item.picPath }}"></van-image>
     </view>
   </view>
-  <view class="moving_more" wx:if="{{ moreShow }}">{{ moreTitle }}</view>
+  <view class="moving_more" wx:if="{{ moreShow }}" bindtap="onMoreBtn">{{ moreTitle }}</view>
   <view class="moving_lodding" wx:else>
     <van-loading size="24px" vertical>加载中...</van-loading>
   </view>

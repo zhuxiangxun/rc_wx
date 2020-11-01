@@ -92,7 +92,7 @@ Page({
   zcFn():void{
     wx.navigateToMiniProgram({
       appId: 'wxf4083a5f8365a30a',
-      path: 'https://rc.qingdao.gov.cn',
+      path: '',
       success() {
         // 打开成功
         // wx.switchTab({
@@ -109,7 +109,7 @@ Page({
     }).then(() => {
       wx.navigateToMiniProgram({
         appId: 'wx2e070e33c6154515',
-        path: 'https://rc.qingdao.gov.cn',
+        path: '',
         success() {
           // 打开成功
           // wx.switchTab({
