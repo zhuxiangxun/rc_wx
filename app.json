@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/registered/registered",
     "pages/index/index",
     "pages/map/map",
     "pages/mapArea/mapArea",
@@ -82,6 +83,9 @@
     "van-toast": "@vant/weapp/toast/index",
     "van-dialog": "@vant/weapp/dialog/index",
     "van-tree-select": "@vant/weapp/tree-select/index",
-    "van-loading": "@vant/weapp/loading/index"
+    "van-loading": "@vant/weapp/loading/index",
+    "van-uploader": "@vant/weapp/uploader/index",
+    "van-radio": "@vant/weapp/radio/index",
+    "van-radio-group": "@vant/weapp/radio-group/index"
   }
 }

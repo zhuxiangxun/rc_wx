@@ -31,7 +31,7 @@ Page({
         this.getTz();
       }else{
         this.setData({
-          moreShow: true
+          moreShow: true,
         })
       }
     }else if(this.data.tabFlag == "huodong"){   //活动
@@ -70,6 +70,7 @@ Page({
         this.setData({
           moreShow: true,
           moreTitle: '点击加载更多',     //加载更多
+          pageIndex: this.data.pageIndex += 1
         });
       }else{
         this.setData({
@@ -95,6 +96,7 @@ Page({
         this.setData({
           moreShow: true,
           moreTitle: '点击加载更多',     //加载更多
+          pageIndex: this.data.pageIndex += 1
         });
       }else{
         this.setData({
@@ -120,6 +122,7 @@ Page({
         this.setData({
           moreShow: true,
           moreTitle: '点击加载更多',     //加载更多
+          pageIndex: this.data.pageIndex += 1
         });
       }else{
         this.setData({
@@ -139,7 +142,7 @@ Page({
       tabFlag: res.detail.name,      //tab切换状态
       total: 0,          //总数
       pageIndex: 1,      //条数
-      pageSize: 10,       //页码
+      pageSize: 10,      //页码
       listData: [],      //列表
       moreTitle: '暂无数据',     //加载更多
     })

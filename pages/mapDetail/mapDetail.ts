@@ -7,15 +7,10 @@ Page({
   data: {
    url: '',
   },
-
- 
-
-
-
   //页面初始化
   onLoad(option:any){
-
     let token:string = wx.getStorageSync('token');
+
     if(option.name == '创新'){
       this.setData({
         url: 'https://rcapp.qdcsdn.cn/#/xcXcxPlatformDemo?token=' + token + '&id=' + option.id

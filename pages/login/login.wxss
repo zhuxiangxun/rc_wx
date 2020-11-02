@@ -10,13 +10,14 @@
   height: 440rpx;
   overflow: hidden;
   background-image: url('https://cim.qdcsdn.cn/rc_wx/login_03.png');
+  background-size: 100% 100%;
 }
 .login_avatar {
   width: 210rpx;
   height: 210rpx;
   border-radius: 210rpx;
-  margin-top: 60rpx;
-  margin-left: 240rpx;
+  margin-top: 85rpx;
+  margin-left: 270rpx;
   background-color: #f4f5f7;
 }
 .login_avatar_title {

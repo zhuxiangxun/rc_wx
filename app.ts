@@ -46,7 +46,11 @@ App<any>({
     //const logs = wx.getStorageSync('logs') || []
     //logs.unshift(Date.now())
     //wx.setStorageSync('logs', logs)
-
+    try {
+      //wx.clearStorageSync();  //清空存储
+    } catch(e) {
+      // Do something when catch error
+    }
 
     // 登录
     wx.login({

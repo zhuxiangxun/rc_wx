@@ -22,7 +22,6 @@ Component({
    */
   methods: {
     onMoreBtn():void{  //调用父组件方法
-      console.log(111)
       this.triggerEvent('moreBtn');
     },
     newsInfo(e:any):void{  //详情

@@ -966,7 +966,12 @@ Page({
       })
       this.selectComponent('#ptIndustry').toggle(false);     //产业、行业关闭
     }
-    this.getCxPro();             //6找创新平台统计
+    if(this.data.flag == 'cxPt'){
+      this.getCxPro();             //6找创新平台统计
+    }
+    if(this.data.flag == 'cyPt'){
+      this.getCyPro();             //6找创业平台统计
+    }
   },
   ptSubmit(e:any):void{  //完成
     let flag:number = e.currentTarget.dataset.flag;
@@ -985,7 +990,6 @@ Page({
       pageIndex: 1,             //当前页
       total: 0,                 //总条数
     })
-    console.log()
     if(this.data.flag == 'cxPt'){
       this.getCxPro();             //6找创新平台统计
     }
@@ -1794,7 +1798,7 @@ Page({
               display: 'BYCLICK'
             },
             title: item.proName,                   //标题
-            imgArr: item.needFiles,                                   //图片数组
+            imgArr: item.pictureFiles,                                //图片数组
             provinceName: item.provinceName?item.provinceName:'',     //省
             cityName: item.cityName?item.cityName:'',                 //市
             districtName: item.districtName?item.districtName:'',     //区
@@ -2575,7 +2579,6 @@ Page({
   mapDetail(e:any):void {
     let name:String = e.currentTarget.dataset.name;
     let id:String = e.currentTarget.dataset.id;
-
     wx.navigateTo({
       url:"../mapDetail/mapDetail?name=" + name + '&id=' + id
     })

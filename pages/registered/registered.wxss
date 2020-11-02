@@ -1,0 +1,57 @@
+/**registered.wxss**/
+page {
+  background-color: #ebecf0;
+}
+.registered_line {
+  margin-top: 2rpx;
+}
+.van-popup--top {
+  width: 710rpx!important;
+  margin-left: 20rpx;
+}
+.van-popup--bottom {
+  width: 710rpx!important;
+  margin-left: 20rpx;
+}
+.van-dropdown-menu {
+  height: 40rpx!important;
+}
+.van-radio {
+  margin-top: 20rpx;
+}
+
+
+.registered_content {
+  width: 710rpx;
+  height: calc(100vh - 120rpx);
+  margin-left: 20rpx;
+  overflow-y: scroll;
+}
+.registered_item {
+  width: 710rpx;
+  line-height: 90rpx;
+  margin-top: 10rpx;
+  font-size: 28rpx;
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+.registered_item_prompt {
+  width: 690rpx;
+  line-height: 40rpx;
+  color: #ed4014;
+  padding: 10rpx;
+  font-size: 24rpx;
+  background-color: #FFF;
+}
+.registered_submit {
+  width: 400rpx;
+  line-height: 80rpx;
+  color: #FFF;
+  font-size: 28rpx;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 80rpx;
+  overflow: hidden;
+  margin-top: 20rpx;
+  margin-left: 155rpx;
+}

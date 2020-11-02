@@ -59,7 +59,9 @@ Page({
   },
 
   //页面渲染完成
-  onReady(){},
+  onReady(){
+    
+  },
 
   //页面显示
   onShow(){
