@@ -1,5 +1,5 @@
 <!--registered.wxml-->
-<van-toast id="van-toast" />
+<van-dialog id="van-dialog" />
 <!--内容-->
 <view class="registered_line"></view>
 <van-tabs active="{{ tabActive }}" bind:change="onTabChange">
@@ -9,41 +9,85 @@
       <!--统一社会信用代码-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field required label="统一社会信用代码:" placeholder="请输入统一社会信用代码" border="{{ false }}" />
+          <van-field
+          required
+          clearable
+          value="{{ jgFormDate.shxyCode }}"
+          error-message="{{ jgFormRrror.shxyCodeError }}"
+          label="统一社会信用代码:"
+          placeholder="请填写18位统一社会信用代码"
+          border="{{ false }}"
+          bind:input="jgShxyCodeInput"/>
         </van-cell-group>
       </view>
       <!--统一社会信用代码扫描件上传-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field required use-button-slot readonly label="统一社会信用代码扫描件上传：" border="{{ false }}">
-            <van-uploader slot="button" file-list="{{ jgFileList }}" bind:after-read="afterRead" />
+          <van-field use-button-slot readonly required label="统一社会信用代码扫描件上传：" error-message="{{ jgFormRrror.shxypicsError }}" border="{{ false }}">
+            <van-uploader
+            slot="button"
+            max-count="1"
+            file-list="{{ jgFileList }}"
+            bind:after-read="jgAfterRead"
+            bind:delete="jgDelete"/>
           </van-field>
         </van-cell-group>
       </view>
       <!--密码-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field value="{{ password }}" type="password" label="密码：" placeholder="请输入密码" required border="{{ false }}"/>
+          <van-field 
+          value="{{ jgFormDate.password }}"
+          type="password"
+          label="密码："
+          placeholder="数字、英文、字符两种及以上6-20位"
+          error-message="{{ jgFormRrror.passwordError }} "
+          required
+          clearable
+          border="{{ false }}"
+          bind:input="jgPasswordInput"/>
         </van-cell-group>
       </view>
       <!--确认密码-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field value="{{ password }}" type="password" label="确认密码：" placeholder="请确认密码" required border="{{ false }}"/>
+          <van-field
+          value="{{ jgFormDate.trueword }}"
+          type="password"
+          label="确认密码："
+          placeholder="请再次确认密码"
+          error-message="{{ jgFormRrror.truewordError }} "
+          required
+          clearable
+          border="{{ false }}"
+          bind:input="jgRepeatPasswordInput"/>
         </van-cell-group>
       </view>
       <!--单位名称-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field required value="{{ value }}" label="单位名称：" placeholder="请输入单位名称" border="{{ false }}" />
+          <van-field
+          required
+          clearable
+          value="{{ jgFormDate.qyName }}"
+          label="单位名称："
+          placeholder="请输入单位名称"
+          error-message="{{ jgFormRrror.qyNameError }}"
+          border="{{ false }}"
+          bind:input="jgQyNameInput"/>
         </van-cell-group>
       </view>
       <!--单位类型-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field required use-button-slot readonly label="单位类型：" border="{{ false }}">
+          <van-field required use-button-slot readonly label="单位类型：" error-message="{{ jgFormRrror.qyNatureIdError }}" border="{{ false }}">
             <van-dropdown-menu slot="button">
-              <van-dropdown-item  style="width: 20rpx;" title="单位类型" value="{{ formDate.value }}" options="{{ unitType }}" />
+              <van-dropdown-item
+              style="width: 20rpx;"
+              title=""
+              value="{{ jgFormDate.qyNatureId }}"
+              options="{{ qydanweiList }}"
+              bind:change="jgDanweiFn"/>
             </van-dropdown-menu>
           </van-field>
         </van-cell-group>
@@ -53,7 +97,7 @@
         <van-cell-group>
           <van-field required use-button-slot readonly label="所在地区：" border="{{ false }}">
             <van-dropdown-menu slot="button">
-              <van-dropdown-item  style="width: 20rpx;" title="所在地区" value="{{ formDate.value }}" options="{{ unitType }}" />
+              <van-dropdown-item  style="width: 20rpx;" title="" value="{{ formDate.value }}" options="{{ unitType }}" />
             </van-dropdown-menu>
           </van-field>
         </van-cell-group>
@@ -150,9 +194,15 @@
           </van-field>
         </van-cell-group>
       </view>
+      <!--使用协议-->
+      <view class="registered_notice">
+        <van-checkbox value="{{ checked }}" shape="square">
+          <view class="registered_notice_info" bindtap="noticeFn">我已阅读并接受应用使用协议</view>
+        </van-checkbox>
+      </view>
       <!--机构注册-->
       <view class="registered_submit">
-        <van-button type="primary" color="#0c499c" block bind:click="loginFn">注册</van-button>
+        <van-button type="primary" color="#0c499c" block bind:click="jgSubmitFn">注册</van-button>
       </view>
       <!---->
     </view>
@@ -278,6 +328,12 @@
       <!--产业/行业类别-->
       <view class="registered_item">
         <van-cell title="产业/行业类别：" is-link value="现代海洋 / 海洋船舶" />
+      </view>
+      <!--使用协议-->
+      <view class="registered_notice">
+        <van-checkbox value="{{ checked }}" shape="square">
+          <view class="registered_notice_info" bindtap="noticeFn">我已阅读并接受应用使用协议</view>
+        </van-checkbox>
       </view>
       <!--机构注册-->
       <view class="registered_submit">

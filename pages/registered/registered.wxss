@@ -43,6 +43,17 @@ page {
   font-size: 24rpx;
   background-color: #FFF;
 }
+.registered_notice {
+  width: 450rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  margin-left: 150rpx;
+}
+.registered_notice_info {
+  color: #1989fa;
+}
 .registered_submit {
   width: 400rpx;
   line-height: 80rpx;
