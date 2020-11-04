@@ -1,5 +1,6 @@
 <!--registered.wxml-->
 <van-dialog id="van-dialog" />
+<van-toast id="van-toast" />
 <!--内容-->
 <view class="registered_line"></view>
 <van-tabs active="{{ tabActive }}" bind:change="onTabChange">
@@ -95,72 +96,139 @@
       <!--所在地区-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field required use-button-slot readonly label="所在地区：" border="{{ false }}">
+          <van-field required use-button-slot readonly label="所在地区："  error-message="{{ jgFormRrror.tenantIdError }}" border="{{ false }}">
             <van-dropdown-menu slot="button">
-              <van-dropdown-item  style="width: 20rpx;" title="" value="{{ formDate.value }}" options="{{ unitType }}" />
+              <van-dropdown-item
+              style="width: 20rpx;"
+              title=""
+              value="{{ jgFormDate.tenantId }}"
+              options="{{ tenantList }}"
+              bind:change="jgTenantFn"/>
             </van-dropdown-menu>
           </van-field>
         </van-cell-group>
       </view>
       <!--产业/行业类别-->
       <view class="registered_item">
-        <van-cell title="产业/行业类别：" is-link value="现代海洋 / 海洋船舶" />
+        <van-cell-group>
+          <van-field required use-button-slot readonly label="产业/行业："  error-message="{{ jgFormRrror.industryBusinessesError }}" border="{{ false }}">
+            <van-dropdown-menu slot="button">
+              <van-dropdown-item style="width: 20rpx;" title="{{ jgIndustryBusinesses }}">
+                <van-tree-select
+                items="{{ industryBusinessesList }}"
+                main-active-index="{{ jgIndex }}"
+                active-id="{{ jgIndustryId }}"
+                bind:click-nav="jgNavItem"
+                bind:click-item="jgIndustryItem"/>
+              </van-dropdown-item>
+            </van-dropdown-menu>
+          </van-field>
+        </van-cell-group>
       </view>
       <!--单位详细地址-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field required value="{{ value }}" label="单位详细地址：" placeholder="请输入单位详细地址" border="{{ false }}" />
+          <van-field
+          required
+          clearable
+          value="{{ jgFormDate.qyAddress }}"
+          label="单位详细地址："
+          placeholder="请输入单位详细地址"
+          error-message="{{ jgFormRrror.qyAddressError }}"
+          border="{{ false }}"
+          bind:input="jgQyAddress"/>
         </van-cell-group>
       </view>
       <!--法人姓名-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field value="{{ value }}" label="法人姓名：" placeholder="请输入法人姓名" border="{{ false }}" />
+          <van-field
+          clearable
+          value="{{ jgFormDate.legalName }}"
+          label="法人姓名："
+          placeholder="请输入法人姓名"
+          border="{{ false }}"
+          bind:input="jgLegalName"/>
         </van-cell-group>
       </view>
       <!--法人身份证号-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field value="{{ value }}" label="法人身份证号：" placeholder="请输入法人身份证号" border="{{ false }}" />
-        </van-cell-group>
-      </view>
-      <!--单位名称-->
-      <view class="registered_item">
-        <van-cell-group>
-          <van-field value="{{ value }}" label="单位联系人：" placeholder="请输入单位联系人" border="{{ false }}" />
+          <van-field
+          clearable
+          value="{{ jgFormDate.legalId }}"
+          label="法人身份证号："
+          placeholder="请输入法人身份证号"
+          error-message="{{ jgFormRrror.legalIdError }}"
+          border="{{ false }}"
+          bind:input="jgLegalId"/>
         </van-cell-group>
       </view>
       <!--单位联系人-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field value="{{ value }}" label="单位联系人：" placeholder="请输入单位联系人" border="{{ false }}" />
+          <van-field
+          required
+          clearable
+          value="{{ jgFormDate.linkPerson }}"
+          label="单位联系人："
+          placeholder="请输入单位联系人"
+          error-message="{{ jgFormRrror.linkPersonError }}"
+          border="{{ false }}"
+          bind:input="jgLinkPerson"/>
         </van-cell-group>
       </view>
       <!--联系电话-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field value="{{ value }}" label="联系电话：" placeholder="请输入联系电话" border="{{ false }}" />
+          <van-field
+          required
+          clearable
+          value="{{ jgFormDate.linkTel }}"
+          label="联系电话："
+          placeholder="请输入联系电话"
+          error-message="{{ jgFormRrror.linkTelError }}"
+          border="{{ false }}"
+          bind:input="jgLinkTel"/>
         </van-cell-group>
       </view>
       <!--验证码-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field value="{{ sms }}" center clearable label="验证码" placeholder="请输入短信验证码" border="{{ false }}" use-button-slot>
-            <van-button slot="button" size="small" type="primary">发送验证码</van-button>
+          <van-field
+          value="{{ jgFormDate.verifyCode }}"
+          center
+          clearable
+          required
+          label="验证码"
+          placeholder="请输入短信验证码"
+          error-message="{{ jgFormRrror.verifyCodeError }}"
+          border="{{ false }}"
+          use-button-slot
+          bind:input="jgVerifyCode">
+            <van-button slot="button" size="small" type="primary" disabled="{{ jgDisabled }}"  bind:click="jgVerifyCodeFn">{{ jgVerifyCodeTime }}</van-button>
           </van-field>
         </van-cell-group>
       </view>
       <!--电子邮箱-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field value="{{ value }}" label="电子邮箱：" placeholder="请输入电子邮箱" border="{{ false }}" />
+          <van-field
+          required
+          clearable
+          value="{{ jgFormDate.email }}"
+          label="电子邮箱："
+          placeholder="请输入电子邮箱"
+          error-message="{{ jgFormRrror.emailError }}"
+          border="{{ false }}"
+          bind:input="jgEmail"/>
         </van-cell-group>
       </view>
       <!--是否创新平台主体单位-->
       <view class="registered_item">
          <van-cell-group>
           <van-field required use-button-slot readonly label="是否创新平台主体单位：" border="{{ false }}">
-            <van-radio-group slot="button" value="{{ formDate.radio }}">
+            <van-radio-group slot="button" value="{{ jgFormDate.isCxPlatform }}" bind:change="jgCxPlatform">
               <van-radio name="1">是</van-radio>
               <van-radio name="2">否</van-radio>
             </van-radio-group>
@@ -174,7 +242,7 @@
       <view class="registered_item">
          <van-cell-group>
           <van-field required use-button-slot readonly label="是否创业平台主体单位：" border="{{ false }}">
-            <van-radio-group slot="button" value="{{ formDate.radio }}">
+            <van-radio-group slot="button" value="{{ jgFormDate.isCyPlatform }}" bind:change="jgCyPlatform">
               <van-radio name="1">是</van-radio>
               <van-radio name="2">否</van-radio>
             </van-radio-group>
@@ -187,16 +255,22 @@
       <!--所属创业平台-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field required use-button-slot readonly label="所属创业平台：" border="{{ false }}">
-            <van-dropdown-menu slot="button" direction="up">
-              <van-dropdown-item  style="width: 20rpx;" title="所属创业平台" value="{{ formDate.value }}" options="{{ unitType }}" />
+          <van-field use-button-slot readonly label="所属创业平台：" border="{{ false }}">
+            <van-dropdown-menu slot="button">
+              <van-dropdown-item
+              style="width: 20rpx;"
+              title=""
+              value="{{ jgFormDate.platformId }}"
+              options="{{ platformIdList }}"
+              bind:open="jgPlatformOpen"
+              bind:change="jgPlatformFn"/>
             </van-dropdown-menu>
           </van-field>
         </van-cell-group>
       </view>
       <!--使用协议-->
       <view class="registered_notice">
-        <van-checkbox value="{{ checked }}" shape="square">
+        <van-checkbox value="{{ jgProtocolChecked }}" bind:change="jgProtocolCheckedFn">
           <view class="registered_notice_info" bindtap="noticeFn">我已阅读并接受应用使用协议</view>
         </van-checkbox>
       </view>
@@ -213,9 +287,14 @@
       <!--证件类型-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field required use-button-slot readonly label="证件类型：" border="{{ false }}">
+          <van-field required use-button-slot readonly label="证件类型：" error-message="{{ grFormRrror.cardTypeIdRrror }}" border="{{ false }}">
             <van-dropdown-menu slot="button">
-              <van-dropdown-item  style="width: 20rpx;" title="证件类型" value="{{ formDate.value }}" options="{{ unitType }}" />
+              <van-dropdown-item
+              style="width: 20rpx;"
+              title=""
+              value="{{ grFormDate.cardTypeId }}"
+              options="{{ cardList }}"
+              bind:change="grCardTypeFn"/>
             </van-dropdown-menu>
           </van-field>
         </van-cell-group>
@@ -223,61 +302,131 @@
       <!--证件号码-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field value="{{ value }}" label="证件号码：" placeholder="请输入证件号码" border="{{ false }}" />
+          <van-field
+          required
+          clearable
+          value="{{ grFormDate.cardNum }}"
+          label="证件号码："
+          placeholder="请输入证件号码"
+          error-message="{{ grFormRrror.cardNumRrror }}"
+          border="{{ false }}"
+          bind:input="jgCardNum"/>
         </van-cell-group>
       </view>
       <!--证件扫描件上传-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field required use-button-slot readonly label="证件扫描件上传：" border="{{ false }}">
-            <van-uploader slot="button" file-list="{{ jgFileList }}" bind:after-read="afterRead" />
+          <van-field use-button-slot readonly required label="证件扫描件上传：" error-message="{{ grFormRrror.cardPicError }}" border="{{ false }}">
+            <van-uploader
+            slot="button"
+            max-count="1"
+            file-list="{{ grFileList }}"
+            bind:after-read="grAfterRead"
+            bind:delete="grDelete"/>
           </van-field>
         </van-cell-group>
       </view>
       <!--密码-->
-       <view class="registered_item">
+      <view class="registered_item">
         <van-cell-group>
-          <van-field value="{{ password }}" type="password" label="密码：" placeholder="请输入密码" required border="{{ false }}"/>
+          <van-field 
+          value="{{ grFormDate.password }}"
+          type="password"
+          label="密码："
+          placeholder="数字、英文、字符两种及以上6-20位"
+          error-message="{{ grFormRrror.passwordError }} "
+          required
+          clearable
+          border="{{ false }}"
+          bind:input="grPasswordInput"/>
         </van-cell-group>
       </view>
       <!--确认密码-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field value="{{ password }}" type="password" label="确认密码：" placeholder="请确认密码" required border="{{ false }}"/>
+          <van-field
+          value="{{ grFormDate.trueword }}"
+          type="password"
+          label="确认密码："
+          placeholder="请再次确认密码"
+          error-message="{{ grFormRrror.truewordError }} "
+          required
+          clearable
+          border="{{ false }}"
+          bind:input="grRepeatPasswordInput"/>
         </van-cell-group>
       </view>
       <!--姓名-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field value="{{ value }}" label="姓名：" placeholder="请输入姓名" border="{{ false }}" />
+          <van-field
+          required
+          clearable
+          value="{{ grFormDate.realName }}"
+          label="姓名："
+          placeholder="请输入姓名"
+          error-message="{{ grFormRrror.realNameRrror }}"
+          border="{{ false }}"
+          bind:input="grRealName"/>
         </van-cell-group>
       </view>
       <!--联系电话-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field value="{{ value }}" label="联系电话：" placeholder="请输入联系电话" border="{{ false }}" />
+          <van-field
+          required
+          clearable
+          value="{{ grFormDate.phoneNum }}"
+          label="联系电话："
+          placeholder="请输入联系电话"
+          error-message="{{ grFormRrror.phoneNumError }}"
+          border="{{ false }}"
+          bind:input="grPhoneNum"/>
         </van-cell-group>
       </view>
       <!--验证码-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field value="{{ sms }}" center clearable label="验证码" placeholder="请输入短信验证码" border="{{ false }}" use-button-slot>
-            <van-button slot="button" size="small" type="primary">发送验证码</van-button>
+          <van-field
+          value="{{ grFormDate.verifyCode }}"
+          center
+          clearable
+          required
+          label="验证码"
+          placeholder="请输入短信验证码"
+          error-message="{{ grFormRrror.verifyCodeError }}"
+          border="{{ false }}"
+          use-button-slot
+          bind:input="grVerifyCode">
+            <van-button slot="button" size="small" type="primary" disabled="{{ grDisabled }}"  bind:click="grVerifyCodeFn">{{ grVerifyCodeTime }}</van-button>
           </van-field>
         </van-cell-group>
       </view>
       <!--电子邮箱-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field value="{{ value }}" label="电子邮箱：" placeholder="请输入电子邮箱" border="{{ false }}" />
+          <van-field
+          required
+          clearable
+          value="{{ grFormDate.email }}"
+          label="电子邮箱："
+          placeholder="请输入电子邮箱"
+          error-message="{{ grFormRrror.emailError }}"
+          border="{{ false }}"
+          bind:input="grEmail"/>
         </van-cell-group>
       </view>
       <!--所在地区-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field required use-button-slot readonly label="所在地区：" border="{{ false }}">
+          <van-field required use-button-slot readonly label="所在地区："  error-message="{{ grFormRrror.xiaQuIdError }}" border="{{ false }}">
             <van-dropdown-menu slot="button">
-              <van-dropdown-item  style="width: 20rpx;" title="所在地区" value="{{ formDate.value }}" options="{{ unitType }}" />
+              <van-dropdown-item
+              style="width: 20rpx;"
+              title=""
+              value="{{ grFormDate.xiaQuId }}"
+              options="{{ tenantList }}"
+              bind:change="grxiaQuFn"/>
             </van-dropdown-menu>
           </van-field>
         </van-cell-group>
@@ -285,9 +434,15 @@
       <!--工作单位-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field required use-button-slot readonly label="工作单位：" border="{{ false }}">
+          <van-field use-button-slot readonly label="工作单位：" border="{{ false }}">
             <van-dropdown-menu slot="button">
-              <van-dropdown-item  style="width: 20rpx;" title="工作单位" value="{{ formDate.value }}" options="{{ unitType }}" />
+              <van-dropdown-item
+              style="width: 20rpx;"
+              title=""
+              value="{{ grFormDate.danWeiId }}"
+              options="{{ grPlatformIdList }}"
+              bind:open="grPlatformOpen"
+              bind:change="grPlatformFn"/>
             </van-dropdown-menu>
           </van-field>
         </van-cell-group>
@@ -295,20 +450,34 @@
       <!--工作单位详细地址-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field value="{{ value }}" label="工作单位详细地址：" placeholder="请输入工作单位详细地址" border="{{ false }}" />
+          <van-field
+          clearable
+          value="{{ grFormDate.danWeiAddress }}"
+          label="工作单位详细地址："
+          placeholder="请输入工作单位详细地址"
+          border="{{ false }}"
+          bind:input="grQyAddress"/>
         </van-cell-group>
       </view>
       <!--现居住地详细地址-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field value="{{ value }}" label="现居住地详细地址：" placeholder="请输入工作单位详细地址" border="{{ false }}" />
+          <van-field
+          required
+          clearable
+          value="{{ grFormDate.curLocation }}"
+          label="现居住地详细地址："
+          placeholder="请输入现居住地详细地址"
+          error-message="{{ grFormRrror.curLocationError }}"
+          border="{{ false }}"
+          bind:input="grCurLocation"/>
         </van-cell-group>
       </view>
       <!--是否为留学回国人员-->
       <view class="registered_item">
          <van-cell-group>
           <van-field required use-button-slot readonly label="是否为留学回国人员：" border="{{ false }}">
-            <van-radio-group slot="button" value="{{ formDate.radio }}">
+            <van-radio-group slot="button" value="{{ grFormDate.isLiuXue }}" bind:change="grIsLiuXue">
               <van-radio name="1">是</van-radio>
               <van-radio name="2">否</van-radio>
             </van-radio-group>
@@ -318,26 +487,44 @@
       <!--您属于-->
       <view class="registered_item">
         <van-cell-group>
-          <van-field required use-button-slot readonly label="您属于：" border="{{ false }}">
-            <van-dropdown-menu slot="button" direction="up">
-              <van-dropdown-item  style="width: 20rpx;" title="您属于" value="{{ formDate.value }}" options="{{ unitType }}" />
+          <van-field required use-button-slot readonly label="您属于："  error-message="{{ grFormRrror.rcTypeIdError }}" border="{{ false }}">
+            <van-dropdown-menu slot="button">
+              <van-dropdown-item
+              style="width: 20rpx;"
+              title=""
+              value="{{ grFormDate.rcTypeId }}"
+              options="{{ typeIdList }}"
+              bind:change="grypeFn"/>
             </van-dropdown-menu>
           </van-field>
         </van-cell-group>
       </view>
       <!--产业/行业类别-->
       <view class="registered_item">
-        <van-cell title="产业/行业类别：" is-link value="现代海洋 / 海洋船舶" />
+        <van-cell-group>
+          <van-field required use-button-slot readonly label="产业/行业："  error-message="{{ grFormRrror.industryBusinessModelsError }}" border="{{ false }}">
+            <van-dropdown-menu slot="button">
+              <van-dropdown-item style="width: 20rpx;" title="{{ grIndustryBusinesses }}">
+                <van-tree-select
+                items="{{ industryBusinessesList }}"
+                main-active-index="{{ grIndex }}"
+                active-id="{{ grIndustryId }}"
+                bind:click-nav="grNavItem"
+                bind:click-item="grIndustryItem"/>
+              </van-dropdown-item>
+            </van-dropdown-menu>
+          </van-field>
+        </van-cell-group>
       </view>
       <!--使用协议-->
       <view class="registered_notice">
-        <van-checkbox value="{{ checked }}" shape="square">
-          <view class="registered_notice_info" bindtap="noticeFn">我已阅读并接受应用使用协议</view>
+        <van-checkbox value="{{ grProtocolChecked }}" bind:change="grProtocolCheckedFn">
+          <view class="registered_notice_info" bindtap="grNoticeFn">我已阅读并接受应用使用协议</view>
         </van-checkbox>
       </view>
       <!--机构注册-->
       <view class="registered_submit">
-        <van-button type="primary" color="#0c499c" block bind:click="loginFn">注册</van-button>
+        <van-button type="primary" color="#0c499c" block bind:click="grSubmitFn">注册</van-button>
       </view>
       <!---->
     </view>

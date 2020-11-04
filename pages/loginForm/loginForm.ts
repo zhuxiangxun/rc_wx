@@ -102,8 +102,16 @@ Page({
         Toast(err);
       });
     }
-    
   },
+
+  //注册
+  registeredFn():void{
+    wx.navigateTo({
+      url: '../registered/registered'
+    })
+  },
+
+
 
   //页面初始化
   onLoad(){},

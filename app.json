@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/registered/registered",
+    
     "pages/index/index",
     "pages/map/map",
     "pages/mapArea/mapArea",
@@ -16,7 +16,8 @@
     "pages/transaction/transaction",
     "pages/smallTalk/smallTalk",
     "pages/home/home",
-    "pages/rcLink/rcLink"
+    "pages/rcLink/rcLink",
+    "pages/registered/registered"
     
   ],
   "window": {

@@ -12,11 +12,16 @@ App<any>({
     
     mapApiKey: '2L6BZ-6BWWS-RS6OI-6TPZT-ZRS4V-22BIF',                            //使用在腾讯位置服务申请的key
     imgUrl: 'https://rcapp.qdcsdn.cn/eweb_upload/download/getPic',               //图片展示服务器
-    fileUrl: 'https://rcapp.qdcsdn.cn/eweb_upload/upload/uploadFile',      //文件上传服务器
+    fileUrl: 'https://rcapp.qdcsdn.cn/eweb_upload/upload/uploadFile',            //文件上传服务器
     url: 'https://rcapp.qdcsdn.cn/sit-rencai-api',                               //服务器（发布）
 
     login: '/web/login',                           //登录接口
     editPass: '/web/editPass',                     //修改密码
+    tenantList: '/web/tenantList',                 //注册所在地区
+    getCode: '/web/getCode',                       //发送验证码
+    cyPlatformApi: '/web/cyPlatform',              //所属创业平台
+    enterReg: 'web/enterReg',                      //注册企业
+    userReg: 'web/userReg',                        //用户注册
     
     curUser: '/web/curUser',                       //获取当前登录用户信息
     count: '/website/count',                       //统计12条信息
@@ -48,7 +53,7 @@ App<any>({
     //logs.unshift(Date.now())
     //wx.setStorageSync('logs', logs)
     try {
-     // wx.clearStorageSync();  //清空存储
+      wx.clearStorageSync();  //清空存储
     } catch(e) {
       // Do something when catch error
     }
