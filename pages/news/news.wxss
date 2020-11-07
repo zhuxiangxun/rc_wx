@@ -1,5 +1,23 @@
 /**news.wxss**/
+.van-tab--active {
+  color: #0c499c!important;
+  font-weight: bold!important;
+}
+.van-tabs__scroll {
+  background-color: rgba(255,255,255,0.1)!important;
+}
+.van-tabs__nav {
+  border-bottom: 1rpx solid #b9bbbe!important;
+}
+video {
+  width: 750rpx;
+  height: 400rpx;
+}
+.news_video {
+  width: 720rpx;
+  height: 400rpx;
+}
 .news {
   width: 750rpx;
-  height: 100vh;
+  height: calc(100vh - 400rpx);
 }

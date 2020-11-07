@@ -7,6 +7,7 @@ let https  = require('../../utils/myRequest.js');     //获取ajax方法
 Page({
   //页面数据
   data: {
+    contentOverflow: '',            //内容高度
     tabActive: 'jg',                //注册tab
 
     qydanweiList: [],               //单位类型
@@ -118,6 +119,18 @@ Page({
     },
     grVerification: false,    //验证判断
   },
+
+  dropdownOpen():void{  //打开下拉菜单触发
+    this.setData({
+      contentOverflow: 'hidden'
+    })
+  },
+  dropdownClose():void{  //关闭下拉菜单触发
+    this.setData({
+      contentOverflow: 'scroll'
+    })
+  },
+
 
   getDanweiList():void{  //获取单位类型
     https.request(api.submenuDic + '?moid=14', null, 'GET')
@@ -257,7 +270,7 @@ Page({
 
   //机构注册
   jgShxyCodeInput(value:any):void{  //统一社会信用代码
-    let reg:any = /^[^_IOZSVa-z\W]{2}\d{6}[^_IOZSVa-z\W]{10}$/g;
+    let reg:any = /[1-9]\d{15}/;
     let str:Boolean = reg.test(value.detail);
     if(value.detail){
       if(str){
@@ -284,9 +297,8 @@ Page({
   jgAfterRead(event:any):void {             //统一社会信用代码扫描件上传
     let _that:any = this;
     const { file }:any = event.detail;
-    let token:string = wx.getStorageSync('token');
     wx.uploadFile({
-      url: api.fileUrl + '?token=' + token,
+      url: api.fileUrl,
       filePath: file.path,
       name: 'files',
       formData: { 
@@ -297,7 +309,7 @@ Page({
         let fileList:any = file.val.map((item:any):any=>{
           return {
             name: item.fileName,
-            url: api.imgUrl + '?token=' + token + '&filePath=' + item.filePath,
+            url: api.imgUrl + '?filePath=' + item.filePath,
           }
         })
         _that.setData({
@@ -681,14 +693,14 @@ Page({
 
 
   //个人注册
-  grCardTypeFn(value:any):void{  //单位类型
+  grCardTypeFn(value:any):void{  //证件类型
     this.setData({
       ["grFormRrror.cardTypeIdRrror"]: '',
       ["grFormDate.cardTypeId"]: value.detail,
       grVerification: true
     })
   },
-  jgCardNum(value:any):void{  //证件号码
+  grCardNum(value:any):void{  //证件号码
     if(value.detail){
       this.setData({
         ["grFormRrror.cardNumRrror"]: '',
@@ -700,9 +712,8 @@ Page({
   grAfterRead(event:any):void {             //证件扫描件上传
     let _that:any = this;
     const { file }:any = event.detail;
-    let token:string = wx.getStorageSync('token');
     wx.uploadFile({
-      url: api.fileUrl + '?token=' + token,
+      url: api.fileUrl,
       filePath: file.path,
       name: 'files',
       formData: { 
@@ -713,7 +724,7 @@ Page({
         let fileList:any = file.val.map((item:any):any=>{
           return {
             name: item.fileName,
-            url: api.imgUrl + '?token=' + token + '&filePath=' + item.filePath,
+            url: api.imgUrl + '?filePath=' + item.filePath,
           }
         })
         _that.setData({
@@ -730,7 +741,7 @@ Page({
       grFileList: [],                   //清空上传显示列表
       ["grFormDate.cardPic"]: [],      //清空上传列表
       ["grFormRrror.cardPicError"]: '请上传证件扫描件',
-        jgVerification: false
+        grVerification: false
     })
   },
   grPasswordInput(value:any):void{  //密码
@@ -818,9 +829,9 @@ Page({
   grVerifyCode(value:any):void{  //验证码
     if(value.detail){
       this.setData({
-        ["jgFormRrror.verifyCodeError"]: '',
-        ["jgFormDate.verifyCode"]: value.detail,
-        jgVerification: true
+        ["grFormRrror.verifyCodeError"]: '',
+        ["grFormDate.verifyCode"]: value.detail,
+        grVerification: true
       })
     }
   },
@@ -942,7 +953,7 @@ Page({
       ["grFormDate.industryBusinessModels"]: industryList,
       grIndustryBusinesses: data.detail.pText + ' / ' + data.detail.text,
       ["grFormRrror.industryBusinessModelsError"]: '',
-      grVerification: false
+      grVerification: true
     })
   },
   grProtocolCheckedFn(value:any):void{  //使用协议
@@ -953,7 +964,7 @@ Page({
 
   
   grSubmitFn():void{  //个人注册
-    //单位类型
+    //证件类型
     if(this.data.grFormDate.cardTypeId == ''){
       this.setData({
         ["grFormRrror.cardTypeIdRrror"]: '请选择单位类型',
@@ -978,7 +989,7 @@ Page({
     if(this.data.grFormDate.password == ''){
       this.setData({
         ["grFormRrror.passwordError"]:'请输入密码',
-        jgVerification: false
+        grVerification: false
       })
     }
     //确认密码

@@ -1,6 +1,18 @@
 <!--news.wxml-->
+<view class="news_video">
+    <video 
+    id="newVideo"
+    autoplay="{{ true }}"
+    object-fit="cover"
+    show-fullscreen-btn="{{ false }}"
+    enable-progress-gesture="{{ false }}"
+    enable-auto-rotation="{{ true }}"
+    src="{{ videoUrl }}"
+    bindended="btnFn">
+    </video>
+</view>
 <view class="news">
-  <van-tabs active="dongtai" tab-active-class="custom-class" bind:click="tabFn">
+    <van-tabs active="dongtai" tab-active-class="custom-class" color="#0c499c" line-width="240rpx" bind:click="tabFn">
       <!--平台动态-->
       <van-tab title="平台动态" name="dongtai">
           <activity id="dongtai" bind:moreBtn="onMoreBtn" listData="{{ listData }}" imgUrl="{{ imgUrl }}" moreTitle="{{ moreTitle }}" moreShow="{{ moreShow }}"></activity>
@@ -14,6 +26,6 @@
           <activity id="huodong" bind:moreBtn="onMoreBtn" listData="{{ listData }}" imgUrl="{{ imgUrl }}" moreTitle="{{ moreTitle }}" moreShow="{{ moreShow }}"></activity>
       </van-tab>
       <!---->
-  </van-tabs>
+    </van-tabs>
 </view>
 

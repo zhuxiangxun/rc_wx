@@ -45,3 +45,5 @@ Page({
   //页面关闭
   onUnload(){}
 })
+
+export {};

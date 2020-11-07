@@ -1,41 +1,82 @@
 <!--loginForm.wxml-->
+<van-dialog id="van-dialog" />
 <van-toast id="van-toast" />
 <!--内容-->
 <view class="loginForm">
   <view class="loginForm_main">
-    <view class="loginForm_user">
-      <van-cell-group border="{{ false }}">
-        <van-field
-        left-icon="{{ userIcon }}"
-        clearable
-        required
-        error-message="{{ formRrror.usernameError }}"
-        value="{{ formDate.username  }}"
-        placeholder="证件号码/社会统一信用代码"
-        border="{{ false }}"
-        bind:input="usernameInput"/>
-      </van-cell-group>
-    </view>
-    <view class="loginForm_parssword">
-      <van-cell-group border="{{ false }}">
-        <van-field 
-        left-icon="{{ passwordIcon }}"
-        type="password"
-        clearable
-        required
-        error-message="{{ formRrror.passwordError }}"
-        value="{{ formDate.password }}"
-        placeholder="请输入密码"
-        border="{{ false }}"
-        bind:input="parsswordInput"/>
-      </van-cell-group>
-    </view>
-    <view class="loginForm_btn">
-      <van-button type="primary" color="#0c499c" block bind:click="loginFn">登录</van-button>
-    </view>
+    <van-tabs active="{{ active }}" color="#0c499c" line-width="324rpx" bind:change="tabChange">
+      <van-tab title="用户/机构" name="yh">
+        <view class="loginForm_user">
+          <van-cell-group border="{{ false }}">
+            <van-field
+            left-icon="{{ userIcon }}"
+            clearable
+            required
+            error-message="{{ formRrror.usernameError }}"
+            value="{{ formDate.username }}"
+            placeholder="证件号码/社会统一信用代码"
+            border="{{ false }}"
+            bind:blur="usernameBlur"
+            bind:input="usernameInput"/>
+          </van-cell-group>
+        </view>
+        <view class="loginForm_parssword">
+          <van-cell-group border="{{ false }}">
+            <van-field 
+            left-icon="{{ passwordIcon }}"
+            type="password"
+            clearable
+            required
+            error-message="{{ formRrror.passwordError }}"
+            value="{{ formDate.password }}"
+            placeholder="请输入密码"
+            border="{{ false }}"
+            bind:input="parsswordInput"/>
+          </van-cell-group>
+        </view>
+        <view class="loginForm_btn">
+          <van-button type="primary" color="#0c499c" block bind:click="loginFn">登录</van-button>
+        </view>
+      </van-tab>
+      <van-tab title="主管单位" name="zg">
+        <view class="loginForm_user">
+          <van-cell-group border="{{ false }}">
+            <van-field
+            left-icon="{{ userIcon }}"
+            clearable
+            required
+            error-message="{{ zgFormRrror.usernameError }}"
+            value="{{ zgFormDate.username }}"
+            placeholder="证件号码/社会统一信用代码"
+            border="{{ false }}"
+            bind:blur="zgUsernameBlur"
+            bind:input="zgUsernameInput"/>
+          </van-cell-group>
+        </view>
+        <view class="loginForm_parssword">
+          <van-cell-group border="{{ false }}">
+            <van-field 
+            left-icon="{{ passwordIcon }}"
+            type="password"
+            clearable
+            required
+            error-message="{{ zgFormRrror.passwordError }}"
+            value="{{ zgFormDate.password }}"
+            placeholder="请输入密码"
+            border="{{ false }}"
+            bind:input="zgParsswordInput"/>
+          </van-cell-group>
+        </view>
+        <view class="loginForm_btn">
+          <van-button type="primary" color="#0c499c" block bind:click="zgLoginFn">登录</van-button>
+        </view>
+      </van-tab>
+    </van-tabs>
+    
     <view class="loginForm_bottom">
       <!-- <view class="loginForm_bottom_left">忘记密码/找回密码</view> -->
-      <view class="loginForm_bottom_right" bindtap="registeredFn">注册</view>
+      <!-- <view class="loginForm_bottom_right" bindtap="registeredFn">注册</view> -->
+      <view class="loginForm_bottom_right" bindtap="registered">注册</view>
     </view>
   </view>
 </view>

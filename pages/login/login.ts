@@ -8,6 +8,7 @@ Page({
   data: {
     loginInfo: '',          //登录名
     loginBtn: '',           //登录 / 退出按钮
+    passwordShow: true,     //个人登录还是主管单位登录
   },
 
   //个人信息
@@ -39,10 +40,12 @@ Page({
   loginFn():void{
     if(this.data.loginBtn == '退出登录'){
       wx.clearStorage();  //清除缓存
+      api.userId = '';
       Toast('已退出登录');
       this.setData({
         loginBtn: '登录',
-        loginInfo: '未登录'
+        loginInfo: '未登录',
+        passwordShow: true,
       })
     }else{
       wx.navigateTo({
@@ -69,18 +72,38 @@ Page({
     try {
       let token:string = wx.getStorageSync('token');
       if (!!token) {
-        https.successRequest(api.curUser, null, 'get')
-        .then((res:any):void=>{
-          if(res){
-            api.userId = res.val.id;        //用户ID
-            this.setData({
-              loginInfo: res.val.realName,
-              loginBtn: '退出登录'
-            })
+        if(api.loginStatus == 'yh'){  //用户机构登录
+          https.successRequest(api.curUser, null, 'get')
+          .then((res:any):void=>{
+            if(res){
+              api.userId = res.val.id;        //用户ID
+              this.setData({
+                loginInfo: res.val.realName,
+                loginBtn: '退出登录',
+                passwordShow: true
+              })
+            }
+          },(err:any)=>{
+            Toast(err);
+          });
+        }
+        if(api.loginStatus == 'zg'){  //主管单位登录
+          if(api.userId == ''){
+            https.zgSuccessRequest(api.loginuser, null, 'get')
+            .then((res:any):void=>{
+              if(res){
+                api.userId = res.val.id;        //用户ID
+                this.setData({
+                  loginInfo: res.val.username,
+                  loginBtn: '退出登录',
+                  passwordShow: false
+                })
+              }
+            },(err:any)=>{
+              Toast(err);
+            });
           }
-        },(err:any)=>{
-          Toast(err);
-        });
+        }
       }else{
         this.setData({
           loginInfo: '未登录',

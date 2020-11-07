@@ -8,6 +8,7 @@ let QQMapWX = require('../../utils/qqmap-wx-jssdk.js');  // 引入SDK核心类
 Page({
   //页面数据
   data: {
+    ptTitle: '',                         //当前查询的平台名称
     imgUrl: '',                          //图片服务器
     moreTitle: '点击加载更多',            //加载更多
     flag: '',                            //当前列表
@@ -48,6 +49,7 @@ Page({
     ],
     //服务高级搜索
     fwCategoryList:[],            //服务类别
+    jrCategoryList:[],            //金融服务类别
     fwTypeList: [],               //单位类型
     fwScaleList: [],              //单位规模
     //找投资
@@ -204,7 +206,7 @@ Page({
   },
 
   ptCxTypes():void{  //创新平台类型
-    https.successRequest(api.submenuDic + '?moid=60', null, 'GET')
+    https.request(api.submenuDic + '?moid=60', null, 'GET')
     .then((res:any):void=>{
       if(res){
         this.setData({
@@ -217,7 +219,7 @@ Page({
   },
 
   ptTypes():void{  //创业平台类型
-    https.successRequest(api.submenuDic + '?moid=2', null, 'GET')
+    https.request(api.submenuDic + '?moid=2', null, 'GET')
     .then((res:any):void=>{
       if(res){
         this.setData({
@@ -230,7 +232,7 @@ Page({
   },
 
   industry():void{  //产业/行业
-    https.successRequest(api.submenuDic + '?moid=7', null, 'GET')
+    https.request(api.submenuDic + '?moid=7', null, 'GET')
     .then((res:any):void=>{
       if(res){
         let arr:any = res.val.map((item:any):any=>{
@@ -261,7 +263,7 @@ Page({
   },
 
   xmStage():void{  //所处阶段
-    https.successRequest(api.submenuDic + '?moid=40', null, 'GET')
+    https.request(api.submenuDic + '?moid=40', null, 'GET')
     .then((res:any):void=>{
       if(res){
         this.setData({
@@ -273,7 +275,7 @@ Page({
     });
   },
   xmCategory():void{  //需求类别
-    https.successRequest(api.submenuDic + '?moid=41', null, 'GET')
+    https.request(api.submenuDic + '?moid=41', null, 'GET')
     .then((res:any):void=>{
       if(res){
         this.setData({
@@ -285,7 +287,7 @@ Page({
     });
   },
   xmFinancing():void{  //融资金额
-    https.successRequest(api.submenuDic + '?moid=52', null, 'GET')
+    https.request(api.submenuDic + '?moid=52', null, 'GET')
     .then((res:any):void=>{
       if(res){
         this.setData({
@@ -298,7 +300,7 @@ Page({
   },
 
   cdCarrier():void{  //资源类型
-    https.successRequest(api.submenuDic + '?moid=15', null, 'GET')
+    https.request(api.submenuDic + '?moid=15', null, 'GET')
     .then((res:any):void=>{
       if(res){
         this.setData({
@@ -310,7 +312,7 @@ Page({
     });
   },
   fwCategory():void{  //服务类别
-    https.successRequest(api.submenuDic + '?moid=13', null, 'GET')
+    https.request(api.submenuDic + '?moid=13', null, 'GET')
     .then((res:any):void=>{
       if(res){
         let arr:any = res.val.map((item:any):any=>{
@@ -331,8 +333,14 @@ Page({
             children: children
           }
         })
+
+        let categoryList:any = arr.filter((item:any)=>{
+          return item.text == '金融服务'
+        })
+
         this.setData({
-          fwCategoryList: arr
+          fwCategoryList: arr,
+          jrCategoryList: categoryList
         })
       }
     },(err:any)=>{
@@ -340,7 +348,7 @@ Page({
     });
   },
   fwType():void{  //单位类型
-    https.successRequest(api.submenuDic + '?moid=14', null, 'GET')
+    https.request(api.submenuDic + '?moid=14', null, 'GET')
     .then((res:any):void=>{
       if(res){
         this.setData({
@@ -352,7 +360,7 @@ Page({
     });
   },
   fwScale():void{  //单位规模
-    https.successRequest(api.submenuDic + '?moid=21', null, 'GET')
+    https.request(api.submenuDic + '?moid=21', null, 'GET')
     .then((res:any):void=>{
       if(res){
         this.setData({
@@ -365,7 +373,7 @@ Page({
   },
 
   rzWay():void{  //融资方式
-    https.successRequest(api.submenuDic + '?moid=58', null, 'GET')
+    https.request(api.submenuDic + '?moid=58', null, 'GET')
     .then((res:any):void=>{
       if(res){
         this.setData({
@@ -378,13 +386,13 @@ Page({
   },
 
   tzArea():void{  //投资区域
-    https.successRequest(api.tenants, null, 'GET')
+    https.request(api.tenants, null, 'GET')
     .then((res:any):void=>{
       if(res){
         let list:any = res.list.map((item:any):any=>{
           return {
-            dicName: item.model.cname,
-            id: item.model.id
+            dicName: item.cname,
+            id: item.id
           }
         })
         this.setData({
@@ -397,7 +405,7 @@ Page({
   },
 
   tzWay():void{  //投资方式
-    https.successRequest(api.submenuDic + '?moid=56', null, 'GET')
+    https.request(api.submenuDic + '?moid=56', null, 'GET')
     .then((res:any):void=>{
       if(res){
         this.setData({
@@ -410,7 +418,7 @@ Page({
   },
 
   tzOther():void{  //投资金额
-    https.successRequest(api.submenuDic + '?moid=55', null, 'GET')
+    https.request(api.submenuDic + '?moid=55', null, 'GET')
     .then((res:any):void=>{
       if(res){
         this.setData({
@@ -423,7 +431,7 @@ Page({
   },
 
   tzType():void{  //资金类型
-    https.successRequest(api.submenuDic + '?moid=42', null, 'GET')
+    https.request(api.submenuDic + '?moid=42', null, 'GET')
     .then((res:any):void=>{
       if(res){
         this.setData({
@@ -575,9 +583,10 @@ Page({
   },
   getAllPro():void{               //6找全部平台统计
     this.setData({
+      ptTitle: '全部平台',        //查询书籍标题
       moreShow: false,
     })
-    https.successRequest(api.allPlatform, {
+    https.request(api.allPlatform, {
       tenantId: api.areaId,             //地区id
       key: this.data.searchKey,         //关键字搜索
       pageSize: this.data.pageSize,     //每页显示数量
@@ -692,9 +701,10 @@ Page({
   },
   getCxPro():void{               //6找创新平台统计
     this.setData({
+      ptTitle: '创新平台',        //查询书籍标题
       moreShow: false,
     })
-    https.successRequest(api.cxPlatformUser, {
+    https.request(api.cxPlatformUser, {
       tenantId: api.areaId,             //地区id
       key: this.data.searchKey,         //关键字搜索
       pageSize: this.data.pageSize,     //每页显示数量
@@ -764,9 +774,10 @@ Page({
   },
   getCyPro():void{               //6找创业平台统计
     this.setData({
+      ptTitle: '创业平台',        //查询书籍标题
       moreShow: false,
     })
-    https.successRequest(api.cyPlatUser, {
+    https.request(api.cyPlatUser, {
       tenantId: api.areaId,             //地区id
       key: this.data.searchKey,         //关键字搜索
       pageSize: this.data.pageSize,     //每页显示数量
@@ -880,7 +891,7 @@ Page({
       this.selectComponent('#ptIndustry').toggle(false);     //产业、行业展开关闭状态
     }else{
       this.setData({
-        flag: 'cyPt',             //当前列表
+        flag: 'cyPt',              //当前列表
         ptBtnClass: e.target.dataset.num,
         ptBtnShow: true,           //高级搜索
         ptTypeClass: null,
@@ -1044,9 +1055,10 @@ Page({
   },
   getProList():void{               //6找项目统计
     this.setData({
+      ptTitle: '项目',        //查询书籍标题
       moreShow: false,
     })
-    https.successRequest(api.findPro, {
+    https.request(api.findPro, {
       tenantId: api.areaId,                 //地区id
       key: this.data.searchKey,             //关键字搜索
       pageSize: this.data.pageSize,         //每页显示数量
@@ -1239,9 +1251,10 @@ Page({
   },
   getSiteList():void{               //6找场地统计
     this.setData({
+      ptTitle: '场地',              //查询标题
       moreShow: false,
     })
-    https.successRequest(api.cyPlatform, {
+    https.request(api.cyPlatform, {
       tenantId: api.areaId,                 //地区id
       key: this.data.searchKey,             //关键字搜索
       pageSize: this.data.pageSize,         //每页显示数量
@@ -1432,9 +1445,10 @@ Page({
   },
   getServiceList():void{         //6找服务统计
     this.setData({
+      ptTitle: '服务机构',        //查询标题
       moreShow: false,
     })
-    https.successRequest(api.findFw, {
+    https.request(api.findFw, {
       tenantId: api.areaId,                 //地区id
       key: this.data.searchKey,             //关键字搜索
       pageSize: this.data.pageSize,         //每页显示数量
@@ -1678,9 +1692,10 @@ Page({
   },
   getAllFundsList(){  //找资金（全部）
     this.setData({
+      ptTitle: '资金',        //查询标题
       moreShow: false,
     })
-    https.successRequest(api.allFund, {
+    https.request(api.allFund, {
       tenantId: api.areaId,                 //地区id
       key: this.data.searchKey,             //关键字搜索
       pageSize: this.data.pageSize,         //每页显示数量
@@ -1835,7 +1850,8 @@ Page({
         }else{
           this.setData({
             markers: this.data.markers.concat(newMarkersList),               //标记
-            mumList: this.data.mumList.concat(newMarkersList),                //列表
+            mumList: this.data.mumList.concat(newMarkersList),               //列表
+            total: res.val.total,                                            //总数
           })
         }
         if(this.data.mumList.length < res.val.total){
@@ -1954,13 +1970,13 @@ Page({
     }
   },
 
-
   //找资金（金融服务）
   getJrList(){  //找资金（金融）
     this.setData({
+      ptTitle: '金融服务',        //查询标题
       moreShow: false,
     })
-    https.successRequest(api.jinrong, {
+    https.request(api.jinrong, {
       tenantId: api.areaId,                 //地区id
       key: this.data.searchKey,             //关键字搜索
       pageSize: this.data.pageSize,         //每页显示数量
@@ -2006,14 +2022,15 @@ Page({
 
         if(this.data.total == 0){
           this.setData({
-            markers: list,               //标记
-            total: res.total,       //总数
+            markers: list,                //标记
+            total: res.total,             //总数
             mumList: list,                //列表
           })
         }else{
           this.setData({
             markers: this.data.markers.concat(list),               //标记
-            mumList: this.data.mumList.concat(list),                //列表
+            mumList: this.data.mumList.concat(list),               //列表
+            total: res.total,                                  //总数
           })
         }
       
@@ -2142,9 +2159,10 @@ Page({
   //找资金（投资）
   getTzList(){  //找资金（投资）
     this.setData({
+      ptTitle: '投资',        //查询标题
       moreShow: false,
     })
-    https.successRequest(api.touzi, {
+    https.request(api.touzi, {
       tenantId: api.areaId,                  //地区id
       key: this.data.searchKey,             //关键字搜索
       pageSize: this.data.pageSize,         //每页显示数量
@@ -2199,7 +2217,8 @@ Page({
         }else{
           this.setData({
             markers: this.data.markers.concat(list),               //标记
-            mumList: this.data.mumList.concat(list),                //列表
+            mumList: this.data.mumList.concat(list),               //列表
+            total: res.total,                                  //总数
           })
         }
       
@@ -2338,9 +2357,10 @@ Page({
   //找资金（融资）
   getRzList(){  //找资金（融资）
     this.setData({
+      ptTitle: '融资',        //查询标题
       moreShow: false,
     })
-    https.successRequest(api.rongzi, {
+    https.request(api.rongzi, {
       tenantId: api.areaId,                  //地区id
       key: this.data.searchKey,             //关键字搜索
       pageSize: this.data.pageSize,         //每页显示数量
@@ -2441,7 +2461,8 @@ Page({
         }else{
           this.setData({
             markers: this.data.markers.concat(newMarkersList),               //标记
-            mumList: this.data.mumList.concat(newMarkersList),                //列表
+            mumList: this.data.mumList.concat(newMarkersList),               //列表
+            total: res.val.total,                                            //总数
           })
         }
       
@@ -2579,9 +2600,21 @@ Page({
   mapDetail(e:any):void {
     let name:String = e.currentTarget.dataset.name;
     let id:String = e.currentTarget.dataset.id;
-    wx.navigateTo({
-      url:"../mapDetail/mapDetail?name=" + name + '&id=' + id
-    })
+
+    let token:string = wx.getStorageSync('token');
+    if(!!token){
+      wx.navigateTo({
+        url:"../mapDetail/mapDetail?name=" + name + '&id=' + id
+      })
+    }else{
+      Dialog.alert({
+        message: '登录后才能查看详情！',
+      }).then(() => {
+        wx.navigateTo({
+          url: '../loginForm/loginForm'
+        })
+      });
+    } 
   },
 
 
@@ -2620,57 +2653,60 @@ Page({
 
   //验证用户登录状态
   verification():void{
-    let token:string = wx.getStorageSync('token');
-    if(!!token){
+    this.setData({
+      imgUrl: api.imgUrl + '?filePath='
+    })
+    if(api.areaName && api.areaName != '青岛市'){
       this.setData({
-        imgUrl: api.imgUrl + '?token=' + token + '&filePath='
+        pageSize: 10,               //每页显示数量
+        pageIndex: 1,               //当前页
+        total: 0,                   //总条数
+        markers: [],                //清空
+        scale: 12,                  //缩放级别，取值范围为3-20
+
+        areaName: api.areaName,
+        areaId: api.areaId,
+        longitude: api.longitude,    //中心经度
+        latitude: api.latitude       //中心纬度
       })
-      //切换区的操作
-      if(api.areaName){
-        this.setData({
-          pageSize: 10,               //每页显示数量
-          pageIndex: 1,               //当前页
-          total: 0,                   //总条数
-          markers: [],                //清空
+      //this.getMark();               //获取地图标点
+    }else if(api.areaName == '青岛市'){
+      this.setData({
+        pageSize: 10,               //每页显示数量
+        pageIndex: 1,               //当前页
+        total: 0,                   //总条数
+        markers: [],                //清空
+        scale: 10,                  //缩放级别，取值范围为3-20
 
-          areaName: api.areaName,
-          areaId: api.areaId,
-          longitude: api.longitude,    //中心经度
-          latitude: api.latitude       //中心纬度
-        })
-        //this.getMark();               //获取地图标点
-      }else{
-        //第一次进入获取当前位置
-        wx.getLocation({
-          type: 'wgs84',
-          success:(res:any):void=>{
-            this.setData({
-              pageSize: 10,               //每页显示数量
-              pageIndex: 1,               //当前页
-              total: 0,                   //总条数
-              markers: [],                //清空
-
-              longitude: res.longitude,    //中心经度
-              latitude: res.latitude       //中心纬度 
-            })
-            this.getAreaList();               //获取青岛所有区
-          }
-        });
-      }
+        areaName: api.areaName,
+        areaId: api.areaId,
+        longitude: api.longitude,    //中心经度
+        latitude: api.latitude       //中心纬度
+      })
     }else{
-      Dialog.alert({
-        message: '登录后才能查看地图！',
-      }).then(() => {
-        wx.navigateTo({
-          url: '../loginForm/loginForm'
-        })
+      //第一次进入获取当前位置
+      wx.getLocation({
+        type: 'wgs84',
+        success:(res:any):void=>{
+          this.setData({
+            pageSize: 10,               //每页显示数量
+            pageIndex: 1,               //当前页
+            total: 0,                   //总条数
+            markers: [],                //清空
+            scale: 12,                  //缩放级别，取值范围为3-20
+
+            longitude: res.longitude,    //中心经度
+            latitude: res.latitude       //中心纬度 
+          })
+          this.getAreaList();               //获取青岛所有区
+        }
       });
     }
   },
 
   //获取地图标点
   getMark():void{
-    https.successRequest(api.all,{
+    https.request(api.all,{
       tenantId: api.areaId,                     //区ID
       pageSize: this.data.pageSize,             //每页显示数量
       pageIndex: this.data.pageIndex,           //页数
@@ -2938,15 +2974,15 @@ Page({
 
   //获取市区
   getAreaList():void{
-    https.successRequest(api.tenants, null, 'GET').then((res:any):void=>{
+    https.request(api.tenants, null, 'GET').then((res:any):void=>{
       if(res){
         let list:any = res.list.map((item:any):any=>{
-          if(item.model.cname == '西海岸新区'){
-            item.model.cname = '黄岛区';
+          if(item.cname == '西海岸新区'){
+            item.cname = '黄岛区';
           }
           return {
-            id: item.model.id,
-            title: item.model.cname
+            id: item.id,
+            title: item.cname
           }
         })
         let newList:any = [];
@@ -3047,6 +3083,14 @@ Page({
               latitude: '36.353411',           //中心纬度
             })
           }
+          if(item.title == '青岛市'){
+            newList.unshift({
+              id: item.id,
+              title: item.title,
+              longitude: '120.389458',          //中心经度
+              latitude: '36.07316',             //中心纬度
+            })
+          }
         })
         this.setData({
           areaList: newList
@@ -3059,7 +3103,6 @@ Page({
   },
 
   getArea():void{  //获取当前位置所在区
-    
     let qqmapsdk:any = new QQMapWX({
       key: api.mapApiKey
     })
@@ -3069,7 +3112,11 @@ Page({
         qqmapsdk.reverseGeocoder({
           location: this.data.latitude + ',' + this.data.longitude,
           success:(res:any):void=>{
+            let city:any = res.result.address_component.city;
             let areaName:string = res.result.address_component.district;
+            if(city != '青岛市'){
+              areaName = '青岛市';
+            }
             this.data.areaList.forEach((item:any)=>{
               if(item.title == areaName){
                 //全局变量
@@ -3078,12 +3125,24 @@ Page({
                 api.longitude = item.longitude,    //中心经度
                 api.latitude = item.latitude       //中心纬度
                 //当前页变量（切换地图显示区域）
-                this.setData({
-                  areaName: api.areaName,
-                  areaId: api.areaId,
-                  longitude: api.longitude,    //中心经度
-                  latitude: api.latitude       //中心纬度
-                });
+                if(areaName == '青岛市'){
+                  this.setData({
+                    scale: 10,                    //缩放级别，取值范围为3-20
+                    areaName: api.areaName,
+                    areaId: api.areaId,
+                    longitude: api.longitude,     //中心经度
+                    latitude: api.latitude       //中心纬度
+                  });
+                }else{
+                  this.setData({
+                    scale: 12,                    //缩放级别，取值范围为3-20
+                    areaName: api.areaName,
+                    areaId: api.areaId,
+                    longitude: api.longitude,     //中心经度
+                    latitude: api.latitude,       //中心纬度
+                  });
+                }
+
                 if(api.indexFlag == 'pt'){         //首页找平台进入
                   this.ptFn();
                 }else if(api.indexFlag == 'xm'){   //首页找政策进入
@@ -3103,7 +3162,6 @@ Page({
         })
       }
     })
-    
   },
 
   moreFn():void{   //加载更多

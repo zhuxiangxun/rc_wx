@@ -5,6 +5,8 @@ let https  = require('../../utils/myRequest.js');     //获取ajax方法
 Page({
   //页面数据
   data: {
+    videoUrl: 'https://cim.qdcsdn.cn/rc_wx/news.mp4',
+    
     total: 0,          //总数
     pageIndex: 1,      //条数
     pageSize: 10,       //页码

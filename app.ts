@@ -2,6 +2,7 @@
 App<any>({
   //全局变量
   globalData: {
+    loginStatus: '',             //用户登录（个人、统筹）判断
     userId: '',                  //登录用户ID
 
     indexFlag: '',               //首页6找判断
@@ -14,16 +15,20 @@ App<any>({
     imgUrl: 'https://rcapp.qdcsdn.cn/eweb_upload/download/getPic',               //图片展示服务器
     fileUrl: 'https://rcapp.qdcsdn.cn/eweb_upload/upload/uploadFile',            //文件上传服务器
     url: 'https://rcapp.qdcsdn.cn/sit-rencai-api',                               //服务器（发布）
+    zgUrl: 'https://rcapp.qdcsdn.cn/sit-auth-api',                               //服务器（主管单位）
 
-    login: '/web/login',                           //登录接口
+    login: '/web/login',                           //机构、个人登录接口
+    curUser: '/web/curUser',                       //获取当前登录用户信息
+    danweiLogin: '/login',                         //主管单位登录接口
+    loginuser: '/userInfo/loginuser',              //获取主管单位用户信息
+    
     editPass: '/web/editPass',                     //修改密码
     tenantList: '/web/tenantList',                 //注册所在地区
     getCode: '/web/getCode',                       //发送验证码
     cyPlatformApi: '/web/cyPlatform',              //所属创业平台
-    enterReg: 'web/enterReg',                      //注册企业
-    userReg: 'web/userReg',                        //用户注册
+    enterReg: '/web/enterReg',                      //注册企业
+    userReg: '/web/userReg',                        //用户注册
     
-    curUser: '/web/curUser',                       //获取当前登录用户信息
     count: '/website/count',                       //统计12条信息
     submenuDic: '/dic/submenuDic',                 //高级搜索字典表
     circle: '/website/circle',                     //平台动态

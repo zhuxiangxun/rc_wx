@@ -12,8 +12,8 @@ Page({
   areaFn(e:any):void{  //点击区时触发
     api.areaId = e.target.dataset.id;               //区ID
     api.areaName = e.target.dataset.title;          //区名
-    api.longitude = e.target.dataset.longitude;            //中心经度
-    api.latitude = e.target.dataset.latitude;          //中心纬度
+    api.longitude = e.target.dataset.longitude;     //中心经度
+    api.latitude = e.target.dataset.latitude;       //中心纬度
     wx.switchTab({ 
       url:'../map/map'
     });
@@ -21,13 +21,13 @@ Page({
 
   //获取市区
   getArea():void{
-    https.successRequest(api.tenants, null, 'GET')
+    https.request(api.tenants, null, 'GET')
     .then((res:any):void=>{
       if(res){
         let list:any = res.list.map((item:any):any=>{
           return {
-            id: item.model.id,
-            title: item.model.cname
+            id: item.id,
+            title: item.cname
           }
         })
         let newList:any = [];
@@ -125,7 +125,15 @@ Page({
               id: item.id,
               title: item.title,
               longitude: '120.683445',          //中心经度
-              latitude: '36.353411',           //中心纬度
+              latitude: '36.353411',            //中心纬度
+            })
+          }
+          if(item.title == '青岛市'){
+            newList.unshift({
+              id: item.id,
+              title: item.title,
+              longitude: '120.389458',          //中心经度
+              latitude: '36.07316',             //中心纬度
             })
           }
         })

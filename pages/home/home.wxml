@@ -1,2 +1,115 @@
-<!--animation.wxml-->
-<view style="margin: 50% 50%;">欢迎动画，动画结束后进入首页</view>
+<!--home.wxml-->
+<van-dialog id="van-dialog" />
+<!--头部轮播-->
+<scroll-view 
+scroll-y="true" 
+bindscrolltolower="scrollToLower" 
+enhanced="true" 
+lower-threshold="-100"
+style="100%">
+  <import src="../../templates/template.wxml" /> 
+  <view bindtap="indexHeaderFn">
+    <template is="indexHeader" data="{{ list: list }}"></template>
+  </view>
+  <!--青岛人才创业平台地图-->
+  <view class="map_content">
+    <view class="map_content_title"></view>
+    <view class="map_content_list">
+      <view class="map_content_list_item" bindtap="ptFn">
+        <view class="map_content_list_item_img">
+          <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/icon_01.png" />
+        </view>
+        <view class="map_content_list_item_title">找平台</view>
+      </view>
+      <view class="map_content_list_item" bindtap="zcFn">
+        <view class="map_content_list_item_img">
+          <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/icon_02.png" />
+        </view>
+        <view class="map_content_list_item_title">找政策</view>
+      </view>
+      <view class="map_content_list_item" bindtap="xmFn">
+        <view class="map_content_list_item_img">
+          <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/icon_03.png" />
+        </view>
+        <view class="map_content_list_item_title">找项目</view>
+      </view>
+      <view class="map_content_list_item" bindtap="zjFn">
+        <view class="map_content_list_item_img">
+          <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/icon_04.png" />
+        </view>
+        <view class="map_content_list_item_title">找资金</view>
+      </view>
+      <view class="map_content_list_item" bindtap="cdFn">
+        <view class="map_content_list_item_img">
+          <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/icon_05.png" />
+        </view>
+        <view class="map_content_list_item_title">找场地</view>
+      </view>
+      <view class="map_content_list_item" bindtap="fwFn">
+        <view class="map_content_list_item_img">
+          <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/icon_06.png" />
+        </view>
+        <view class="map_content_list_item_title">找服务</view>
+      </view>
+    </view>
+    <view class="map_content_img" bindtap="mapFn">
+      <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/img_01.jpg" />
+    </view>
+  </view>
+  <!--外部链接-->
+  <view class="link">
+    <view class="link_item" bindtap="linkFn">
+      <view class="link_item_img">
+        <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/icon_11.png" />
+      </view>
+      <view class="link_item_title">我要工作</view>
+    </view>
+    <view class="link_item" bindtap="linkFn">
+      <view class="link_item_img">
+        <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/icon_12.png" />
+      </view>
+      <view class="link_item_title">我要人才</view>
+    </view>
+    <view class="link_item" bindtap="linkFn">
+      <view class="link_item_img">
+        <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/icon_13.png" />
+      </view>
+      <view class="link_item_title">我要申报</view>
+    </view>
+    <view class="link_item" bindtap="linkFn">
+      <view class="link_item_img">
+        <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/icon_14.png" />
+      </view>
+      <view class="link_item_title">我要补贴</view>
+    </view>
+    <view class="link_item" bindtap="linkFn">
+      <view class="link_item_img">
+        <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/icon_15.png" />
+      </view>
+      <view class="link_item_title">我要评价</view>
+    </view>
+    <view class="link_item" bindtap="linkFn">
+      <view class="link_item_img">
+        <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/icon_16.png" />
+      </view>
+      <view class="link_item_title">我要交易</view>
+    </view>
+    <view class="link_item" bindtap="linkFn">
+      <view class="link_item_img">
+        <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/icon_17.png" />
+      </view>
+      <view class="link_item_title">我要仪器设备</view>
+    </view>
+    <view class="link_item">
+      <view class="link_item_img" bindtap="linkFn">
+        <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/icon_18.png" />
+      </view>
+      <view class="link_item_title">我要融资</view>
+    </view>
+  </view>
+  <!--信息快讯-->
+  <view class="news" bindtap="newsClick">
+    <van-image width="100%" height="100%" src="https://cim.qdcsdn.cn/rc_wx/icon_19.png" />
+  </view>
+  <!---->
+</scroll-view>

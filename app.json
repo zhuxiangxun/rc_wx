@@ -1,7 +1,7 @@
 {
   "pages": [
-    
     "pages/index/index",
+    "pages/home/home",
     "pages/map/map",
     "pages/mapArea/mapArea",
     "pages/mapDetail/mapDetail",
@@ -15,10 +15,8 @@
     "pages/device/device",
     "pages/transaction/transaction",
     "pages/smallTalk/smallTalk",
-    "pages/home/home",
     "pages/rcLink/rcLink",
     "pages/registered/registered"
-    
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -45,7 +43,7 @@
     "backgroundColor":"#FFF",
     "list":[
       {
-        "pagePath":"pages/index/index",
+        "pagePath":"pages/home/home",
         "iconPath":"images/tabBar1.png",
         "selectedIconPath":"images/tabBar2.png",
         "text":"首页"

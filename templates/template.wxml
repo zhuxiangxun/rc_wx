@@ -57,14 +57,14 @@
         </swiper-item>
         <swiper-item>
             <view class="header_bar_item">
-                <view class="header_bar_item_list" style="width: 50%;">
+                <view class="header_bar_item_list" style="width: 100%;">
                     <view class="header_bar_item_list_num">{{ list.equipCount }}</view>
                     <view class="header_bar_item_list_title">仪器设备资源</view>
                 </view>
-                <view class="header_bar_item_list" style="width: 50%;">
+                <!-- <view class="header_bar_item_list" style="width: 50%;">
                     <view class="header_bar_item_list_num">{{ list.needCount }}</view>
                     <view class="header_bar_item_list_title">创新创业需求对接</view>
-                </view>
+                </view> -->
             </view>
         </swiper-item>
       </swiper>
