@@ -925,7 +925,6 @@ Page({
     });
   },
   ptIndustryItem(data:any):void {  //行业产业（右侧选择项被点击时，会触发的事件）
-
     const id = this.data.ptIndustryId === data.detail.id ? null : data.detail.id;
     const pId = data.detail.pId;
     this.setData({

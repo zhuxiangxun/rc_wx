@@ -206,7 +206,7 @@ Page({
   loginFn():void{
     if(this.data.formDate.username == ''){  //用户名
       this.setData({
-        ["formRrror.usernameError"]: '请输入用户名',
+        ["formRrror.usernameError"]: '请输入证件号码/社会统一信用代码',
         verification: false
       })
     }

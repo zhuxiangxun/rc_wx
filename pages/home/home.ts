@@ -14,6 +14,7 @@ let template:any = require('../../templates/template.js');   //获取indexHeader
 Page({
   //页面数据
   data: {
+    scrollTop: '0',
     list:{  //统计12条信息
       cyModel: 0,             //创业平台
       cxModel: 0,             //创新平台
@@ -30,15 +31,13 @@ Page({
     }
   },
 
-  scrollToLower():void {  //滚动到底部/右边时触发
+  // scrollToLower():void {  //滚动到底部/右边时触发
+  //   expressFn();  //跳转信息速递
+  // },
+
+  onReachBottom():void{  //监听上拉触底事件
     expressFn();  //跳转信息速递
   },
-
-  // onReachBottom():void{  //监听上拉触底事件
-  //   wx.navigateTo({
-  //     url: '../news/news'
-  //   })
-  // },
 
   //模板点击事件
   indexHeaderFn(event:any):void{

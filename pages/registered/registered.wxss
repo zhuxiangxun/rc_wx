@@ -5,13 +5,12 @@ page {
 .van-ellipsis {
   width: 350rpx;
 }
-
 .van-tab--active {
   color: #0c499c!important;
   font-weight: bold!important;
 }
 .van-tabs__nav {
-  border-bottom: 1rpx solid #b9bbbe!important;
+  border-bottom: 2rpx solid #b9bbbe!important;
 }
 .registered_line {
   margin-top: 2rpx;
@@ -35,7 +34,6 @@ page {
   width: 710rpx;
   height: calc(100vh - 120rpx);
   margin-left: 20rpx;
-  overflow-y: scroll;
 }
 .registered_item {
   width: 710rpx;
@@ -43,7 +41,6 @@ page {
   margin-top: 10rpx;
   font-size: 28rpx;
   border-radius: 12rpx;
-  overflow: hidden;
 }
 .registered_item_prompt {
   width: 690rpx;
@@ -57,7 +54,7 @@ page {
   width: 450rpx;
   height: 40rpx;
   line-height: 40rpx;
-  margin-top: 20rpx;
+  margin-top: 60rpx;
   font-size: 28rpx;
   margin-left: 150rpx;
 }
@@ -73,6 +70,7 @@ page {
   text-align: center;
   border-radius: 80rpx;
   overflow: hidden;
-  margin-top: 20rpx;
+  margin-top: 40rpx;
+  margin-bottom: 40rpx;
   margin-left: 155rpx;
 }

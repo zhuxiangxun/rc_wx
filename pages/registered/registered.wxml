@@ -3,10 +3,10 @@
 <van-toast id="van-toast" />
 <!--内容-->
 <view class="registered_line"></view>
-<van-tabs active="{{ tabActive }}"  color="#0c499c" line-width="330rpx" bind:change="onTabChange">
+<van-tabs active="{{ tabActive }}" color="#0c499c" line-width="330rpx" bind:change="onTabChange">
   <!--机构-->
   <van-tab title="机构" name="jg">
-    <view class="registered_content">
+    <view class="registered_content" style="overflow-y:{{ contentOverflow }}">
       <!--统一社会信用代码-->
       <view class="registered_item">
         <van-cell-group>
@@ -84,7 +84,7 @@
           <van-field required use-button-slot readonly label="单位类型：" error-message="{{ jgFormRrror.qyNatureIdError }}" border="{{ false }}">
             <van-dropdown-menu slot="button">
               <van-dropdown-item
-              style="width: 40rpx;"
+              style="width: 10rpx;"
               title=""
               value="{{ jgFormDate.qyNatureId }}"
               options="{{ qydanweiList }}"
@@ -101,10 +101,12 @@
           <van-field required use-button-slot readonly label="所在地区："  error-message="{{ jgFormRrror.tenantIdError }}" border="{{ false }}">
             <van-dropdown-menu slot="button">
               <van-dropdown-item
-              style="width: 40rpx;"
+              style="width: 10rpx;"
               title=""
               value="{{ jgFormDate.tenantId }}"
               options="{{ tenantList }}"
+              bind:open="dropdownOpen"
+              bind:close="dropdownClose"
               bind:change="jgTenantFn"/>
             </van-dropdown-menu>
           </van-field>
@@ -115,7 +117,7 @@
         <van-cell-group>
           <van-field required use-button-slot readonly label="产业/行业："  error-message="{{ jgFormRrror.industryBusinessesError }}" border="{{ false }}">
             <van-dropdown-menu slot="button">
-              <van-dropdown-item style="width: 40rpx;" title="{{ jgIndustryBusinesses }}">
+              <van-dropdown-item style="width: 10rpx;" title="{{ jgIndustryBusinesses }}" bind:open="dropdownOpen" bind:close="dropdownClose">
                 <van-tree-select
                 items="{{ industryBusinessesList }}"
                 main-active-index="{{ jgIndex }}"
@@ -260,11 +262,12 @@
           <van-field use-button-slot readonly label="所属创业平台：" border="{{ false }}">
             <van-dropdown-menu slot="button">
               <van-dropdown-item
-              style="width: 40rpx;"
+              style="width: 10rpx;"
               title=""
               value="{{ jgFormDate.platformId }}"
               options="{{ platformIdList }}"
               bind:open="jgPlatformOpen"
+              bind:close="dropdownClose"
               bind:change="jgPlatformFn"/>
             </van-dropdown-menu>
           </van-field>
@@ -285,17 +288,19 @@
   </van-tab>
   <!--个人-->
   <van-tab title="个人" name="gr">
-    <view class="registered_content">
+    <view class="registered_content" style="overflow-y:{{ contentOverflow }}">
       <!--证件类型-->
       <view class="registered_item">
         <van-cell-group>
           <van-field required use-button-slot readonly label="证件类型：" error-message="{{ grFormRrror.cardTypeIdRrror }}" border="{{ false }}">
             <van-dropdown-menu slot="button">
               <van-dropdown-item
-              style="width: 40rpx;"
+              style="width:10rpx;"
               title=""
               value="{{ grFormDate.cardTypeId }}"
               options="{{ cardList }}"
+              bind:open="dropdownOpen"
+              bind:close="dropdownClose"
               bind:change="grCardTypeFn"/>
             </van-dropdown-menu>
           </van-field>
@@ -424,10 +429,12 @@
           <van-field required use-button-slot readonly label="所在地区："  error-message="{{ grFormRrror.xiaQuIdError }}" border="{{ false }}">
             <van-dropdown-menu slot="button">
               <van-dropdown-item
-              style="width: 40rpx;"
+              style="width: 10rpx;"
               title=""
               value="{{ grFormDate.xiaQuId }}"
               options="{{ tenantList }}"
+              bind:open="dropdownOpen"
+              bind:close="dropdownClose"
               bind:change="grxiaQuFn"/>
             </van-dropdown-menu>
           </van-field>
@@ -439,11 +446,12 @@
           <van-field use-button-slot readonly label="工作单位：" border="{{ false }}">
             <van-dropdown-menu slot="button">
               <van-dropdown-item
-              style="width: 40rpx;"
+              style="width: 10rpx;"
               title=""
               value="{{ grFormDate.danWeiId }}"
               options="{{ grPlatformIdList }}"
               bind:open="grPlatformOpen"
+              bind:close="dropdownClose"
               bind:change="grPlatformFn"/>
             </van-dropdown-menu>
           </van-field>
@@ -492,10 +500,12 @@
           <van-field required use-button-slot readonly label="您属于："  error-message="{{ grFormRrror.rcTypeIdError }}" border="{{ false }}">
             <van-dropdown-menu slot="button">
               <van-dropdown-item
-              style="width: 40rpx;"
+              style="width: 10rpx;"
               title=""
               value="{{ grFormDate.rcTypeId }}"
               options="{{ typeIdList }}"
+              bind:open="dropdownOpen"
+              bind:close="dropdownClose"
               bind:change="grypeFn"/>
             </van-dropdown-menu>
           </van-field>
@@ -506,7 +516,7 @@
         <van-cell-group>
           <van-field required use-button-slot readonly label="产业/行业："  error-message="{{ grFormRrror.industryBusinessModelsError }}" border="{{ false }}">
             <van-dropdown-menu slot="button">
-              <van-dropdown-item style="width: 40rpx;" title="{{ grIndustryBusinesses }}">
+              <van-dropdown-item style="width: 10rpx;" title="{{ grIndustryBusinesses }}" bind:open="dropdownOpen" bind:close="dropdownClose">
                 <van-tree-select
                 items="{{ industryBusinessesList }}"
                 main-active-index="{{ grIndex }}"

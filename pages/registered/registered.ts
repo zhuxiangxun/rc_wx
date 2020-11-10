@@ -7,7 +7,10 @@ let https  = require('../../utils/myRequest.js');     //获取ajax方法
 Page({
   //页面数据
   data: {
-    contentOverflow: '',            //内容高度
+    jgFlag: false,                  //机构行业重复判断
+    grFlag: false,                  //个人行业重复判断
+
+    contentOverflow: 'scroll',      //内容高度
     tabActive: 'jg',                //注册tab
 
     qydanweiList: [],               //单位类型
@@ -19,7 +22,7 @@ Page({
     typeIdList: [],                 //您属于
   
     jgIndex: 0,                     //当前索引（机构）
-    jgIndustryId: null,             //选中的id（机构）
+    jgIndustryId: [],               //选中的id（机构）
     jgIndustryBusinesses: '',       //产业、行业显示
     jgVerifyCodeTime: '获取验证码',  //获取验证码
     jgDisabled: false,              //验证码按钮状态
@@ -27,7 +30,7 @@ Page({
 
 
     grIndex: 0,                     //当前索引（机构）
-    grIndustryId: null,             //选中的id（机构）
+    grIndustryId: [],             //选中的id（机构）
     grIndustryBusinesses: '',       //产业、行业显示
     grVerifyCodeTime: '获取验证码',  //获取验证码
     grDisabled: false,              //验证码按钮状态
@@ -179,6 +182,12 @@ Page({
               pId: item2.pId
             }
           })
+          children.unshift({
+            pText: item.dicName,
+            text: '全部',
+            id: item.id,
+            pId: item.id,
+          });
           return {
             text: item.dicName,
             children: children
@@ -264,7 +273,9 @@ Page({
 
 
   onTabChange():void{  //tab切换触发
-
+    this.setData({
+      contentOverflow: 'scroll'
+    })
   },
 
 
@@ -408,19 +419,125 @@ Page({
     });
   },
   jgIndustryItem(data:any):void {  //行业产业（右侧选择项被点击时，会触发的事件）
-    let industryList:any = [
-      {
-        cyTypeId: data.detail.pId,
-        hyTypeId: data.detail.id
+    const id = data.detail.id;
+    const pId = data.detail.pId;
+    if(id == pId){
+      this.setData({
+        jgFlag: false
+      })
+      this.data.jgIndustryId.forEach((item:any):void=>{
+        if(item == pId){
+          this.setData({
+            jgIndustryId: [],
+            ["jgFormDate.industryBusinesses"]: [],
+            jgIndustryBusinesses: '',
+            ["jgFormRrror.industryBusinessesError"]: '请选择产业/行业',
+            jgVerification: false,
+            jgFlag: true
+          })
+        }
+      })
+      if(!this.data.jgFlag){
+        let arr:any = [pId];
+        let industryList:any = [
+          {
+            cyTypeId: pId,       //产业id
+            hyTypeId: '',        //行业id
+            pText: data.detail.pText,           //产业名称
+            text: data.detail.text,             //行业名称
+          }
+        ]
+        this.setData({
+          jgIndustryId: arr,
+          ["jgFormDate.industryBusinesses"]: industryList,
+          jgIndustryBusinesses: data.detail.pText + ' / ' + data.detail.text,
+          ["jgFormRrror.industryBusinessesError"]: '',
+          jgVerification: true
+        })
       }
-    ]
-    this.setData({
-      jgIndustryId: data.detail.id,
-      ["jgFormDate.industryBusinesses"]: industryList,
-      jgIndustryBusinesses: data.detail.pText + ' / ' + data.detail.text,
-      ["jgFormRrror.industryBusinessesError"]: '',
-      jgVerification: false
-    })
+    }else{
+      if(this.data.jgIndustryId.length > 0){
+        this.setData({
+          jgFlag: false
+        })
+        this.data.jgIndustryId.forEach((item:any):any=>{
+          if(item == id){
+            let arr:any = this.data.jgIndustryId.filter((item2:any):any=>{
+              return item2 != id
+            })
+
+            let industryList:any = this.data.jgFormDate.industryBusinesses.filter((item2:any):any=>{
+              return item2.hyTypeId != id
+            })
+
+            let str:string = industryList.map((item2:any):void=>{
+              return item2.text
+            }).join('、');
+            if(industryList.length > 0){
+              str = industryList[0].pText + ' / ' + str;
+            }else{
+              str = '';
+            }
+
+            this.setData({
+              jgIndustryId: arr,
+              ["jgFormDate.industryBusinesses"]: industryList,
+              jgIndustryBusinesses: str,
+              ["jgFormRrror.industryBusinessesError"]: this.data.jgIndustryId.length == 0 ? '请选择产业/行业' : '',
+              jgVerification: this.data.jgIndustryId.length == 0 ? false : true,
+              jgFlag: true
+            })
+          }
+        })
+        if(!this.data.jgFlag){
+          let arr:any = [id]
+          let industryList:any = [
+            {
+              cyTypeId: pId,          //产业id
+              hyTypeId: id,           //行业id
+              pText: data.detail.pText,           //产业名称
+              text: data.detail.text,             //行业名称
+            }
+          ]
+          let newArr:any = this.data.jgIndustryId.concat(arr).filter((item:any):any=>{
+            return item != pId
+          });
+
+          let newIndustryList:any = this.data.jgFormDate.industryBusinesses.concat(industryList).filter((item:any):any=>{
+            return item.hyTypeId != ""
+          });
+
+          let str:string = newIndustryList.map((item:any):void=>{
+            return item.text
+          }).join('、');
+
+          this.setData({
+            jgIndustryId: newArr,
+            ["jgFormDate.industryBusinesses"]: newIndustryList,
+            jgIndustryBusinesses: data.detail.pText + ' / ' + str,
+            ["jgFormRrror.industryBusinessesError"]: '',
+            jgVerification: true
+          })
+        }
+      }else{
+        let arr:any = [id];
+        let industryList:any = [
+          {
+            cyTypeId: pId,       //产业id
+            hyTypeId: id,        //行业id
+            pText: data.detail.pText,           //产业名称
+            text: data.detail.text,             //行业名称
+          }
+        ]
+        this.setData({
+          jgIndustryId: arr,
+          ["jgFormDate.industryBusinesses"]: industryList,
+          jgIndustryBusinesses: data.detail.pText + ' / ' + data.detail.text,
+          ["jgFormRrror.industryBusinessesError"]: '',
+          jgVerification: true
+        })
+      }
+    }
   },
   jgQyAddress(value:any):void{  //单位详细地址
     if(value.detail){
@@ -525,6 +642,9 @@ Page({
     }
   },
   jgPlatformOpen():void{  //所属创业平台打开事件
+    this.setData({
+      contentOverflow: 'hidden'
+    })
     if(this.data.platformIdList.length == 0){
       Toast('请先选择所在地区！');
     }
@@ -539,6 +659,9 @@ Page({
 
 
   jgSubmitFn():void{  //机构注册
+    console.log(this.data.jgFormDate.industryBusinesses)
+
+
     //请输入统一社会信用代码
     if(this.data.jgFormDate.shxyCode == ''){
       this.setData({
@@ -589,7 +712,7 @@ Page({
       })
     }
     //产业、行业
-    if(this.data.jgFormDate.tenantId.length == 0){
+    if(this.data.jgIndustryId.length == 0){
       this.setData({
         ["jgFormRrror.industryBusinessesError"]:'请选择产业/行业',
         jgVerification: false
@@ -899,6 +1022,9 @@ Page({
     this.getGrPlatformIdList();  //获取工作单位
   },
   grPlatformOpen():void{  //所属创业平台打开事件
+    this.setData({
+      contentOverflow: 'hidden'
+    })
     if(this.data.grPlatformIdList.length == 0){
       Toast('请先选择所在地区！');
     }
@@ -942,19 +1068,141 @@ Page({
     });
   },
   grIndustryItem(data:any):void {  //行业产业（右侧选择项被点击时，会触发的事件）
-    let industryList:any = [
-      {
-        cyTypeId: data.detail.pId,
-        hyTypeId: data.detail.id
+    const id = data.detail.id;
+    const pId = data.detail.pId;
+    if(id == pId){
+      this.setData({
+        grFlag: false
+      })
+      this.data.grIndustryId.forEach((item:any):void=>{
+        if(item == pId){
+          this.setData({
+            grIndustryId: [],
+            ["grFormDate.industryBusinessModels"]: [],
+            jgIndustryBusinesses: '',
+            ["grFormRrror.industryBusinessModelsError"]: '请选择产业/行业',
+            grVerification: false,
+            grFlag: true
+          })
+        }
+      })
+      if(!this.data.grFlag){
+        let arr:any = [pId];
+        let industryList:any = [
+          {
+            cyTypeId: pId,       //产业id
+            hyTypeId: '',        //行业id
+            pText: data.detail.pText,           //产业名称
+            text: data.detail.text,             //行业名称
+          }
+        ]
+        this.setData({
+          grIndustryId: arr,
+          ["grFormDate.industryBusinessModels"]: industryList,
+          grIndustryBusinesses: data.detail.pText + ' / ' + data.detail.text,
+          ["grFormRrror.industryBusinessModelsError"]: '',
+          grVerification: true
+        })
       }
-    ]
-    this.setData({
-      grIndustryId: data.detail.id,
-      ["grFormDate.industryBusinessModels"]: industryList,
-      grIndustryBusinesses: data.detail.pText + ' / ' + data.detail.text,
-      ["grFormRrror.industryBusinessModelsError"]: '',
-      grVerification: true
-    })
+    }else{
+      if(this.data.grIndustryId.length > 0){
+        this.setData({
+          grFlag: false
+        })
+        this.data.grIndustryId.forEach((item:any):any=>{
+          if(item == id){
+            let arr:any = this.data.grIndustryId.filter((item2:any):any=>{
+              return item2 != id
+            })
+
+            let industryList:any = this.data.grFormDate.industryBusinessModels.filter((item2:any):any=>{
+              return item2.hyTypeId != id
+            })
+
+            let str:string = industryList.map((item2:any):void=>{
+              return item2.text
+            }).join('、');
+            if(industryList.length > 0){
+              str = industryList[0].pText + ' / ' + str;
+            }else{
+              str = '';
+            }
+
+            this.setData({
+              grIndustryId: arr,
+              ["grFormDate.industryBusinessModels"]: industryList,
+              grIndustryBusinesses: str,
+              ["grFormRrror.industryBusinessModelsError"]: this.data.grIndustryId.length == 0 ? '请选择产业/行业' : '',
+              grVerification: this.data.grIndustryId.length == 0 ? false : true,
+              grFlag: true
+            })
+          }
+        })
+        if(!this.data.grFlag){
+          let arr:any = [id]
+          let industryList:any = [
+            {
+              cyTypeId: pId,          //产业id
+              hyTypeId: id,           //行业id
+              pText: data.detail.pText,           //产业名称
+              text: data.detail.text,             //行业名称
+            }
+          ]
+          let newArr:any = this.data.grIndustryId.concat(arr).filter((item:any):any=>{
+            return item != pId
+          });
+
+          let newIndustryList:any = this.data.grFormDate.industryBusinessModels.concat(industryList).filter((item:any):any=>{
+            return item.hyTypeId != ""
+          });
+
+          let str:string = newIndustryList.map((item:any):void=>{
+            return item.text
+          }).join('、');
+
+          this.setData({
+            grIndustryId: newArr,
+            ["grFormDate.industryBusinessModels"]: newIndustryList,
+            grIndustryBusinesses: data.detail.pText + ' / ' + str,
+            ["grFormRrror.industryBusinessModelsError"]: '',
+            grVerification: true
+          })
+        }
+      }else{
+        let arr:any = [id];
+        let industryList:any = [
+          {
+            cyTypeId: pId,       //产业id
+            hyTypeId: id,        //行业id
+            pText: data.detail.pText,           //产业名称
+            text: data.detail.text,             //行业名称
+          }
+        ]
+        this.setData({
+          grIndustryId: arr,
+          ["grFormDate.industryBusinessModels"]: industryList,
+          grIndustryBusinesses: data.detail.pText + ' / ' + data.detail.text,
+          ["grFormRrror.industryBusinessModelsError"]: '',
+          grVerification: true
+        })
+      }
+    }
+    // const id = this.data.grIndustryId === data.detail.id ? null : data.detail.id;
+    // const pId = data.detail.pId;
+
+    // let industryList:any = [
+    //   {
+    //     cyTypeId: pId ? pId : '',          //产业id
+    //     hyTypeId: id == pId ? '' : id,     //行业id
+    //   }
+    // ]
+    // this.setData({
+    //   grIndustryId: id,
+    //   ["grFormDate.industryBusinessModels"]: industryList,
+    //   grIndustryBusinesses: data.detail.pText + ' / ' + data.detail.text,
+    //   ["grFormRrror.industryBusinessModelsError"]: '',
+    //   grVerification: true
+    // })
   },
   grProtocolCheckedFn(value:any):void{  //使用协议
     this.setData({
