@@ -7,6 +7,10 @@ let https  = require('../../utils/myRequest.js');     //获取ajax方法
 Page({
   //页面数据
   data: {
+    jgOverlay: true,                 //机构所属创业平台是否显示遮罩
+    grOverlay: true,                 //个人工作单位是否显示遮罩
+    jgPlatformDisabled: false,       //所属创业平台
+
     jgFlag: false,                  //机构行业重复判断
     grFlag: false,                  //个人行业重复判断
 
@@ -15,68 +19,40 @@ Page({
 
     qydanweiList: [],               //单位类型
     tenantList: [],                 //所在地区
-    industryBusinessesList: [],     //产业、行业类别列表
     platformIdList: [],             //所属创业平台
     cardList: [],                   //证件类型
-    grPlatformIdList: [],           //个人工作单位
-    typeIdList: [],                 //您属于
+    grPlatformIdList: [],           //创业平台
+    grEnterListList: [],            //工作单位
   
-    jgIndex: 0,                     //当前索引（机构）
-    jgIndustryId: [],               //选中的id（机构）
-    jgIndustryBusinesses: '',       //产业、行业显示
     jgVerifyCodeTime: '获取验证码',  //获取验证码
     jgDisabled: false,              //验证码按钮状态
     jgProtocolChecked: false,       //协议
 
-
-    grIndex: 0,                     //当前索引（机构）
-    grIndustryId: [],             //选中的id（机构）
-    grIndustryBusinesses: '',       //产业、行业显示
     grVerifyCodeTime: '获取验证码',  //获取验证码
     grDisabled: false,              //验证码按钮状态
     grProtocolChecked: false,       //协议
 
     //机构注册
-    jgFileList: [],          //机构上传附件
     jgRepeatPassword: '',    //机构确认密码
     jgPasswordError: '',     //机构确认密码
-    unitType: [              //单位类型
-      { text: '选择类型', value: 0 },
-      { text: '新款商品', value: 1 },
-      { text: '活动商品', value: 2 },
-    ],
     jgFormDate:{  //机构表单
       shxyCode: '',                 //统一社会信用代码
-      shxypics: [],                 //统一社会信用代码扫描件上传
       password: '',                 //密码
       trueword: '',                 //确认密码
       qyName: '',                   //单位名称
-      qyNatureId: '',               //单位类型
       tenantId: '',                 //所在地区
-      industryBusinesses: [],       //产业、行业
-      qyAddress: '',                //单位详细地址
-      legalName: '',                //法人姓名
-      legalId: '',                  //法人身份证号
-      linkPerson: '',               //联系人
       linkTel: '',                  //联系人电话
       verifyCode: '',               //验证码
-      email: '',                    //电子邮箱
       isCxPlatform: '2',            //是否创新平台主体单位
       isCyPlatform: '2',            //是否创业平台主体单位
       platformId: ''                //所属创业平台
     },
     jgFormRrror:{  //机构验证
       shxyCodeError: '',            //统一社会信用代码
-      shxypicsError: '',            //统一社会信用代码扫描件上传
       passwordError: '',            //密码
       truewordError: '',            //确认密码
       qyNameError: '',              //单位名称
-      qyNatureIdError: '',          //单位类型
       tenantIdError: '',            //所在地区
-      industryBusinessesError: '',  //产业、行业
-      qyAddressError: '',           //单位详细地址
-      legalIdError: '',             //法人身份证号
-      linkPersonError: '',          //联系人
       linkTelError: '',             //联系人电话
       verifyCodeError: '',          //验证码
       emailError: ''                //电子邮箱
@@ -85,40 +61,28 @@ Page({
 
 
     //个人验证
-    grFileList: [],                  //机构上传附件
     grFormDate:{  //机构表单
       cardTypeId: '',                //证件类型
       cardNum: '',                   //证件号码
-      cardPic: [],                   //证件扫描件上传
-      password: '',                  //密码
-      trueword: '',                  //确认密码
       realName: '',                  //姓名
+      xiaQuId: '',                   //所属地区
+      danWeiId: '',                  // 工作单位
       phoneNum: '',                  //联系电话
       verifyCode: '',                //验证码
-      email: '',                     //电子邮箱
-      xiaQuId: '',                   //所属地区
-      danWeiId: '',                  // 所属单位
-      danWeiAddress: '',             //工作单位详细地址
-      curLocation: '',               //现居住地详细地址
       isLiuXue: '2',                 //是否为留学回国人员
-      rcTypeId: '',                  //您属于
-      industryBusinessModels: [],    //产业、行业
+      password: '',                  //密码
+      trueword: '',                  //确认密码
     },
     grFormRrror:{  //机构验证
       cardTypeIdRrror: '',           //证件类型
       cardNumRrror: '',              //证件号码
-      cardPicError: '',              //证件扫描件上传
-      passwordError: '',             //密码
-      truewordError: '',             //确认密码
       realNameError: '',             //姓名
+      xiaQuIdError: '',              //所属地区
+      danWeiIdError: '',             // 工作单位
       phoneNumError: '',             //联系电话
       verifyCodeError: '',           //验证码
-      emailError: '',                //电子邮箱
-      xiaQuIdError: '',              //所属地区
-      danWeiIdError: '',             // 所属单位
-      curLocationError: '',          //现居住地详细地址
-      rcTypeIdError: '',             //您属于
-      industryBusinessModelsError: [],    //产业、行业
+      passwordError: '',             //密码
+      truewordError: '',             //确认密码
     },
     grVerification: false,    //验证判断
   },
@@ -169,38 +133,7 @@ Page({
     });
   },
 
-  getIndustryBusinesses():void{  //产业、行业类别
-    https.request(api.submenuDic + '?moid=7', null, 'GET')
-    .then((res:any):void=>{
-      if(res){
-        let arr:any = res.val.map((item:any):any=>{
-          let children:any = item.children.map((item2:any):any=>{
-            return {
-              pText: item.dicName,
-              text: item2.dicName,
-              id: item2.id,
-              pId: item2.pId
-            }
-          })
-          children.unshift({
-            pText: item.dicName,
-            text: '全部',
-            id: item.id,
-            pId: item.id,
-          });
-          return {
-            text: item.dicName,
-            children: children
-          }
-        })
-        this.setData({
-          industryBusinessesList: arr
-        })
-      }
-    },(err:any)=>{
-      console.log(err);
-    });
-  },
+  
   getPlatformIdList():void{  //获取所属创业平台
     https.request(api.cyPlatformApi + '?xiaQuId=' + this.data.jgFormDate.tenantId, null, 'GET')
     .then((res:any):void=>{
@@ -226,6 +159,13 @@ Page({
     https.request(api.submenuDic + '?moid=3', null, 'GET')
     .then((res:any):void=>{
       let list:any = res.val.map((item:any):any=>{
+        if(item.dicName == '居民身份证（户口簿）'){
+          this.setData({
+            ["grFormRrror.cardTypeIdRrror"]: '',
+            ["grFormDate.cardTypeId"]: item.id,
+            grVerification: true
+          })
+        }
         return {
           text: item.dicName,
           value: item.id
@@ -238,7 +178,7 @@ Page({
       console.log(err);
     });
   },
-  getGrPlatformIdList():void{  //获取工作单位
+  getGrPlatformIdList():void{  //获取创业平台
     https.request(api.cyPlatformApi + '?xiaQuId=' + this.data.grFormDate.xiaQuId, null, 'GET')
     .then((res:any):void=>{
       let list:any = res.list.map((item:any):any=>{
@@ -254,17 +194,17 @@ Page({
       console.log(err);
     });
   },
-  getTypeIdList():void{  //您属于
-    https.request(api.submenuDic + '?moid=8', null, 'GET')
+  getEnterListList():void{  //获取工作单位
+    https.request(api.enterList + '?xiaQuId=' + this.data.grFormDate.xiaQuId, null, 'GET')
     .then((res:any):void=>{
-      let list:any = res.val.map((item:any):any=>{
+      let list:any = res.list.map((item:any):any=>{
         return {
-          text: item.dicName,
+          text: item.qyName,
           value: item.id
         }
       })
       this.setData({
-        typeIdList: list
+        grEnterListList: list
       })
     },(err:any)=>{
       console.log(err);
@@ -272,138 +212,123 @@ Page({
   },
 
 
+
   onTabChange():void{  //tab切换触发
     this.setData({
       contentOverflow: 'scroll'
     })
+    this.selectComponent('#jgTenant').toggle(false);          //机构所在地区
+    this.selectComponent('#jgPlatform').toggle(false);        //机构所属创业平台
+    this.selectComponent('#grCardType').toggle(false);        //个人证件类型
+    this.selectComponent('#grxiaQu').toggle(false);           //个人所在区域
+    this.selectComponent('#grPlatform').toggle(false);        //个人工作单位
+  },
+
+  cxRightIcon():void{  //是否创新平台主体单位
+    Dialog.alert({
+      title: '是否创新平台主体单位',
+      messageAlign: 'left',
+      message: '创新平台：实验室（研究中心）、重点实验室、企业技术中心、科技创新基地、国际科技合作基地、工程技术研究中心、技术创新中心、院士工作站、有关国家级人才工作站、专家工作站、博士后科研工作站、博士后创新实践基地、技能大师工作室（工作站）、高新技术企业、智库等新型研发机构、研究院。',
+    }).then(() => {
+      
+    });
+  },
+  cyRightIcon():void{  //是否创业平台主体单位
+    Dialog.alert({
+      title: '是否创业平台主体单位',
+      messageAlign: 'left',
+      message: '创业平台：孵化器、孵化基地、众创空间、星创天地、产业园区等。',
+    }).then(() => {
+      
+    });
   },
 
 
   //机构注册
-  jgShxyCodeInput(value:any):void{  //统一社会信用代码
+  jgShxyCodeInput(res:any):void{  //统一社会信用代码
     let reg:any = /[1-9]\d{15}/;
-    let str:Boolean = reg.test(value.detail);
-    if(value.detail){
+    let str:Boolean = reg.test(res.detail.value);
+    if(res.detail.value){
       if(str){
         this.setData({
           ["jgFormRrror.shxyCodeError"]: '',
-          ["jgFormDate.shxyCode"]: value.detail,
+          ["jgFormDate.shxyCode"]: res.detail.value,
           jgVerification: true
         })
       }else{
         this.setData({
           ["jgFormRrror.shxyCodeError"]: '请输入正确统一社会信用代码',
-          ["jgFormDate.shxyCode"]: value.detail,
+          ["jgFormDate.shxyCode"]: res.detail.value,
           jgVerification: false
         })
       }
     }else{
       this.setData({
         ["jgFormRrror.shxyCodeError"]: '',
-        ["jgFormDate.shxyCode"]: value.detail,
+        ["jgFormDate.shxyCode"]: res.detail.value,
         jgVerification: false
       })
     }
   },
-  jgAfterRead(event:any):void {             //统一社会信用代码扫描件上传
-    let _that:any = this;
-    const { file }:any = event.detail;
-    wx.uploadFile({
-      url: api.fileUrl,
-      filePath: file.path,
-      name: 'files',
-      formData: { 
-        filePath: file.path,
-        fileName: ''
-      },success(res:any) {
-        let file:any = JSON.parse(res.data);
-        let fileList:any = file.val.map((item:any):any=>{
-          return {
-            name: item.fileName,
-            url: api.imgUrl + '?filePath=' + item.filePath,
-          }
-        })
-        _that.setData({
-          jgFileList: fileList,                      //显示
-          ["jgFormDate.shxypics"]: file.val,         //提交
-          ["jgFormRrror.shxypicsError"]: '',
-          jgVerification: true
-        })
-      },
-    });
-  },
-  jgDelete():void{  //统一社会信用代码扫描件上传删除
-    this.setData({
-      jgFileList: [],                   //清空上传显示列表
-      ["jgFormDate.shxypics"]: [],      //清空上传列表
-      ["jgFormRrror.shxypicsError"]: '请上传统一社会信用代码扫描件',
-        jgVerification: false
-    })
-  },
-  jgPasswordInput(value:any):void{  //密码
+  
+  jgPasswordInput(res:any):void{  //密码
     let reg:any = /(?=.*([a-zA-Z].*))(?=.*[0-9].*)[a-zA-Z0-9-*/+.~!@#$%^&*()]{6,20}$/;
-    let str:Boolean = reg.test(value.detail);
-    if(value.detail){
+    let str:Boolean = reg.test(res.detail.value);
+    if(res.detail.value){
       if(str){
         this.setData({
           ["jgFormRrror.passwordError"]: '',
-          ["jgFormDate.password"]: value.detail,
+          ["jgFormDate.password"]: res.detail.value,
           jgVerification: true
         })
       }else{
         this.setData({
           ["jgFormRrror.passwordError"]: '数字、英文、字符两种及以上6-20位',
-          ["jgFormDate.password"]: value.detail,
+          ["jgFormDate.password"]: res.detail.value,
           jgVerification: false
         })
       }
     }else{
       this.setData({
         ["jgFormRrror.passwordError"]: '',
-        ["jgFormDate.password"]: value.detail,
+        ["jgFormDate.password"]: res.detail.value,
         jgVerification: false
       })
     }
   },
-  jgRepeatPasswordInput(value:any):void{  //确认密码
-    if(value.detail){
-      if(value.detail != this.data.jgFormDate.password){
+  jgRepeatPasswordInput(res:any):void{  //确认密码
+    if(res.detail.value){
+      if(res.detail.value != this.data.jgFormDate.password){
         this.setData({
           ["jgFormRrror.truewordError"]: '两次输入的密码不一致',
-          ["jgFormDate.trueword"]: value.detail,
-          jgVerification: true
+          ["jgFormDate.trueword"]: res.detail.value,
+          jgVerification: false
         })
       }else{
         this.setData({
           ["jgFormRrror.truewordError"]: '',
-          ["jgFormDate.trueword"]: value.detail,
-          jgVerification: false
+          ["jgFormDate.trueword"]: res.detail.value,
+          jgVerification: true
         })
       }
     }else{
       this.setData({
         ["jgFormRrror.truewordError"]: '',
-        ["jgFormDate.trueword"]: value.detail,
+        ["jgFormDate.trueword"]: res.detail.value,
         jgVerification: false
       })
     }
   },
-  jgQyNameInput(value:any):void{  //单位名称
-    if(value.detail){
+  jgQyNameInput(res:any):void{  //单位名称
+    if(res.detail.value){
       this.setData({
         ["jgFormRrror.qyNameError"]: '',
-        ["jgFormDate.qyName"]: value.detail,
+        ["jgFormDate.qyName"]: res.detail.value,
         jgVerification: true
       })
     }
   },
-  jgDanweiFn(value:any):void{  //单位类型
-    this.setData({
-      ["jgFormRrror.qyNatureIdError"]: '',
-      ["jgFormDate.qyNatureId"]: value.detail,
-      jgVerification: true
-    })
-  },
+
   jgTenantFn(value:any):void{  //所在地区
     this.setData({
       ["jgFormRrror.tenantIdError"]: '',
@@ -413,240 +338,57 @@ Page({
     })
     this.getPlatformIdList();  //获取所属创业平台
   },
-  jgNavItem(data:any):void{  //行业产业（左侧导航点击时，触发的事件）
-    this.setData({
-      jgIndex: data.detail.index || 0,
-    });
-  },
-  jgIndustryItem(data:any):void {  //行业产业（右侧选择项被点击时，会触发的事件）
-    const id = data.detail.id;
-    const pId = data.detail.pId;
-    if(id == pId){
-      this.setData({
-        jgFlag: false
-      })
-      this.data.jgIndustryId.forEach((item:any):void=>{
-        if(item == pId){
-          this.setData({
-            jgIndustryId: [],
-            ["jgFormDate.industryBusinesses"]: [],
-            jgIndustryBusinesses: '',
-            ["jgFormRrror.industryBusinessesError"]: '请选择产业/行业',
-            jgVerification: false,
-            jgFlag: true
-          })
-        }
-      })
-      if(!this.data.jgFlag){
-        let arr:any = [pId];
-        let industryList:any = [
-          {
-            cyTypeId: pId,       //产业id
-            hyTypeId: '',        //行业id
-            pText: data.detail.pText,           //产业名称
-            text: data.detail.text,             //行业名称
-          }
-        ]
-        this.setData({
-          jgIndustryId: arr,
-          ["jgFormDate.industryBusinesses"]: industryList,
-          jgIndustryBusinesses: data.detail.pText + ' / ' + data.detail.text,
-          ["jgFormRrror.industryBusinessesError"]: '',
-          jgVerification: true
-        })
-      }
-    }else{
-      if(this.data.jgIndustryId.length > 0){
-        this.setData({
-          jgFlag: false
-        })
-        this.data.jgIndustryId.forEach((item:any):any=>{
-          if(item == id){
-            let arr:any = this.data.jgIndustryId.filter((item2:any):any=>{
-              return item2 != id
-            })
-
-            let industryList:any = this.data.jgFormDate.industryBusinesses.filter((item2:any):any=>{
-              return item2.hyTypeId != id
-            })
-
-            let str:string = industryList.map((item2:any):void=>{
-              return item2.text
-            }).join('、');
-            if(industryList.length > 0){
-              str = industryList[0].pText + ' / ' + str;
-            }else{
-              str = '';
-            }
-
-            this.setData({
-              jgIndustryId: arr,
-              ["jgFormDate.industryBusinesses"]: industryList,
-              jgIndustryBusinesses: str,
-              ["jgFormRrror.industryBusinessesError"]: this.data.jgIndustryId.length == 0 ? '请选择产业/行业' : '',
-              jgVerification: this.data.jgIndustryId.length == 0 ? false : true,
-              jgFlag: true
-            })
-          }
-        })
-        if(!this.data.jgFlag){
-          let arr:any = [id]
-          let industryList:any = [
-            {
-              cyTypeId: pId,          //产业id
-              hyTypeId: id,           //行业id
-              pText: data.detail.pText,           //产业名称
-              text: data.detail.text,             //行业名称
-            }
-          ]
-          let newArr:any = this.data.jgIndustryId.concat(arr).filter((item:any):any=>{
-            return item != pId
-          });
-
-          let newIndustryList:any = this.data.jgFormDate.industryBusinesses.concat(industryList).filter((item:any):any=>{
-            return item.hyTypeId != ""
-          });
-
-          let str:string = newIndustryList.map((item:any):void=>{
-            return item.text
-          }).join('、');
-
-          this.setData({
-            jgIndustryId: newArr,
-            ["jgFormDate.industryBusinesses"]: newIndustryList,
-            jgIndustryBusinesses: data.detail.pText + ' / ' + str,
-            ["jgFormRrror.industryBusinessesError"]: '',
-            jgVerification: true
-          })
-        }
-      }else{
-        let arr:any = [id];
-        let industryList:any = [
-          {
-            cyTypeId: pId,       //产业id
-            hyTypeId: id,        //行业id
-            pText: data.detail.pText,           //产业名称
-            text: data.detail.text,             //行业名称
-          }
-        ]
-        this.setData({
-          jgIndustryId: arr,
-          ["jgFormDate.industryBusinesses"]: industryList,
-          jgIndustryBusinesses: data.detail.pText + ' / ' + data.detail.text,
-          ["jgFormRrror.industryBusinessesError"]: '',
-          jgVerification: true
-        })
-      }
-    }
-  },
-  jgQyAddress(value:any):void{  //单位详细地址
-    if(value.detail){
-      this.setData({
-        ["jgFormRrror.qyAddressError"]: '',
-        ["jgFormDate.qyAddress"]: value.detail,
-        jgVerification: true
-      })
-    }
-  },
-  jgLegalName(value:any):void{  //法人姓名
-    if(value.detail){
-      this.setData({
-        ["jgFormDate.legalName"]: value.detail
-      })
-    }
-  },
-  jgLegalId(value:any):void{  //法人身份证号
-    //身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X
-    let reg:any = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-    let str:Boolean = reg.test(value.detail);
-    if(str){
-      this.setData({
-        ["jgFormRrror.legalIdError"]: '',
-        ["jgFormDate.legalId"]: value.detail,
-        jgVerification: true
-      })
-    }else{
-      this.setData({
-        ["jgFormRrror.legalIdError"]: '请输入正确的法人身份证号',
-        ["jgFormDate.legalId"]: value.detail,
-        jgVerification: false
-      })
-    }
-  },
-  jgLinkPerson(value:any):void{  //单位联系人
-    if(value.detail){
-      this.setData({
-        ["jgFormRrror.linkPersonError"]: '',
-        ["jgFormDate.linkPerson"]: value.detail,
-        jgVerification: true
-      })
-    }
-  },
-  jgLinkTel(value:any):void{  //联系电话
+  jgLinkTel(res:any):void{  //联系电话
     let reg:any = /^((1[0-9]{10})|(((([0-9]{3}-)?[0-9]{8})|(([0-9]{4}-)?[0-9]{7}))(-[0-9]{1,4})?))$/;
-    let str:Boolean = reg.test(value.detail);
-    if(value.detail){
+    let str:Boolean = reg.test(res.detail.value);
+    if(res.detail.value){
       if(str){
         this.setData({
           ["jgFormRrror.linkTelError"]: '',
-          ["jgFormDate.linkTel"]: value.detail,
+          ["jgFormDate.linkTel"]: res.detail.value,
           jgVerification: true
         })
       }else{
         this.setData({
           ["jgFormRrror.linkTelError"]: '请输入正确的联系电话',
-          ["jgFormDate.linkTel"]: value.detail,
+          ["jgFormDate.linkTel"]: res.detail.value,
           jgVerification: false
         })
       }
     }else{
       this.setData({
         ["jgFormRrror.linkTelError"]: '',
-        ["jgFormDate.linkTel"]: value.detail,
+        ["jgFormDate.linkTel"]: res.detail.value,
         jgVerification: false
       })
     }
   },
-  jgVerifyCode(value:any):void{  //验证码
-    if(value.detail){
+  jgVerifyCode(res:any):void{  //验证码
+    if(res.detail.value){
       this.setData({
         ["jgFormRrror.verifyCodeError"]: '',
-        ["jgFormDate.verifyCode"]: value.detail,
+        ["jgFormDate.verifyCode"]: res.detail.value,
         jgVerification: true
       })
     }
   },
-  jgEmail(value:any):void{  //电子邮箱
-    let reg:any = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
-    let str:Boolean = reg.test(value.detail);
-    if(value.detail){
-      if(str){
-        this.setData({
-          ["jgFormRrror.emailError"]: '',
-          ["jgFormDate.email"]: value.detail,
-          jgVerification: true
-        })
-      }else{
-        this.setData({
-          ["jgFormRrror.emailError"]: '请输入正确的电子邮箱',
-          ["jgFormDate.email"]: value.detail,
-          jgVerification: false
-        })
-      }
+  jgPlatformOpen():void{  //所属创业平台打开事件
+    if(this.data.platformIdList.length == 0){
+      Toast('请先选择所在地区！');
+      this.setData({
+        contentOverflow: 'scroll',
+        jgOverlay: false
+      })
     }else{
       this.setData({
-        ["jgFormRrror.emailError"]: '',
-        ["jgFormDate.email"]: value.detail,
-        jgVerification: false
+        contentOverflow: 'hidden',
+        jgOverlay: true
       })
     }
   },
-  jgPlatformOpen():void{  //所属创业平台打开事件
-    this.setData({
-      contentOverflow: 'hidden'
-    })
+  jgPlatformOpened():void{  //所属创业平台打开菜单栏且动画结束后触发
     if(this.data.platformIdList.length == 0){
-      Toast('请先选择所在地区！');
+      this.selectComponent('#jgPlatform').toggle(false);        //机构所属创业平台
     }
   },
   jgPlatformFn(value:any):void{  //所属创业平台
@@ -659,20 +401,11 @@ Page({
 
 
   jgSubmitFn():void{  //机构注册
-    console.log(this.data.jgFormDate.industryBusinesses)
-
 
     //请输入统一社会信用代码
     if(this.data.jgFormDate.shxyCode == ''){
       this.setData({
         ["jgFormRrror.shxyCodeError"]:'请输入统一社会信用代码',
-        jgVerification: false
-      })
-    }
-    //统一社会信用代码扫描件上传
-    if(this.data.jgFormDate.shxypics.length == 0){
-      this.setData({
-        ["jgFormRrror.shxypicsError"]:'请上传统一社会信用代码扫描件',
         jgVerification: false
       })
     }
@@ -697,13 +430,6 @@ Page({
         jgVerification: false
       })
     }
-    //单位类型
-    if(this.data.jgFormDate.qyNatureId == ''){
-      this.setData({
-        ["jgFormRrror.qyNatureIdError"]:'请选择单位类型',
-        jgVerification: false
-      })
-    }
     //所在地区
     if(this.data.jgFormDate.tenantId == ''){
       this.setData({
@@ -711,29 +437,8 @@ Page({
         jgVerification: false
       })
     }
-    //产业、行业
-    if(this.data.jgIndustryId.length == 0){
-      this.setData({
-        ["jgFormRrror.industryBusinessesError"]:'请选择产业/行业',
-        jgVerification: false
-      })
-    }
-    //单位详细地址
-    if(this.data.jgFormDate.qyAddress == ''){
-      this.setData({
-        ["jgFormRrror.qyAddressError"]:'请输入单位详细地址',
-        jgVerification: false
-      })
-    }
-    //单位联系人
-    if(this.data.jgFormDate.linkPerson == ''){
-      this.setData({
-        ["jgFormRrror.qyAddressError"]:'请输入单位联系人',
-        jgVerification: false
-      })
-    }
     //联系电话
-    if(this.data.jgFormDate.linkPerson == ''){
+    if(this.data.jgFormDate.linkTel == ''){
       this.setData({
         ["jgFormRrror.linkTelError"]:'请输入联系电话',
         jgVerification: false
@@ -743,13 +448,6 @@ Page({
     if(this.data.jgFormDate.verifyCode == ''){
       this.setData({
         ["jgFormRrror.verifyCodeError"]:'请输入验证码',
-        jgVerification: false
-      })
-    }
-    //电子邮箱
-    if(this.data.jgFormDate.email == ''){
-      this.setData({
-        ["jgFormRrror.emailError"]:'请输入电子邮箱',
         jgVerification: false
       })
     }
@@ -805,14 +503,21 @@ Page({
     });
   },
   jgCyPlatform(event:any):void{  //是否创业平台主体单位
+    if(event.detail == '1'){
+      this.setData({
+        ["jgFormDate.platformId"]: '',
+        jgPlatformDisabled: true
+      })
+    }else{
+      this.setData({
+        jgPlatformDisabled: false
+      })
+    }
     this.setData({
       ["jgFormDate.isCyPlatform"]: event.detail,
     });
   },
   
-
-
-
 
 
   //个人注册
@@ -823,137 +528,102 @@ Page({
       grVerification: true
     })
   },
-  grCardNum(value:any):void{  //证件号码
-    if(value.detail){
+  grCardNum(res:any):void{  //证件号码
+    if(res.detail.value){
       this.setData({
         ["grFormRrror.cardNumRrror"]: '',
-        ["grFormDate.cardNum"]: value.detail,
+        ["grFormDate.cardNum"]: res.detail.value,
         grVerification: true
       })
     }
   },
-  grAfterRead(event:any):void {             //证件扫描件上传
-    let _that:any = this;
-    const { file }:any = event.detail;
-    wx.uploadFile({
-      url: api.fileUrl,
-      filePath: file.path,
-      name: 'files',
-      formData: { 
-        filePath: file.path,
-        fileName: ''
-      },success(res:any) {
-        let file:any = JSON.parse(res.data);
-        let fileList:any = file.val.map((item:any):any=>{
-          return {
-            name: item.fileName,
-            url: api.imgUrl + '?filePath=' + item.filePath,
-          }
-        })
-        _that.setData({
-          grFileList: fileList,                      //显示
-          ["grFormDate.cardPic"]: file.val,         //提交
-          ["grFormRrror.cardPicError"]: '',
-          grVerification: true
-        })
-      },
-    });
-  },
-  grDelete():void{  //证件扫描件上传删除
-    this.setData({
-      grFileList: [],                   //清空上传显示列表
-      ["grFormDate.cardPic"]: [],      //清空上传列表
-      ["grFormRrror.cardPicError"]: '请上传证件扫描件',
-        grVerification: false
-    })
-  },
-  grPasswordInput(value:any):void{  //密码
+  grPasswordInput(res:any):void{  //密码
     let reg:any = /(?=.*([a-zA-Z].*))(?=.*[0-9].*)[a-zA-Z0-9-*/+.~!@#$%^&*()]{6,20}$/;
-    let str:Boolean = reg.test(value.detail);
-    if(value.detail){
+    let str:Boolean = reg.test(res.detail.value);
+    if(res.detail.value){
       if(str){
         this.setData({
           ["grFormRrror.passwordError"]: '',
-          ["grFormDate.password"]: value.detail,
+          ["grFormDate.password"]: res.detail.value,
           grVerification: true
         })
       }else{
         this.setData({
           ["grFormRrror.passwordError"]: '数字、英文、字符两种及以上6-20位',
-          ["grFormDate.password"]: value.detail,
+          ["grFormDate.password"]: res.detail.value,
           grVerification: false
         })
       }
     }else{
       this.setData({
         ["grFormRrror.passwordError"]: '',
-        ["grFormDate.password"]: value.detail,
+        ["grFormDate.password"]: res.detail.value,
         grVerification: false
       })
     }
   },
-  grRepeatPasswordInput(value:any):void{  //确认密码
-    if(value.detail){
-      if(value.detail != this.data.grFormDate.password){
+  grRepeatPasswordInput(res:any):void{  //确认密码
+    if(res.detail.value){
+      if(res.detail.value != this.data.grFormDate.password){
         this.setData({
           ["grFormRrror.truewordError"]: '两次输入的密码不一致',
-          ["grFormDate.trueword"]: value.detail,
-          grVerification: true
+          ["grFormDate.trueword"]: res.detail.value,
+          grVerification: false
         })
       }else{
         this.setData({
           ["grFormRrror.truewordError"]: '',
-          ["grFormDate.trueword"]: value.detail,
-          grVerification: false
+          ["grFormDate.trueword"]: res.detail.value,
+          grVerification: true
         })
       }
     }else{
       this.setData({
         ["grFormRrror.truewordError"]: '',
-        ["grFormDate.trueword"]: value.detail,
+        ["grFormDate.trueword"]: res.detail.value,
         grVerification: false
       })
     }
   },
-  grRealName(value:any):void{  //姓名
-    if(value.detail){
+  grRealName(res:any):void{  //姓名
+    if(res.detail.value){
       this.setData({
         ["grFormRrror.realNameRrror"]: '',
-        ["grFormDate.realName"]: value.detail,
+        ["grFormDate.realName"]: res.detail.value,
         grVerification: true
       })
     }
   },
-  grPhoneNum(value:any):void{  //联系电话
+  grPhoneNum(res:any):void{  //联系电话
     let reg:any = /^((1[0-9]{10})|(((([0-9]{3}-)?[0-9]{8})|(([0-9]{4}-)?[0-9]{7}))(-[0-9]{1,4})?))$/;
-    let str:Boolean = reg.test(value.detail);
-    if(value.detail){
+    let str:Boolean = reg.test(res.detail.value);
+    if(res.detail.value){
       if(str){
         this.setData({
           ["grFormRrror.phoneNumError"]: '',
-          ["grFormDate.phoneNum"]: value.detail,
+          ["grFormDate.phoneNum"]: res.detail.value,
           grVerification: true
         })
       }else{
         this.setData({
           ["grFormRrror.phoneNumError"]: '请输入正确的联系电话',
-          ["grFormDate.phoneNum"]: value.detail,
+          ["grFormDate.phoneNum"]: res.detail.value,
           grVerification: false
         })
       }
     }else{
       this.setData({
         ["grFormRrror.phoneNumError"]: '',
-        ["grFormDate.phoneNum"]: value.detail,
+        ["grFormDate.phoneNum"]: res.detail.value,
         grVerification: false
       })
     }
   },
-  grVerifyCode(value:any):void{  //验证码
-    if(value.detail){
+  grVerifyCode(res:any):void{  //验证码
+    if(res.detail.value){
       this.setData({
         ["grFormRrror.verifyCodeError"]: '',
-        ["grFormDate.verifyCode"]: value.detail,
+        ["grFormDate.verifyCode"]: res.detail.value,
         grVerification: true
       })
     }
@@ -987,31 +657,6 @@ Page({
       Toast('请先填写联系电话！');
     }
   },
-  grEmail(value:any):void{  //电子邮箱
-    let reg:any = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
-    let str:Boolean = reg.test(value.detail);
-    if(value.detail){
-      if(str){
-        this.setData({
-          ["grFormRrror.emailError"]: '',
-          ["grFormDate.email"]: value.detail,
-          grVerification: true
-        })
-      }else{
-        this.setData({
-          ["grFormRrror.emailError"]: '请输入正确的电子邮箱',
-          ["grFormDate.email"]: value.detail,
-          grVerification: false
-        })
-      }
-    }else{
-      this.setData({
-        ["grFormRrror.emailError"]: '',
-        ["grFormDate.email"]: value.detail,
-        grVerification: false
-      })
-    }
-  },
   grxiaQuFn(value:any):void{  //所在地区
     this.setData({
       ["grFormRrror.xiaQuIdError"]: '',
@@ -1019,14 +664,25 @@ Page({
       grVerification: true,
       ["grFormDate.danWeiId"]: ''
     })
-    this.getGrPlatformIdList();  //获取工作单位
+    this.getEnterListList();  //获取工作单位
   },
   grPlatformOpen():void{  //所属创业平台打开事件
-    this.setData({
-      contentOverflow: 'hidden'
-    })
-    if(this.data.grPlatformIdList.length == 0){
+    if(this.data.grEnterListList.length == 0){
       Toast('请先选择所在地区！');
+      this.setData({
+        contentOverflow: 'scroll',
+        grOverlay: false
+      })
+    }else{
+      this.setData({
+        contentOverflow: 'hidden',
+        grOverlay: true
+      })
+    }
+  },
+  grPlatformOpened():void{  //工作单位打开菜单栏且动画结束后触发
+    if(this.data.grEnterListList.length == 0){
+      this.selectComponent('#grPlatform').toggle(false);        //工作单位
     }
   },
   grPlatformFn(value:any):void{  //所属创业平台
@@ -1034,176 +690,12 @@ Page({
       ["grFormDate.danWeiId"]: value.detail
     })
   },
-  grQyAddress(value:any):void{  //工作单位详细地址
-    if(value.detail){
-      this.setData({
-        ["grFormDate.danWeiAddress"]: value.detail
-      })
-    }
-  },
-  grCurLocation(value:any):void{  //现居住地详细地址
-    if(value.detail){
-      this.setData({
-        ["grFormRrror.curLocationError"]: '',
-        ["grFormDate.curLocation"]: value.detail,
-        grVerification: true
-      })
-    }
-  },
   grIsLiuXue(event:any):void{  //是否为留学回国人员
     this.setData({
       ["grFormDate.isLiuXue"]: event.detail,
     });
   },
-  grypeFn(value:any):void{  //您属于
-    this.setData({
-      ["grFormRrror.rcTypeIdError"]: '',
-      ["grFormDate.rcTypeId"]: value.detail,
-      grVerification: true
-    })
-  },
-  grNavItem(data:any):void{  //行业产业（左侧导航点击时，触发的事件）
-    this.setData({
-      grIndex: data.detail.index || 0,
-    });
-  },
-  grIndustryItem(data:any):void {  //行业产业（右侧选择项被点击时，会触发的事件）
-    const id = data.detail.id;
-    const pId = data.detail.pId;
-    if(id == pId){
-      this.setData({
-        grFlag: false
-      })
-      this.data.grIndustryId.forEach((item:any):void=>{
-        if(item == pId){
-          this.setData({
-            grIndustryId: [],
-            ["grFormDate.industryBusinessModels"]: [],
-            jgIndustryBusinesses: '',
-            ["grFormRrror.industryBusinessModelsError"]: '请选择产业/行业',
-            grVerification: false,
-            grFlag: true
-          })
-        }
-      })
-      if(!this.data.grFlag){
-        let arr:any = [pId];
-        let industryList:any = [
-          {
-            cyTypeId: pId,       //产业id
-            hyTypeId: '',        //行业id
-            pText: data.detail.pText,           //产业名称
-            text: data.detail.text,             //行业名称
-          }
-        ]
-        this.setData({
-          grIndustryId: arr,
-          ["grFormDate.industryBusinessModels"]: industryList,
-          grIndustryBusinesses: data.detail.pText + ' / ' + data.detail.text,
-          ["grFormRrror.industryBusinessModelsError"]: '',
-          grVerification: true
-        })
-      }
-    }else{
-      if(this.data.grIndustryId.length > 0){
-        this.setData({
-          grFlag: false
-        })
-        this.data.grIndustryId.forEach((item:any):any=>{
-          if(item == id){
-            let arr:any = this.data.grIndustryId.filter((item2:any):any=>{
-              return item2 != id
-            })
 
-            let industryList:any = this.data.grFormDate.industryBusinessModels.filter((item2:any):any=>{
-              return item2.hyTypeId != id
-            })
-
-            let str:string = industryList.map((item2:any):void=>{
-              return item2.text
-            }).join('、');
-            if(industryList.length > 0){
-              str = industryList[0].pText + ' / ' + str;
-            }else{
-              str = '';
-            }
-
-            this.setData({
-              grIndustryId: arr,
-              ["grFormDate.industryBusinessModels"]: industryList,
-              grIndustryBusinesses: str,
-              ["grFormRrror.industryBusinessModelsError"]: this.data.grIndustryId.length == 0 ? '请选择产业/行业' : '',
-              grVerification: this.data.grIndustryId.length == 0 ? false : true,
-              grFlag: true
-            })
-          }
-        })
-        if(!this.data.grFlag){
-          let arr:any = [id]
-          let industryList:any = [
-            {
-              cyTypeId: pId,          //产业id
-              hyTypeId: id,           //行业id
-              pText: data.detail.pText,           //产业名称
-              text: data.detail.text,             //行业名称
-            }
-          ]
-          let newArr:any = this.data.grIndustryId.concat(arr).filter((item:any):any=>{
-            return item != pId
-          });
-
-          let newIndustryList:any = this.data.grFormDate.industryBusinessModels.concat(industryList).filter((item:any):any=>{
-            return item.hyTypeId != ""
-          });
-
-          let str:string = newIndustryList.map((item:any):void=>{
-            return item.text
-          }).join('、');
-
-          this.setData({
-            grIndustryId: newArr,
-            ["grFormDate.industryBusinessModels"]: newIndustryList,
-            grIndustryBusinesses: data.detail.pText + ' / ' + str,
-            ["grFormRrror.industryBusinessModelsError"]: '',
-            grVerification: true
-          })
-        }
-      }else{
-        let arr:any = [id];
-        let industryList:any = [
-          {
-            cyTypeId: pId,       //产业id
-            hyTypeId: id,        //行业id
-            pText: data.detail.pText,           //产业名称
-            text: data.detail.text,             //行业名称
-          }
-        ]
-        this.setData({
-          grIndustryId: arr,
-          ["grFormDate.industryBusinessModels"]: industryList,
-          grIndustryBusinesses: data.detail.pText + ' / ' + data.detail.text,
-          ["grFormRrror.industryBusinessModelsError"]: '',
-          grVerification: true
-        })
-      }
-    }
-    // const id = this.data.grIndustryId === data.detail.id ? null : data.detail.id;
-    // const pId = data.detail.pId;
-
-    // let industryList:any = [
-    //   {
-    //     cyTypeId: pId ? pId : '',          //产业id
-    //     hyTypeId: id == pId ? '' : id,     //行业id
-    //   }
-    // ]
-    // this.setData({
-    //   grIndustryId: id,
-    //   ["grFormDate.industryBusinessModels"]: industryList,
-    //   grIndustryBusinesses: data.detail.pText + ' / ' + data.detail.text,
-    //   ["grFormRrror.industryBusinessModelsError"]: '',
-    //   grVerification: true
-    // })
-  },
   grProtocolCheckedFn(value:any):void{  //使用协议
     this.setData({
       grProtocolChecked: value.detail
@@ -1223,13 +715,6 @@ Page({
     if(this.data.grFormDate.cardNum == ''){
       this.setData({
         ["grFormRrror.cardNumRrror"]: '请选择证件号码',
-        grVerification: false
-      })
-    }
-    //证件扫描件上传
-    if(this.data.grFormDate.cardPic.length == 0){
-      this.setData({
-        ["grFormRrror.cardPicError"]: '请上传证件扫描件',
         grVerification: false
       })
     }
@@ -1268,38 +753,10 @@ Page({
         grVerification: false
       })
     }
-    //电子邮箱
-    if(this.data.grFormDate.email == ''){
-      this.setData({
-        ["grFormRrror.emailError"]:'请输入电子邮箱',
-        grVerification: false
-      })
-    }
     //所在地区
     if(this.data.grFormDate.xiaQuId == ''){
       this.setData({
         ["grFormRrror.xiaQuIdError"]:'请选择所在地区',
-        grVerification: false
-      })
-    }
-    //现居住地详细地址
-    if(this.data.grFormDate.curLocation == ''){
-      this.setData({
-        ["grFormRrror.curLocationError"]:'请输入现居住地详细地址',
-        grVerification: false
-      })
-    }
-    //您属于
-    if(this.data.grFormDate.rcTypeId == ''){
-      this.setData({
-        ["grFormRrror.rcTypeIdError"]:'请选择您属于',
-        grVerification: false
-      })
-    }
-     //产业、行业
-     if(this.data.grFormDate.industryBusinessModels.length == 0){
-      this.setData({
-        ["grFormRrror.industryBusinessModelsError"]:'请选择产业/行业',
         grVerification: false
       })
     }
@@ -1359,19 +816,38 @@ Page({
     this.getDanweiList();
     //获取所在地区
     this.getTenantList();
-    //产业、行业类别
-    this.getIndustryBusinesses();
     //证件类型
     this.getcardList();
-    //您属于
-    this.getTypeIdList();
   },
-
   //页面渲染完成
   onReady(){},
 
   //页面显示
-  onShow(){},
+  onShow(){
+    this.setData({
+      ["jgFormDate.shxyCode"]:'',  //统一社会信用代码
+      ["jgFormDate.password"]:'',  //密码
+      ["jgFormDate.trueword"]:'',  //确认密码
+      ["jgFormDate.qyName"]:'',  //单位名称
+      ["jgFormDate.tenantId"]:'',  //所在地区
+      ["jgFormDate.linkTel"]:'',  //联系人电话
+      ["jgFormDate.verifyCode"]:'',  //验证码
+      ["jgFormDate.isCxPlatform"]:'2',  //是否创新平台主体单位
+      ["jgFormDate.isCyPlatform"]:'2',  //是否创业平台主体单位
+      ["jgFormDate.platformId"]:'',  //所属创业平台
+
+      ["grFormDate.cardTypeId"]:'',  //证件类型
+      ["grFormDate.cardNum"]:'',  //证件号码
+      ["grFormDate.realName"]:'',  //姓名
+      ["grFormDate.xiaQuId"]:'',  //所属地区
+      ["grFormDate.danWeiId"]:'',  //工作单位
+      ["grFormDate.phoneNum"]:'',  //联系电话
+      ["grFormDate.verifyCode"]:'',  //验证码
+      ["grFormDate.isLiuXue"]:'2',  //是否为留学回国人员
+      ["grFormDate.password"]:'',  //密码
+      ["grFormDate.trueword"]:'',  //确认密码
+    })
+  },
 
   //页面隐藏
   onHide(){},

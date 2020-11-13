@@ -1,11 +1,13 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/homeLink/homeLink",
     "pages/home/home",
     "pages/map/map",
     "pages/mapArea/mapArea",
     "pages/mapDetail/mapDetail",
     "pages/news/news",
+    "pages/registered/registered",
     "pages/login/login",
     "pages/loginForm/loginForm",
     "pages/loginInfo/loginInfo",
@@ -15,8 +17,7 @@
     "pages/device/device",
     "pages/transaction/transaction",
     "pages/smallTalk/smallTalk",
-    "pages/rcLink/rcLink",
-    "pages/registered/registered"
+    "pages/rcLink/rcLink"
   ],
   "window": {
     "backgroundTextStyle": "light",

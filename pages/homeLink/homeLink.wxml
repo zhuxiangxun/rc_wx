@@ -1,0 +1,4 @@
+<!--homeLink.wxml-->
+<view class="content">
+  <web-view src="https://rcapp.qdcsdn.cn/qslc/list.html"></web-view>
+</view>

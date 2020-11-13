@@ -161,6 +161,13 @@ Page({
     });
   },
 
+  //图片外链
+  homeFn():void{
+    wx.navigateTo({ 
+      url:'../homeLink/homeLink'
+    });
+  },
+
   //我要交易
   jyFn():void{
     let token:string = wx.getStorageSync('token');

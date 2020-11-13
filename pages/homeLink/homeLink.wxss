@@ -1,0 +1,6 @@
+/**homeLink.wxss**/
+.content {
+  width: 710rpx;
+  height: auto;
+  margin-left: 20rpx;
+}

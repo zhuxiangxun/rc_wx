@@ -28,6 +28,8 @@ App<any>({
     cyPlatformApi: '/web/cyPlatform',              //所属创业平台
     enterReg: '/web/enterReg',                      //注册企业
     userReg: '/web/userReg',                        //用户注册
+    enterList: '/web/enterList',                    //工作单位
+    
     
     count: '/website/count',                       //统计12条信息
     submenuDic: '/dic/submenuDic',                 //高级搜索字典表

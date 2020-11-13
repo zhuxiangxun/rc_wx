@@ -2,6 +2,14 @@
 page {
   background-color: #ebecf0;
 }
+.van-popup {
+  padding-bottom: 100rpx;
+}
+
+.van-popup {
+  padding-bottom: 20rpx!important;
+}
+
 .van-ellipsis {
   width: 350rpx;
 }
@@ -27,7 +35,7 @@ page {
   height: 40rpx!important;
 }
 .van-radio {
-  margin-top: 20rpx;
+  margin-left: 20rpx;
 }
 
 .registered_content {
