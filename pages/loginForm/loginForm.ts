@@ -30,6 +30,26 @@ Page({
     zgVerification: false,    //验证判断
   },
 
+  onShareAppMessage:(res:any):any=> {  //发送给朋友
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target);
+    }
+    return {
+      title: '青岛人才创新创业平台地图',
+      path: '/pages/home/home',
+      imageUrl: ''
+    }
+  },
+
+  onShareTimeline:():any=> {  //分享
+    return {
+      title: '青岛人才创新创业平台地图',
+      query: {},
+      imageUrl: ''
+    }
+  },
+
   //tab切换触发
   tabChange(res:any):void{
     api.loginStatus = res.detail.name;  //登录判断
@@ -37,7 +57,8 @@ Page({
       ["formDate.username"]: '',
       ["formDate.password"]: '',
       ["formRrror.usernameError"]: '',
-      ["formRrror.passwordError"]: ''
+      ["formRrror.passwordError"]: '',
+      active: res.detail.name
     })
   },
   
@@ -268,6 +289,18 @@ Page({
         Toast(err);
       });
     }
+  },
+
+  zgPasswordFn():void{  //主管单位找回密码
+    wx.navigateTo({
+      url: '../zgPassword/zgPassword'
+    })
+  },
+
+  zhUserFn():void{  //找回账号
+    wx.navigateTo({
+      url: '../zhUser/zhUser'
+    })
   },
 
   //注册

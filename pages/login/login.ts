@@ -11,6 +11,26 @@ Page({
     passwordShow: true,     //个人登录还是主管单位登录
   },
 
+  onShareAppMessage:(res:any):any=> {  //发送给朋友
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target);
+    }
+    return {
+      title: '青岛人才创新创业平台地图',
+      path: '/pages/home/home',
+      imageUrl: ''
+    }
+  },
+
+  onShareTimeline:():any=> {  //分享
+    return {
+      title: '青岛人才创新创业平台地图',
+      query: {},
+      imageUrl: ''
+    }
+  },
+
   //个人信息
   loginInfoFn():void {
     let token:string = wx.getStorageSync('token');
@@ -43,7 +63,7 @@ Page({
       api.userId = '';
       Toast('已退出登录');
       this.setData({
-        loginBtn: '登录',
+        loginBtn: '登录 / 注册',
         loginInfo: '未登录',
         passwordShow: true,
       })
@@ -107,7 +127,7 @@ Page({
       }else{
         this.setData({
           loginInfo: '未登录',
-          loginBtn: '登录'
+          loginBtn: '登录 / 注册'
         })
       }
     } catch (e) {

@@ -1,0 +1,65 @@
+<!--zhUser.wxml-->
+<van-dialog id="van-dialog" />
+<van-toast id="van-toast" />
+<!--内容-->
+<view class="registered_line"></view>
+<van-tabs active="{{ tabActive }}" color="#0c499c" line-width="750rpx">
+  <!--机构-->
+  <van-tab title="机构" name="jg">
+    <view class="registered_content">
+      <!--统一社会信用代码-->
+      <view class="registered_item">
+        <van-cell-group>
+          <van-field
+          required
+          clearable
+          value="{{ jgFormDate.shxyCode }}"
+          error-message="{{ jgFormRrror.shxyCodeError }}"
+          label="单位名称:"
+          placeholder="请填写单位名称"
+          border="{{ false }}"
+          bind:blur="jgShxyCodeInput"/>
+        </van-cell-group>
+      </view>
+      <!--联系电话-->
+      <view class="registered_item">
+        <view class="registered_item_link">{{ jgLink }}</view>
+        <van-cell-group>
+          <van-field
+          required
+          clearable
+          readonly
+          value="{{ jgFormDate.linkTel }}"
+          label="联系电话："
+          placeholder="请填写统一社会信用代码获取"
+          error-message="{{ jgFormRrror.linkTelError }}"
+          border="{{ false }}"
+          bind:blur="jgLinkTel"/>
+        </van-cell-group>
+      </view>
+      <!--验证码-->
+      <view class="registered_item">
+        <van-cell-group>
+          <van-field
+          value="{{ jgFormDate.verifyCode }}"
+          center
+          clearable
+          required
+          label="验证码"
+          placeholder="请输入短信验证码"
+          error-message="{{ jgFormRrror.verifyCodeError }}"
+          border="{{ false }}"
+          use-button-slot
+          bind:blur="jgVerifyCode">
+            <van-button slot="button" size="small" type="primary" disabled="{{ jgDisabled }}"  bind:click="jgVerifyCodeFn">{{ jgVerifyCodeTime }}</van-button>
+          </van-field>
+        </van-cell-group>
+      </view>
+      <!--机构注册-->
+      <view class="registered_submit">
+        <van-button type="primary" color="#0c499c" block bind:click="jgSubmitFn">完成</van-button>
+      </view>
+      <!---->
+    </view>
+  </van-tab>
+</van-tabs>

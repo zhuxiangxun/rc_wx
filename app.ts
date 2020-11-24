@@ -26,10 +26,14 @@ App<any>({
     tenantList: '/web/tenantList',                 //注册所在地区
     getCode: '/web/getCode',                       //发送验证码
     cyPlatformApi: '/web/cyPlatform',              //所属创业平台
-    enterReg: '/web/enterReg',                      //注册企业
-    userReg: '/web/userReg',                        //用户注册
-    enterList: '/web/enterList',                    //工作单位
-    
+    enterReg: '/web/enterReg',                     //注册企业
+    userReg: '/web/userReg',                       //用户注册
+    enterList: '/web/enterList',                   //工作单位
+
+
+    getUser:  '/web/getUser',                      //证件号码获取联系方式
+    updatePass: '/web/updatePass',                 //找回密码提交
+    getAccount: '/web/getAccount',                 //找回账号提交
     
     count: '/website/count',                       //统计12条信息
     submenuDic: '/dic/submenuDic',                 //高级搜索字典表
@@ -53,6 +57,7 @@ App<any>({
     rongzi: '/web/project/rongzi',                           //六找资金找融资
     
   },
+  
 
   onLaunch() {
     // 展示本地存储能力

@@ -28,6 +28,26 @@ Page({
       proCount: 0,            //创新创业项目
       equipCount: 0,          //仪器设备资源
       needCount: 0            //创新创业需求对接
+    },
+  },
+
+  onShareAppMessage:(res:any):any=> {  //发送给朋友
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target);
+    }
+    return {
+      title: '青岛人才创新创业平台地图',
+      path: '/pages/home/home',
+      imageUrl: ''
+    }
+  },
+
+  onShareTimeline:():any=> {  //分享
+    return {
+      title: '青岛人才创新创业平台地图',
+      query: {},
+      imageUrl: ''
     }
   },
 

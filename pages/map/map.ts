@@ -205,6 +205,26 @@ Page({
     goLatitude: '',           //中心纬度(终点)
   },
 
+  onShareAppMessage:(res:any):any=> {  //发送给朋友
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target);
+    }
+    return {
+      title: '青岛人才创新创业平台地图',
+      path: '/pages/home/home',
+      imageUrl: ''
+    }
+  },
+
+  onShareTimeline:():any=> {  //分享
+    return {
+      title: '青岛人才创新创业平台地图',
+      query: {},
+      imageUrl: ''
+    }
+  },
+
   ptCxTypes():void{  //创新平台类型
     https.request(api.submenuDic + '?moid=60', null, 'GET')
     .then((res:any):void=>{
