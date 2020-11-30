@@ -2,6 +2,16 @@
 page {
   background-color: #ebecf0;
 }
+
+.van-field__input {
+  height: 60rpx!important;
+  line-height: 60rpx!important;
+}
+.van-field__label {
+  line-height: 60rpx!important;
+}
+
+
 .van-popup {
   padding-bottom: 100rpx;
 }
@@ -87,7 +97,7 @@ page {
 .registered_item_link {
   width: 480rpx;
   line-height: 85rpx;
-  top: 0rpx;
+  top: 2rpx;
   right: 20rpx;
   position: absolute;
   z-index: 10;

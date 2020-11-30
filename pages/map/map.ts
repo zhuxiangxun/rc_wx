@@ -2689,7 +2689,7 @@ Page({
         latitude: api.latitude       //中心纬度
       })
       //this.getMark();               //获取地图标点
-    }else if(api.areaName == '青岛市'){
+    }else if(api.areaName && api.areaName == '青岛市'){
       this.setData({
         pageSize: 10,               //每页显示数量
         pageIndex: 1,               //当前页

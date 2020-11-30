@@ -74,7 +74,7 @@
     </van-tabs>
     
     <view class="loginForm_bottom" wx:if="{{ active === 'yh' }}">
-      <view class="loginForm_bottom_left"><span bindtap="zgPasswordFn">忘记密码</span> / <span bindtap="zhUserFn">找回账号</span></view>
+      <view class="loginForm_bottom_left"><span bindtap="zgPasswordFn">找回密码</span> / <span bindtap="zhUserFn">找回账号</span></view>
       <view class="loginForm_bottom_right" bindtap="registeredFn">注册</view>
     </view>
   </view>

@@ -48,8 +48,27 @@ Page({
     }
   },
 
+
   //机构注册
+  linkFn():void{
+    if(!!this.data.jgFormDate.shxyCode){
+      this.getJgLinkTel();  //获取机构联系电话
+    }else{
+      //Toast('请填写单位名称获取！');
+    }
+  },
+
   jgShxyCodeInput(res:any):void{  //单位名称
+    if(res.detail){
+      this.setData({
+        ["jgFormRrror.shxyCodeError"]: '',
+        ["jgFormDate.shxyCode"]: res.detail,
+        jgVerification: true
+      })
+    }
+  },
+
+  jgShxyCodeBlur(res:any):void{  //单位名称
     if(res.detail.value){
       this.setData({
         ["jgFormRrror.shxyCodeError"]: '',
@@ -74,6 +93,7 @@ Page({
         this.setData({
           ["jgFormDate.id"]: res.val.id,
           ["jgFormDate.linkTel"]: res.val.phoneNum,
+          ["jgFormRrror.linkTelError"]: '',
           jgLink: linkTel.join("")
         })
     },(err:any)=>{
@@ -108,6 +128,15 @@ Page({
         ["jgFormRrror.linkTelError"]: '',
         ["jgFormDate.linkTel"]: res.detail.value,
         jgVerification: false
+      })
+    }
+  },
+  jgVerifyInput(res:any):void{  //验证码
+    if(res.detail){
+      this.setData({
+        ["jgFormRrror.verifyCodeError"]: '',
+        ["jgFormDate.verifyCode"]: res.detail,
+        jgVerification: true
       })
     }
   },
@@ -212,17 +241,26 @@ Page({
 
   //页面显示
   onShow(){
-    this.setData({
-      ["jgFormDate.shxyCode"]:'',  //统一社会信用代码
-      ["jgFormDate.linkTel"]:'',  //联系人电话
-      ["jgFormDate.verifyCode"]:'',  //验证码
-    })
+    
   },
 
   //页面隐藏
-  onHide(){},
+  onHide(){
+    
+  },
 
   //页面关闭
-  onUnload(){}
+  onUnload(){
+    this.setData({
+      ["jgFormDate.shxyCode"]:'',    //单位名称
+      ["jgFormDate.linkTel"]:'',     //联系人电话
+      jgLink:'',                     //联系人电话
+      ["jgFormDate.verifyCode"]:'',  //验证码
+
+      ["jgFormRrror.shxyCodeError"]: '',    //单位名称
+      ["jgFormRrror.linkTelError"]:'',      //联系人电话
+      ["jgFormRrror.verifyCodeError"]:'',   //验证码
+    })
+  }
 })
 export {};

@@ -9,7 +9,8 @@ Page({
     name: '',
     time: '',
     num: '',
-    content: ''
+    content: '',
+    files:[]
   },
 
   onShareAppMessage:(res:any):any=> {  //发送给朋友
@@ -32,6 +33,16 @@ Page({
     }
   },
 
+  fileFn():void{  //附件下载
+    // this.data.files.forEach((item:any):void=>{
+    //   wx.downloadFile({
+    //     url: api.fileUrl + item.filePath, //仅为示例，并非真实的资源
+    //     success () {}
+    //   })
+    // })
+  },
+
+
   //页面初始化
   onLoad(option:any){
     let url:string = api.notice + '/' + option.id;
@@ -41,7 +52,8 @@ Page({
           name: res.val.publishSubject,
           time: res.val.publishTime.split(' ')[0],
           num: res.val.clickCount,
-          content: res.val.content
+          content: res.val.content,
+          files: res.val.files
         })
     },(err:any)=>{
       console.log(err);

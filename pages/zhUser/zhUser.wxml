@@ -7,7 +7,7 @@
   <!--机构-->
   <van-tab title="机构" name="jg">
     <view class="registered_content">
-      <!--统一社会信用代码-->
+      <!--单位名称-->
       <view class="registered_item">
         <van-cell-group>
           <van-field
@@ -18,11 +18,12 @@
           label="单位名称:"
           placeholder="请填写单位名称"
           border="{{ false }}"
-          bind:blur="jgShxyCodeInput"/>
+          bind:input="jgShxyCodeInput"
+          bind:blur="jgShxyCodeBlur"/>
         </van-cell-group>
       </view>
       <!--联系电话-->
-      <view class="registered_item">
+      <view class="registered_item" bindtap="linkFn">
         <view class="registered_item_link">{{ jgLink }}</view>
         <van-cell-group>
           <van-field
@@ -31,7 +32,7 @@
           readonly
           value="{{ jgFormDate.linkTel }}"
           label="联系电话："
-          placeholder="请填写统一社会信用代码获取"
+          placeholder="请填写单位名称获取"
           error-message="{{ jgFormRrror.linkTelError }}"
           border="{{ false }}"
           bind:blur="jgLinkTel"/>
@@ -50,6 +51,7 @@
           error-message="{{ jgFormRrror.verifyCodeError }}"
           border="{{ false }}"
           use-button-slot
+          bind:input="jgVerifyInput"
           bind:blur="jgVerifyCode">
             <van-button slot="button" size="small" type="primary" disabled="{{ jgDisabled }}"  bind:click="jgVerifyCodeFn">{{ jgVerifyCodeTime }}</van-button>
           </van-field>

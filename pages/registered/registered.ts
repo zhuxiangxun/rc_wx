@@ -266,6 +266,15 @@ Page({
 
   //机构注册
   jgShxyCodeInput(res:any):void{  //统一社会信用代码
+    if(res.detail){
+      this.setData({
+        ["jgFormRrror.shxyCodeError"]: '',
+        ["jgFormDate.shxyCode"]: res.detail,
+        jgVerification: true
+      })
+    }
+  },
+  jgShxyCodeBlur(res:any):void{  //统一社会信用代码
     let reg:any = /[1-9]\d{15}/;
     let str:Boolean = reg.test(res.detail.value);
     if(res.detail.value){
@@ -290,8 +299,16 @@ Page({
       })
     }
   },
-  
   jgPasswordInput(res:any):void{  //密码
+    if(res.detail){
+      this.setData({
+        ["jgFormRrror.passwordError"]: '',
+        ["jgFormDate.password"]: res.detail,
+        jgVerification: true
+      })
+    }
+  },
+  jgPasswordBlur(res:any):void{  //密码
     let reg:any = /(?=.*([a-zA-Z].*))(?=.*[0-9].*)[a-zA-Z0-9-*/+.~!@#$%^&*()]{6,20}$/;
     let str:Boolean = reg.test(res.detail.value);
     if(res.detail.value){
@@ -317,6 +334,15 @@ Page({
     }
   },
   jgRepeatPasswordInput(res:any):void{  //确认密码
+    if(res.detail){
+      this.setData({
+        ["jgFormRrror.truewordError"]: '',
+        ["jgFormDate.trueword"]: res.detail,
+        jgVerification: true
+      })
+    }
+  },
+  jgRepeatPasswordBlur(res:any):void{  //确认密码
     if(res.detail.value){
       if(res.detail.value != this.data.jgFormDate.password){
         this.setData({
@@ -340,6 +366,15 @@ Page({
     }
   },
   jgQyNameInput(res:any):void{  //单位名称
+    if(res.detail){
+      this.setData({
+        ["jgFormRrror.qyNameError"]: '',
+        ["jgFormDate.qyName"]: res.detail,
+        jgVerification: true
+      })
+    }
+  },
+  jgQyNameBlur(res:any):void{  //单位名称
     if(res.detail.value){
       this.setData({
         ["jgFormRrror.qyNameError"]: '',
@@ -357,6 +392,15 @@ Page({
       ["jgFormDate.platformId "]: ''
     })
     this.getPlatformIdList();  //获取所属创业平台
+  },
+  jgLinkTelInput(res:any):void{  //联系电话
+    if(res.detail){
+      this.setData({
+        ["jgFormRrror.linkTelError"]: '',
+        ["jgFormDate.linkTel"]: res.detail,
+        jgVerification: true
+      })
+    }
   },
   jgLinkTel(res:any):void{  //联系电话
     let reg:any = /^((1[0-9]{10})|(((([0-9]{3}-)?[0-9]{8})|(([0-9]{4}-)?[0-9]{7}))(-[0-9]{1,4})?))$/;
@@ -380,6 +424,15 @@ Page({
         ["jgFormRrror.linkTelError"]: '',
         ["jgFormDate.linkTel"]: res.detail.value,
         jgVerification: false
+      })
+    }
+  },
+  jgVerifyCodeInput(res:any):void{  //验证码
+    if(res.detail){
+      this.setData({
+        ["jgFormRrror.verifyCodeError"]: '',
+        ["jgFormDate.verifyCode"]: res.detail,
+        jgVerification: true
       })
     }
   },
@@ -545,6 +598,15 @@ Page({
       grVerification: true
     })
   },
+  grCardNumInput(res:any):void{  //证件号码
+    if(res.detail){
+      this.setData({
+        ["grFormRrror.cardNumRrror"]: '',
+        ["grFormDate.cardNum"]: res.detail,
+        grVerification: true
+      })
+    }
+  },
   grCardNum(res:any):void{  //证件号码
     if(res.detail.value){
       this.setData({
@@ -555,6 +617,15 @@ Page({
     }
   },
   grPasswordInput(res:any):void{  //密码
+    if(res.detail){
+      this.setData({
+        ["grFormRrror.passwordError"]: '',
+        ["grFormDate.password"]: res.detail,
+        grVerification: true
+      })
+    }
+  },
+  grPasswordBlur(res:any):void{  //密码
     let reg:any = /(?=.*([a-zA-Z].*))(?=.*[0-9].*)[a-zA-Z0-9-*/+.~!@#$%^&*()]{6,20}$/;
     let str:Boolean = reg.test(res.detail.value);
     if(res.detail.value){
@@ -580,6 +651,15 @@ Page({
     }
   },
   grRepeatPasswordInput(res:any):void{  //确认密码
+    if(res.detail){
+      this.setData({
+        ["grFormRrror.truewordError"]: '',
+        ["grFormDate.trueword"]: res.detail,
+        grVerification: true
+      })
+    }
+  },
+  grRepeatPasswordBlur(res:any):void{  //确认密码
     if(res.detail.value){
       if(res.detail.value != this.data.grFormDate.password){
         this.setData({
@@ -602,11 +682,29 @@ Page({
       })
     }
   },
+  grRealNameInput(res:any):void{  //姓名
+    if(res.detail){
+      this.setData({
+        ["grFormRrror.realNameRrror"]: '',
+        ["grFormDate.realName"]: res.detail,
+        grVerification: true
+      })
+    }
+  },
   grRealName(res:any):void{  //姓名
     if(res.detail.value){
       this.setData({
         ["grFormRrror.realNameRrror"]: '',
         ["grFormDate.realName"]: res.detail.value,
+        grVerification: true
+      })
+    }
+  },
+  grPhoneNumInput(res:any):void{  //联系电话
+    if(res.detail){
+      this.setData({
+        ["grFormRrror.phoneNumError"]: '',
+        ["grFormDate.phoneNum"]: res.detail,
         grVerification: true
       })
     }
@@ -633,6 +731,15 @@ Page({
         ["grFormRrror.phoneNumError"]: '',
         ["grFormDate.phoneNum"]: res.detail.value,
         grVerification: false
+      })
+    }
+  },
+  grVerifyCodeInput(res:any):void{  //验证码
+    if(res.detail){
+      this.setData({
+        ["grFormRrror.verifyCodeError"]: '',
+        ["grFormDate.verifyCode"]: res.detail,
+        grVerification: true
       })
     }
   },
@@ -841,6 +948,14 @@ Page({
 
   //页面显示
   onShow(){
+    
+  },
+
+  //页面隐藏
+  onHide(){},
+
+  //页面关闭
+  onUnload(){
     this.setData({
       ["jgFormDate.shxyCode"]:'',  //统一社会信用代码
       ["jgFormDate.password"]:'',  //密码
@@ -864,12 +979,6 @@ Page({
       ["grFormDate.password"]:'',  //密码
       ["grFormDate.trueword"]:'',  //确认密码
     })
-  },
-
-  //页面隐藏
-  onHide(){},
-
-  //页面关闭
-  onUnload(){}
+  }
 })
 export {};

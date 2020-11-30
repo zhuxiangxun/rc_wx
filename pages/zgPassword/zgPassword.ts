@@ -111,7 +111,24 @@ Page({
   },
 
   //机构注册
-  jgShxyCodeInput(res:any):void{  //统一社会信用代码
+  jgLinkFn():void{
+    if(!!this.data.jgFormDate.shxyCode){
+      this.getJgLinkTel();  //获取机构联系电话
+    }else{
+      //Toast('请填写统一社会信用代码获取！');
+    }
+  },
+
+  jgShxyCodeInput(res:any):void{  //单位名称
+    if(res.detail){
+      this.setData({
+        ["jgFormRrror.shxyCodeError"]: '',
+        ["jgFormDate.shxyCode"]: res.detail,
+        jgVerification: true
+      })
+    }
+  },
+  jgShxyCodeBlur(res:any):void{  //统一社会信用代码
     let reg:any = /[1-9]\d{15}/;
     let str:Boolean = reg.test(res.detail.value);
     if(res.detail.value){
@@ -157,8 +174,34 @@ Page({
       Toast(err);
     });
   },
+
+  jgPasswordInput(res:any):void{
+    let reg:any = /(?=.*([a-zA-Z].*))(?=.*[0-9].*)[a-zA-Z0-9-*/+.~!@#$%^&*()]{6,20}$/;
+    let str:Boolean = reg.test(res.detail);
+    if(res.detail){
+      if(str){
+        this.setData({
+          ["jgFormRrror.passwordError"]: '',
+          ["jgFormDate.password"]: res.detail,
+          jgVerification: true
+        })
+      }else{
+        this.setData({
+          ["jgFormRrror.passwordError"]: '',
+          ["jgFormDate.password"]: res.detail,
+          jgVerification: false
+        })
+      }
+    }else{
+      this.setData({
+        ["jgFormRrror.passwordError"]: '',
+        ["jgFormDate.password"]: res.detail,
+        jgVerification: false
+      })
+    }
+  },
   
-  jgPasswordInput(res:any):void{  //密码
+  jgPasswordBlur(res:any):void{  //密码
     let reg:any = /(?=.*([a-zA-Z].*))(?=.*[0-9].*)[a-zA-Z0-9-*/+.~!@#$%^&*()]{6,20}$/;
     let str:Boolean = reg.test(res.detail.value);
     if(res.detail.value){
@@ -183,7 +226,33 @@ Page({
       })
     }
   },
+
+  
+
   jgRepeatPasswordInput(res:any):void{  //确认密码
+    if(res.detail){
+      if(res.detail != this.data.jgFormDate.password){
+        this.setData({
+          ["jgFormRrror.truewordError"]: '',
+          ["jgFormDate.trueword"]: res.detail,
+          jgVerification: false
+        })
+      }else{
+        this.setData({
+          ["jgFormRrror.truewordError"]: '',
+          ["jgFormDate.trueword"]: res.detail,
+          jgVerification: true
+        })
+      }
+    }else{
+      this.setData({
+        ["jgFormRrror.truewordError"]: '',
+        ["jgFormDate.trueword"]: res.detail,
+        jgVerification: false
+      })
+    }
+  },
+  jgRepeatPasswordBlur(res:any):void{  //确认密码
     if(res.detail.value){
       if(res.detail.value != this.data.jgFormDate.password){
         this.setData({
@@ -287,9 +356,15 @@ Page({
     }else{
       let url:string = api.updatePass + '?id=' + this.data.jgFormDate.id + '&shxyCode=' + this.data.jgFormDate.shxyCode + '&phoneNum=' + this.data.jgFormDate.linkTel + '&verifyCode=' + this.data.jgFormDate.verifyCode + '&password=' + this.data.jgFormDate.password;
       https.request(url, null, 'POST').then(():void=>{
-        wx.navigateTo({
-          url: '../loginForm/loginForm'
-        })
+        Toast({
+          type: 'success',
+          message: '修改成功！',
+          onClose: () => {
+            wx.navigateTo({
+              url: '../loginForm/loginForm'
+            })
+          },
+        });
       },(err:any)=>{
         Toast(err);
       });
@@ -355,6 +430,26 @@ Page({
       grVerification: true
     })
   },
+
+  grLinkFn():void{
+    if(!!this.data.grFormDate.cardNum){
+      this.getGrLinkTel();  //获取机构联系电话
+    }else{
+      //Toast('请填写证件号码获取！');
+    }
+  },
+
+  grShxyCodeInput(res:any):void{  //证件号码
+    if(res.detail){
+      this.setData({
+        ["grFormRrror.cardNumRrror"]: '',
+        ["grFormDate.cardNum"]: res.detail,
+        grVerification: true
+      })
+    }
+  },
+
+
   grCardNum(res:any):void{  //证件号码
     if(res.detail.value){
       this.setData({
@@ -365,7 +460,33 @@ Page({
       this.getGrLinkTel();  //获取个人联系电话
     }
   },
+
   grPasswordInput(res:any):void{  //密码
+    let reg:any = /(?=.*([a-zA-Z].*))(?=.*[0-9].*)[a-zA-Z0-9-*/+.~!@#$%^&*()]{6,20}$/;
+    let str:Boolean = reg.test(res.detail);
+    if(res.detail){
+      if(str){
+        this.setData({
+          ["grFormRrror.passwordError"]: '',
+          ["grFormDate.password"]: res.detail,
+          grVerification: true
+        })
+      }else{
+        this.setData({
+          ["grFormRrror.passwordError"]: '',
+          ["grFormDate.password"]: res.detail,
+          grVerification: false
+        })
+      }
+    }else{
+      this.setData({
+        ["grFormRrror.passwordError"]: '',
+        ["grFormDate.password"]: res.detail,
+        grVerification: false
+      })
+    }
+  },
+  grPasswordBlur(res:any):void{  //密码
     let reg:any = /(?=.*([a-zA-Z].*))(?=.*[0-9].*)[a-zA-Z0-9-*/+.~!@#$%^&*()]{6,20}$/;
     let str:Boolean = reg.test(res.detail.value);
     if(res.detail.value){
@@ -390,7 +511,31 @@ Page({
       })
     }
   },
+
   grRepeatPasswordInput(res:any):void{  //确认密码
+    if(res.detail){
+      if(res.detail != this.data.grFormDate.password){
+        this.setData({
+          ["grFormRrror.truewordError"]: '',
+          ["grFormDate.trueword"]: res.detail,
+          grVerification: false
+        })
+      }else{
+        this.setData({
+          ["grFormRrror.truewordError"]: '',
+          ["grFormDate.trueword"]: res.detail,
+          grVerification: true
+        })
+      }
+    }else{
+      this.setData({
+        ["grFormRrror.truewordError"]: '',
+        ["grFormDate.trueword"]: res.detail,
+        grVerification: false
+      })
+    }
+  },
+  grRepeatPasswordBlur(res:any):void{  //确认密码
     if(res.detail.value){
       if(res.detail.value != this.data.grFormDate.password){
         this.setData({
@@ -529,9 +674,15 @@ Page({
     }else{
       let url:string = api.updatePass + '?id=' + this.data.grFormDate.id + '&cardTypeId=' + this.data.grFormDate.cardTypeId + '&cardNum=' + this.data.grFormDate.cardNum + '&phoneNum=' + this.data.grFormDate.phoneNum + '&verifyCode=' + this.data.grFormDate.verifyCode + '&password=' + this.data.grFormDate.password;
       https.request(url, null, 'POST').then(():void=>{
-        wx.navigateTo({
-          url: '../loginForm/loginForm'
-        })
+        Toast({
+          type: 'success',
+          message: '修改成功！',
+          onClose: () => {
+            wx.navigateTo({
+              url: '../loginForm/loginForm'
+            })
+          },
+        });
       },(err:any)=>{
         Toast(err);
       });
@@ -553,12 +704,21 @@ Page({
 
   //页面显示
   onShow(){
+    
+  },
+
+  //页面隐藏
+  onHide(){},
+
+  //页面关闭
+  onUnload(){
     this.setData({
       ["jgFormDate.shxyCode"]:'',  //统一社会信用代码
       ["jgFormDate.password"]:'',  //密码
       ["jgFormDate.trueword"]:'',  //确认密码
       ["jgFormDate.linkTel"]:'',  //联系人电话
       ["jgFormDate.verifyCode"]:'',  //验证码
+      jgLink: '',
 
       ["grFormDate.cardTypeId"]:'',  //证件类型
       ["grFormDate.cardNum"]:'',  //证件号码
@@ -566,13 +726,8 @@ Page({
       ["grFormDate.verifyCode"]:'',  //验证码
       ["grFormDate.password"]:'',  //密码
       ["grFormDate.trueword"]:'',  //确认密码
+      grLink: '',
     })
-  },
-
-  //页面隐藏
-  onHide(){},
-
-  //页面关闭
-  onUnload(){}
+  }
 })
 export {};

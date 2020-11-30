@@ -22,7 +22,7 @@ page {
   z-index: 1;
 }
 .content_footer_address {
-  width: 200rpx;
+  width: 400rpx;
   height: 40rpx;
   margin-top: 40rpx;
   margin-left: 40rpx;
@@ -33,7 +33,7 @@ page {
   float: left;
 }
 .content_footer_address_title {
-  width: 150rpx;
+  width: 350rpx;
   line-height: 40rpx;
   float: left;
   margin-left: 10rpx;

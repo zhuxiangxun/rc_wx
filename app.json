@@ -1,11 +1,11 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/zhUser/zhUser",
+    "pages/zgPassword/zgPassword",
     "pages/home/home",
     "pages/login/login",
     "pages/loginForm/loginForm",
-    "pages/zhUser/zhUser",
-    "pages/zgPassword/zgPassword",
     "pages/homeLink/homeLink",
     "pages/map/map",
     "pages/mapArea/mapArea",

@@ -12,4 +12,5 @@
 <!--详情-->
 <view class="content_main2">
   <wxParse nodes="{{ content }}" />
+  <!-- <view class="content_main2_file" bindtap="fileFn">附件下载</view> -->
 </view>

@@ -1,4 +1,5 @@
 /**newsInfo.wxss**/
+
 .content_main {
   width: 750rpx;
   height: 200rpx;
@@ -40,4 +41,11 @@
   height: auto;
   margin-left: 20rpx;
   margin-top: 40rpx;
+}
+.content_main2_file {
+  width: 750rpx;
+  line-height: 35rpx;
+  text-align: center;
+  color: #1989fa;
+  margin-bottom: 40rpx;
 }
